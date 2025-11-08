@@ -1,6 +1,3 @@
-# Tenken73.github.io
-Test 4
-# Complete Improved Code
 #awesum
 <!DOCTYPE html>
 <html lang="en">
@@ -8,6 +5,7 @@ Test 4
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JeQa Powe | Quantitative Analyst</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -21,18 +19,19 @@ Test 4
             color: #e2e8f0;
             line-height: 1.6;
             overflow-x: hidden;
+            transition: background 1s ease, color 1s ease;
         }
         
         /* Scroll Progress Bar */
         #scroll-progress {
             position: fixed;
             top: 0;
-            left: 0;
-            height: 5px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            width: 0%;
+            right: 0;
+            width: 5px;
+            height: 0%;
+            background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
             z-index: 1001;
-            transition: width 0.1s ease-out;
+            transition: height 0.1s ease-out;
         }
         
         /* Network Background Canvas */
@@ -57,16 +56,25 @@ Test 4
         
         /* Navigation */
         nav {
-            position: sticky;
+            position: fixed;
+            left: 0;
             top: 0;
+            height: 100vh;
+            width: 80px;
             background: rgba(10, 14, 39, 0.95);
             backdrop-filter: blur(10px);
-            padding: 1.5rem 2rem;
+            padding: 2rem 0;
             display: flex;
-            justify-content: space-between;
+            flex-direction: column;
             align-items: center;
-            border-bottom: 1px solid rgba(102, 126, 234, 0.2);
+            gap: 3rem;
+            border-right: 1px solid rgba(102, 126, 234, 0.2);
             z-index: 100;
+            transition: width 0.3s ease;
+        }
+        
+        nav:hover {
+            width: 200px;
         }
         
         .logo {
@@ -76,10 +84,18 @@ Test 4
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            writing-mode: vertical-rl;
+            transform: rotate(180deg);
+        }
+        
+        nav:hover .logo {
+            writing-mode: horizontal-tb;
+            transform: rotate(0deg);
         }
         
         .nav-links {
             display: flex;
+            flex-direction: column;
             gap: 2rem;
             list-style: none;
         }
@@ -89,10 +105,38 @@ Test 4
             text-decoration: none;
             transition: color 0.3s ease;
             font-weight: 500;
+            white-space: nowrap;
+            overflow: hidden;
+            width: 0;
+            opacity: 0;
+            transition: all 0.3s ease;
         }
         
-        .nav-links a:hover {
+        nav:hover .nav-links a {
+            width: auto;
+            opacity: 1;
+        }
+        
+        .nav-links li {
+            display: flex;
+            align-items: center;
+        }
+        
+        .nav-links li::before {
+            content: '▸';
             color: #667eea;
+            margin-right: 0.5rem;
+        }
+
+        /* Adjust content for left nav */
+        .hero, .content-section, footer {
+            margin-left: 80px;
+        }
+        
+        @media (max-width: 768px) {
+            .hero, .content-section, footer {
+                margin-left: 0;
+            }
         }
         
         .theme-toggle {
@@ -140,6 +184,74 @@ Test 4
             transform: rotate(-45deg) translate(7px, -6px);
         }
         
+        /* Theme Selector */
+        .theme-selector {
+            position: fixed;
+            top: 50%;
+            right: 2rem;
+            transform: translateY(-50%);
+            background: rgba(10, 14, 39, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem;
+            border-radius: 12px;
+            border: 1px solid rgba(102, 126, 234, 0.2);
+            z-index: 99;
+        }
+        
+        .theme-option {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin: 0.5rem 0;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+        
+        .theme-option:hover {
+            transform: scale(1.1);
+            border-color: #667eea;
+        }
+        
+        .theme-option.active {
+            border-color: #48bb78;
+            box-shadow: 0 0 10px rgba(72, 187, 120, 0.5);
+        }
+        
+        /* Theme: Default Intelligence */
+        .theme-intelligence { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        
+        /* Theme: OKC Thunder */
+        .theme-thunder { background: linear-gradient(135deg, #007ac1 0%, #ef3b24 100%); }
+        
+        /* Theme: Destiny 2 */
+        .theme-destiny { background: linear-gradient(135deg, #1c3b54 0%, #f4a21d 100%); }
+        
+        /* Theme: Samurai */
+        .theme-samurai { background: linear-gradient(135deg, #2d1b00 0%, #8b0000 100%); }
+        
+        /* Theme: Tech Green */
+        .theme-tech { background: linear-gradient(135deg, #10b981 0%, #059669 100%); }
+        
+        /* Theme: Hip Hop */
+        .theme-hiphop { background: linear-gradient(135deg, #1f1f1f 0%, #fbbf24 100%); }
+        
+        /* Apply active theme to body */
+        body.theme-thunder { background: linear-gradient(135deg, #001f3f 0%, #1a1f3a 100%); }
+        body.theme-thunder .stat-number, body.theme-thunder .nav-links a:hover { color: #007ac1; }
+        
+        body.theme-destiny { background: linear-gradient(135deg, #0a1628 0%, #1a2332 100%); }
+        body.theme-destiny .stat-number { color: #f4a21d; }
+        
+        body.theme-samurai { background: linear-gradient(135deg, #1a0a00 0%, #2d1b0a 100%); }
+        body.theme-samurai .stat-number { color: #dc2626; }
+        
+        body.theme-tech { background: linear-gradient(135deg, #064e3b 0%, #1a3a2e 100%); }
+        body.theme-tech .stat-number { color: #10b981; }
+        
+        body.theme-hiphop { background: linear-gradient(135deg, #000000 0%, #1f1f1f 100%); }
+        body.theme-hiphop .stat-number { color: #fbbf24; }
+
         /* Hero Section */
         .hero {
             min-height: 100vh;
@@ -604,6 +716,94 @@ Test 4
             color: #48bb78;
         }
         
+        /* Career Timeline */
+        .timeline-container {
+            position: relative;
+            padding: 2rem 0;
+            margin: 3rem 0;
+        }
+        
+        .timeline-line {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
+            transform: translateX(-50%);
+        }
+        
+        .timeline-item {
+            display: flex;
+            align-items: center;
+            margin: 2rem 0;
+            position: relative;
+        }
+        
+        .timeline-item:nth-child(odd) {
+            flex-direction: row;
+        }
+        
+        .timeline-item:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+        
+        .timeline-content {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 1px solid rgba(102, 126, 234, 0.2);
+            margin: 0 2rem;
+            transition: all 0.3s ease;
+        }
+        
+        .timeline-content:hover {
+            border-color: rgba(102, 126, 234, 0.6);
+            transform: scale(1.02);
+        }
+        
+        .timeline-dot {
+            position: absolute;
+            left: 50%;
+            width: 16px;
+            height: 16px;
+            background: #667eea;
+            border-radius: 50%;
+            transform: translateX(-50%);
+            border: 3px solid #0a0e27;
+            z-index: 2;
+        }
+        
+        .timeline-year {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            top: -30px;
+            color: #667eea;
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .timeline-line {
+                left: 20px;
+            }
+            
+            .timeline-item {
+                flex-direction: row !important;
+            }
+            
+            .timeline-dot {
+                left: 20px;
+            }
+            
+            .timeline-content {
+                margin-left: 50px;
+                margin-right: 0;
+            }
+        }
+
         /* Back to Top Button */
         .back-to-top {
             position: fixed;
@@ -902,8 +1102,9 @@ Test 4
         
         /* Light Theme */
         body.light-theme {
-            background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+            background: linear-gradient(135deg, #f0f4f8 0%, #e2e8f0 100%);
             color: #2d3748;
+            transition: all 1s ease; /* ADD THIS LINE */
         }
         
         body.light-theme nav {
@@ -956,8 +1157,8 @@ Test 4
         <ul class="nav-links">
             <li><a href="#home">Home</a></li>
             <li><a href="#about">About</a></li>
-            <li><a href="#projects">Projects</a></li>
-            <li><a href="#skills">Skills</a></li>
+            <li><a href="#content-area" data-trigger="academic">Academic</a></li>
+            <li><a href="#content-area" data-trigger="professional">Professional</a></li>
             <li><a href="#contact">Contact</a></li>
         </ul>
         <button class="hamburger" onclick="toggleMobileMenu()" aria-label="Toggle menu">
@@ -967,6 +1168,15 @@ Test 4
         </button>
         <button class="theme-toggle" onclick="toggleTheme()">🌙 Theme</button>
     </nav>
+    
+    <div class="theme-selector">
+        <div class="theme-option theme-intelligence active" onclick="changeTheme('intelligence')" title="Intelligence (Default)"></div>
+        <div class="theme-option theme-thunder" onclick="changeTheme('thunder')" title="OKC Thunder"></div>
+        <div class="theme-option theme-destiny" onclick="changeTheme('destiny')" title="Destiny 2"></div>
+        <div class="theme-option theme-samurai" onclick="changeTheme('samurai')" title="Samurai"></div>
+        <div class="theme-option theme-tech" onclick="changeTheme('tech')" title="Tech Green"></div>
+        <div class="theme-option theme-hiphop" onclick="changeTheme('hiphop')" title="Hip Hop"></div>
+    </div>
     
     <section class="hero" id="home">
         <div class="container">
@@ -1138,6 +1348,9 @@ Test 4
                                                                                                                             <footer>
                                                                                                                             <div class="container">
                                                                                                                             <p id="catchphrase">&copy; 2025 JeQa Powe | Built with passion and precision</p>
+                                                                                                                            <p style="color: #4a5568; font-size: 0.8rem; font-style: italic; margin-top: 0.5rem;">
+                                                                                                                                Hint: Try the Konami Code (↑↑↓↓←→←→BA) 🎮
+                                                                                                                            </p>
                                                                                                                             <div class="social-links">
                                                                                                                             <a href="https://linkedin.com/in/jeqapowe" class="social-link" target="_blank">💼</a>
                                                                                                                             <a href="https://github.com/your-username" class="social-link" target="_blank">💻</a>
@@ -1268,6 +1481,24 @@ Test 4
                                                                                                                             }
                                                                                                                           }
                                                                                                                           
+                                                                                                                          // Theme Selector
+                                                                                                                          function changeTheme(theme) {
+                                                                                                                              // Remove all theme classes
+                                                                                                                              document.body.classList.remove('theme-thunder', 'theme-destiny', 'theme-samurai', 'theme-tech', 'theme-hiphop');
+                                                                                                                              
+                                                                                                                              // Add new theme if not default
+                                                                                                                              if (theme !== 'intelligence') {
+                                                                                                                                  document.body.classList.add(`theme-${theme}`);
+                                                                                                                              }
+                                                                                                                              
+                                                                                                                              // Update active indicator
+                                                                                                                              document.querySelectorAll('.theme-option').forEach(opt => opt.classList.remove('active'));
+                                                                                                                              document.querySelector(`.theme-${theme}`).classList.add('active');
+                                                                                                                              
+                                                                                                                              // Save preference
+                                                                                                                              localStorage.setItem('preferredTheme', theme);
+                                                                                                                          }
+                                                                                                                          
                                                                                                                           // Mobile Menu Toggle
                                                                                                                           function toggleMobileMenu() {
                                                                                                                             document.querySelector('.nav-links').classList.toggle('active');
@@ -1298,23 +1529,28 @@ Test 4
                                                                                                                                                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 2rem;">
                                                                                                                                                   <div>
                                                                                                                                                   <h4 style="color: #e2e8f0; margin-bottom: 1rem;">Methodological</h4>
-                                                                                                                                                    <ul style="color: #a0aec0; line-height: 2;">
-                                                                                                                                                      <li>Spatial Econometrics</li>
-                                                                                                                                                      <li>Causal Inference</li>
-                                                                                                                                                      <li>Network Science</li>
+                                                                                                                                                  <ul style="color: #a0aec0; line-height: 2;">
+                                                                                                                                                      <li>Spatial Econometrics & GIS Integration</li>
+                                                                                                                                                      <li>Causal Inference (DiD, RDD, IV)</li>
+                                                                                                                                                      <li>Network Science & Graph Theory</li>
                                                                                                                                                       <li>Machine Learning for Social Science</li>
-                                                                                                                                                      <li>Geospatial Analysis</li>
-                                                                                                                                                      </ul>
+                                                                                                                                                      <li>Geospatial Analysis & Hotspot Detection</li>
+                                                                                                                                                      <li>Time-Series & Panel Data Methods</li>
+                                                                                                                                                      <li>Natural Language Processing</li>
+                                                                                                                                                      <li>Agent-Based Modeling</li>
+                                                                                                                                                  </ul>
                                                                                                                                                       </div>
                                                                                                                                                       <div>
                                                                                                                                                       <h4 style="color: #e2e8f0; margin-bottom: 1rem;">Substantive</h4>
                                                                                                                                                         <ul style="color: #a0aec0; line-height: 2;">
-                                                                                                                                                          <li>Urban Economics</li>
-                                                                                                                                                          <li>Agricultural Development</li>
-                                                                                                                                                          <li>Environmental Justice</li>
-                                                                                                                                                          <li>Economic Geography</li>
-                                                                                                                                                          <li>Defense Economics</li>
-                                                                                                                                                          </ul>
+                                                                                                                                                          <li>Urban & Regional Economics</li>
+                                                                                                                                                          <li>Agricultural & Food Systems</li>
+                                                                                                                                                          <li>Environmental Justice & Equity</li>
+                                                                                                                                                          <li>Economic Geography & Spatial Development</li>
+                                                                                                                                                          <li>Defense & Intelligence Economics</li>
+                                                                                                                                                          <li>Network Effects & Social Capital</li>
+                                                                                                                                                          <li>Development Economics</li>
+                                                                                                                                                        </ul>
                                                                                                                                                           </div>
                                                                                                                                                           </div>
                                                                                                                                                           
@@ -1657,6 +1893,56 @@ Test 4
                                     </ul>
                                 </div>
                             </div>
+
+                            <h3 style="color: #667eea; margin: 3rem 0 1.5rem;">Career Timeline</h3>
+                            <div class="timeline-container">
+                                <div class="timeline-line"></div>
+                                
+                                <div class="timeline-item">
+                                    <div class="timeline-year">2025</div>
+                                    <div class="timeline-dot"></div>
+                                    <div class="timeline-content">
+                                        <h4 style="color: #fff; margin-bottom: 0.5rem;">Data Analyst III</h4>
+                                        <p style="color: #a0aec0;">Naval Surface Warfare Center</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="timeline-item">
+                                    <div class="timeline-year">2023</div>
+                                    <div class="timeline-dot"></div>
+                                    <div class="timeline-content">
+                                        <h4 style="color: #fff; margin-bottom: 0.5rem;">Research Operations Analyst</h4>
+                                        <p style="color: #a0aec0;">JWAC, Department of Defense</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="timeline-item">
+                                    <div class="timeline-year">2022</div>
+                                    <div class="timeline-dot"></div>
+                                    <div class="timeline-content">
+                                        <h4 style="color: #fff; margin-bottom: 0.5rem;">M.A. Economics</h4>
+                                        <p style="color: #a0aec0;">Howard University</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="timeline-item">
+                                    <div class="timeline-year">2021</div>
+                                    <div class="timeline-dot"></div>
+                                    <div class="timeline-content">
+                                        <h4 style="color: #fff; margin-bottom: 0.5rem;">Principal Consultant</h4>
+                                        <p style="color: #a0aec0;">Black Winter, LLC (Founded)</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="timeline-item">
+                                    <div class="timeline-year">2020</div>
+                                    <div class="timeline-dot"></div>
+                                    <div class="timeline-content">
+                                        <h4 style="color: #fff; margin-bottom: 0.5rem;">B.S. Food & Resource Economics</h4>
+                                        <p style="color: #a0aec0;">University of Florida</p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         
                         <div id="projects-pro" class="tab-content">
@@ -1788,67 +2074,8 @@ Test 4
                         
                         <div id="skills" class="tab-content">
                             <h3 style="color: #667eea; margin-bottom: 1.5rem;">Technical Capabilities</h3>
-                            
-                            <div class="skills-grid">
-                                <div class="skill-category">
-                                    <h3>Programming & Analysis</h3>
-                                    <div class="skill-item">
-                                        <div class="skill-name"><span>Python (pandas, scikit-learn)</span><span>95%</span></div>
-                                        <div class="skill-bar"><div class="skill-progress" style="--progress: 95%;"></div></div>
-                                    </div>
-                                    <div class="skill-item">
-                                        <div class="skill-name"><span>R (tidyverse, ggplot2)</span><span>90%</span></div>
-                                        <div class="skill-bar"><div class="skill-progress" style="--progress: 90%;"></div></div>
-                                    </div>
-                                    <div class="skill-item">
-                                        <div class="skill-name"><span>SQL (complex queries, DB2)</span><span>85%</span></div>
-                                        <div class="skill-bar"><div class="skill-progress" style="--progress: 85%;"></div></div>
-                                    </div>
-                                    <div class="skill-item">
-                                        <div class="skill-name"><span>PowerShell scripting</span><span>80%</span></div>
-                                        <div class="skill-bar"><div class="skill-progress" style="--progress: 80%;"></div></div>
-                                    </div>
-                                </div>
-                                
-                                <div class="skill-category">
-                                    <h3>Machine Learning & Geospatial</h3>
-                                    <div class="skill-item">
-                                        <div class="skill-name"><span>ArcGIS (spatial analysis)</span><span>95%</span></div>
-                                        <div class="skill-bar"><div class="skill-progress" style="--progress: 95%;"></div></div>
-                                    </div>
-                                    <div class="skill-item">
-                                        <div class="skill-name"><span>LLM fine-tuning</span><span>90%</span></div>
-                                        <div class="skill-bar"><div class="skill-progress" style="--progress: 90%;"></div></div>
-                                    </div>
-                                    <div class="skill-item">
-                                        <div class="skill-name"><span>Natural Language Processing</span><span>85%</span></div>
-                                        <div class="skill-bar"><div class="skill-progress" style="--progress: 85%;"></div></div>
-                                    </div>
-                                    <div class="skill-item">
-                                        <div class="skill-name"><span>QGIS & Spatial Statistics</span><span>85%</span></div>
-                                        <div class="skill-bar"><div class="skill-progress" style="--progress: 85%;"></div></div>
-                                    </div>
-                                </div>
-                                
-                                <div class="skill-category">
-                                    <h3>Infrastructure & Domain</h3>
-                                    <div class="skill-item">
-                                        <div class="skill-name"><span>Social network analysis</span><span>95%</span></div>
-                                        <div class="skill-bar"><div class="skill-progress" style="--progress: 95%;"></div></div>
-                                    </div>
-                                    <div class="skill-item">
-                                        <div class="skill-name"><span>Cross-domain automation</span><span>90%</span></div>
-                                        <div class="skill-bar"><div class="skill-progress" style="--progress: 90%;"></div></div>
-                                    </div>
-                                    <div class="skill-item">
-                                        <div class="skill-name"><span>Power BI / Tableau</span><span>85%</span></div>
-                                        <div class="skill-bar"><div class="skill-progress" style="--progress: 85%;"></div></div>
-                                    </div>
-                                    <div class="skill-item">
-                                        <div class="skill-name"><span>Operational Targeting</span><span>90%</span></div>
-                                        <div class="skill-bar"><div class="skill-progress" style="--progress: 90%;"></div></div>
-                                    </div>
-                                </div>
+                            <div style="max-width: 800px; margin: 0 auto;">
+                                <canvas id="skillsChart"></canvas>
                             </div>
                         </div>
                         
@@ -1896,7 +2123,7 @@ Test 4
             
             setTimeout(() => {
                 if(document.getElementById('skills')) {
-                    animateSkills();
+                    // This function is now replaced by chart logic
                 }
             }, 200);
         }
@@ -1913,8 +2140,45 @@ Test 4
             document.getElementById(tabId).classList.add('active');
             document.querySelector(`.tab-btn[onclick="switchTab('${tabId}')"]`).classList.add('active');
             
-            if (tabId === 'skills' || tabId === 'projects-pro' || tabId === 'projects-academic') {
-                animateSkills();
+            if (tabId === 'skills') {
+                setTimeout(() => {
+                    const ctx = document.getElementById('skillsChart');
+                    if (ctx && !ctx.chart) {
+                        ctx.chart = new Chart(ctx, {
+                            type: 'radar',
+                            data: {
+                                labels: ['Python', 'R', 'SQL', 'ArcGIS', 'ML/AI', 'Network Analysis', 'Cross-Domain', 'Power BI'],
+                                datasets: [{
+                                    label: 'Proficiency Level',
+                                    data: [95, 90, 85, 95, 90, 95, 90, 85],
+                                    fill: true,
+                                    backgroundColor: 'rgba(102, 126, 234, 0.2)',
+                                    borderColor: '#667eea',
+                                    pointBackgroundColor: '#667eea',
+                                    pointBorderColor: '#fff',
+                                    pointHoverBackgroundColor: '#fff',
+                                    pointHoverBorderColor: '#667eea'
+                                }]
+                            },
+                            options: {
+                                scales: {
+                                    r: {
+                                        beginAtZero: true,
+                                        max: 100,
+                                        ticks: { color: '#a0aec0' },
+                                        grid: { color: 'rgba(102, 126, 234, 0.2)' },
+                                        pointLabels: { color: '#e2e8f0', font: { size: 14 } }
+                                    }
+                                },
+                                plugins: {
+                                    legend: { labels: { color: '#e2e8f0' } }
+                                }
+                            }
+                        });
+                    }
+                }, 300);
+            }
+            if (tabId === 'projects-pro' || tabId === 'projects-academic') {
                 addModalListeners();
             }
         }
@@ -2002,6 +2266,10 @@ Notes: ${notes}
 
         // DOMContentLoaded
         document.addEventListener('DOMContentLoaded', () => {
+            // Load saved theme
+            const savedTheme = localStorage.getItem('preferredTheme') || 'intelligence';
+            changeTheme(savedTheme);
+
             // Rotating Catchphrase
             const catchphrases = [
                 "Positivity & Purpose", "Progress over perfection", "The work is the reward", 
@@ -2025,7 +2293,7 @@ Notes: ${notes}
             window.addEventListener('scroll', () => {
                 const scrollTotal = document.documentElement.scrollHeight - document.documentElement.clientHeight;
                 const scrollPercent = (window.scrollY / scrollTotal) * 100;
-                progressBar.style.width = `${scrollPercent}%`;
+                progressBar.style.height = `${scrollPercent}%`;
             });
             
             // Smooth scroll for nav links
@@ -2039,9 +2307,19 @@ Notes: ${notes}
                             behavior: 'smooth',
                             block: 'start'
                         });
-                        document.querySelector('.nav-links').classList.remove('active');
-                        document.querySelector('.hamburger').classList.remove('active');
+                        // This part for mobile menu is no longer needed with side nav
+                        // document.querySelector('.nav-links').classList.remove('active');
+                        // document.querySelector('.hamburger').classList.remove('active');
                     }
+                });
+            });
+
+            // Handle Academic/Professional nav clicks
+            document.querySelectorAll('.nav-links a[data-trigger]').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const path = this.dataset.trigger;
+                    loadContent(path);
                 });
             });
             
@@ -2125,7 +2403,8 @@ Notes: ${notes}
         const skillObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    animateSkills();
+                    // This function is no longer needed with chart
+                    // animateSkills(); 
                     skillObserver.unobserve(entry.target);
                 }
             });
