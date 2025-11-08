@@ -1,4 +1,3 @@
-#awesum
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -26,7 +25,7 @@
         #scroll-progress {
             position: fixed;
             top: 0;
-            right: 0;
+            left: 0;
             width: 5px;
             height: 0%;
             background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
@@ -60,21 +59,16 @@
             left: 0;
             top: 0;
             height: 100vh;
-            width: 80px;
+            width: 200px;
             background: rgba(10, 14, 39, 0.95);
             backdrop-filter: blur(10px);
             padding: 2rem 0;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 3rem;
             border-right: 1px solid rgba(102, 126, 234, 0.2);
             z-index: 100;
             transition: width 0.3s ease;
-        }
-        
-        nav:hover {
-            width: 200px;
         }
         
         .logo {
@@ -84,20 +78,16 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            writing-mode: vertical-rl;
-            transform: rotate(180deg);
-        }
-        
-        nav:hover .logo {
-            writing-mode: horizontal-tb;
-            transform: rotate(0deg);
+            margin-bottom: 2rem;
         }
         
         .nav-links {
             display: flex;
             flex-direction: column;
-            gap: 2rem;
+            gap: 1.5rem;
             list-style: none;
+            width: 100%;
+            align-items: center;
         }
         
         .nav-links a {
@@ -105,104 +95,104 @@
             text-decoration: none;
             transition: color 0.3s ease;
             font-weight: 500;
-            white-space: nowrap;
-            overflow: hidden;
-            width: 0;
-            opacity: 0;
-            transition: all 0.3s ease;
+            font-size: 1.1rem;
+            padding: 0.5rem 1rem;
+            width: 90%;
+            text-align: center;
+            border-radius: 8px;
         }
-        
-        nav:hover .nav-links a {
-            width: auto;
-            opacity: 1;
+
+        .nav-links a:hover {
+            color: #fff;
+            background: rgba(102, 126, 234, 0.2);
         }
         
         .nav-links li {
             display: flex;
             align-items: center;
+            width: 100%;
+            justify-content: center;
         }
         
-        .nav-links li::before {
-            content: '▸';
-            color: #667eea;
-            margin-right: 0.5rem;
-        }
-
         /* Adjust content for left nav */
         .hero, .content-section, footer {
-            margin-left: 80px;
+            margin-left: 200px;
+        }
+        
+        .theme-controls-container {
+            width: 100%; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            margin-top: auto;
         }
         
         @media (max-width: 768px) {
             .hero, .content-section, footer {
                 margin-left: 0;
+                padding-bottom: 80px; /* Space for bottom nav */
+            }
+            
+            nav {
+                width: 100%;
+                height: auto;
+                flex-direction: row;
+                justify-content: space-around;
+                bottom: 0;
+                top: auto;
+                border-right: none;
+                border-top: 1px solid rgba(102, 126, 234, 0.2);
+                padding: 0.5rem 0;
+            }
+            .nav-links {
+                flex-direction: row;
+                gap: 0.5rem;
+                width: auto;
+            }
+            .nav-links a {
+                font-size: 0.9rem;
+                padding: 0.5rem;
+            }
+            .logo {
+                display: none;
+            }
+            .theme-controls-container {
+                display: none; /* Hide theme controls on mobile for space */
             }
         }
         
         .theme-toggle {
             background: rgba(255, 255, 255, 0.1);
-            border: none;
+            border: 1px solid rgba(102, 126, 234, 0.2);
             color: #fff;
             padding: 0.5rem 1rem;
             border-radius: 8px;
             cursor: pointer;
             transition: all 0.3s ease;
+            width: 90%;
         }
         
         .theme-toggle:hover {
             background: rgba(102, 126, 234, 0.3);
         }
         
-        /* Hamburger Menu */
-        .hamburger {
-            display: none;
-            flex-direction: column;
-            gap: 4px;
-            cursor: pointer;
-            padding: 0.5rem;
-            background: none;
-            border: none;
-        }
-        
-        .hamburger span {
-            width: 25px;
-            height: 3px;
-            background: #667eea;
-            transition: all 0.3s ease;
-            display: block;
-        }
-        
-        .hamburger.active span:nth-child(1) {
-            transform: rotate(45deg) translate(5px, 5px);
-        }
-        
-        .hamburger.active span:nth-child(2) {
-            opacity: 0;
-        }
-        
-        .hamburger.active span:nth-child(3) {
-            transform: rotate(-45deg) translate(7px, -6px);
-        }
-        
         /* Theme Selector */
         .theme-selector {
-            position: fixed;
-            top: 50%;
-            right: 2rem;
-            transform: translateY(-50%);
-            background: rgba(10, 14, 39, 0.95);
-            backdrop-filter: blur(10px);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
             padding: 1rem;
+            width: 90%;
+            justify-content: center;
+            background: rgba(10, 14, 39, 0.5);
             border-radius: 12px;
-            border: 1px solid rgba(102, 126, 234, 0.2);
-            z-index: 99;
+            margin-bottom: 1rem;
         }
         
         .theme-option {
-            width: 40px;
-            height: 40px;
+            width: 30px;
+            height: 30px;
             border-radius: 50%;
-            margin: 0.5rem 0;
             cursor: pointer;
             border: 2px solid transparent;
             transition: all 0.3s ease;
@@ -260,7 +250,7 @@
             justify-content: center;
             align-items: center;
             text-align: center;
-            padding: 4rem 0;
+            padding: 4rem 2rem;
         }
         
         .hero h1 {
@@ -316,6 +306,7 @@
             flex-wrap: wrap;
             justify-content: center;
             animation: fadeInUp 1s ease 0.4s both;
+            margin-bottom: 4rem; /* Added margin */
         }
         
         .path-btn {
@@ -556,43 +547,25 @@
             font-size: 1.3rem;
         }
         
-        .skill-item {
-            margin-bottom: 1rem;
+        .skill-list {
+            list-style: none;
+            padding-left: 0;
+            color: #cbd5e0;
         }
         
-        .skill-name {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 0.5rem;
-            color: #e2e8f0;
-            font-size: 0.95rem;
+        .skill-list li {
+            margin-bottom: 0.75rem;
+            font-size: 1rem;
         }
         
-        .skill-bar {
-            height: 8px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            overflow: hidden;
-        }
-        
-        .skill-progress {
-            height: 100%;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 10px;
-            transition: width 1s ease;
-            width: 0;
-        }
-        
-        .skill-progress.animate {
-            width: var(--progress);
-        }
-        
-        /* About Section */
+        /* About Section (Home) */
         .about-content {
             display: grid;
-            grid-template-columns: 1fr 2fr;
+            grid-template-columns: 1fr;
             gap: 3rem;
             align-items: center;
+            max-width: 900px;
+            margin: 0 auto; /* Center the new about section */
         }
         
         .profile-image {
@@ -612,6 +585,7 @@
             font-size: 1.1rem;
             line-height: 1.8;
             color: #cbd5e0;
+            text-align: left;
         }
         
         .about-text p {
@@ -621,7 +595,7 @@
         .about-stats {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 2rem;
+            gap: 1rem;
             margin-top: 2rem;
         }
         
@@ -631,6 +605,7 @@
             background: rgba(255, 255, 255, 0.05);
             border-radius: 12px;
             border: 1px solid rgba(102, 126, 234, 0.1);
+            overflow: hidden; /* For smooth transition */
         }
         
         .stat-box-number {
@@ -638,17 +613,26 @@
             font-weight: 700;
             color: #667eea;
             margin-bottom: 0.5rem;
+            transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+            display: inline-block;
         }
         
         .stat-box-label {
             color: #a0aec0;
             font-size: 0.9rem;
+            transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+            display: block;
+        }
+
+        .stat-box .is-fading {
+            opacity: 0;
+            transform: translateY(-10px);
         }
         
         /* Contact Section */
         .contact-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 0.7fr 1fr; /* Form is 30% smaller */
             gap: 3rem;
             margin-top: 2rem;
         }
@@ -757,6 +741,13 @@
             margin: 0 2rem;
             transition: all 0.3s ease;
         }
+
+        /* Timeline Event Types */
+        .timeline-content.school { border-left: 4px solid #667eea; }
+        .timeline-content.military { border-left: 4px solid #48bb78; }
+        .timeline-content.conference { border-left: 4px solid #f56565; }
+        .timeline-content.fellowship { border-left: 4px solid #fbbf24; }
+
         
         .timeline-content:hover {
             border-color: rgba(102, 126, 234, 0.6);
@@ -832,6 +823,12 @@
         .back-to-top:hover {
             transform: scale(1.1);
             box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        }
+
+        @media (max-width: 768px) {
+            .back-to-top {
+                bottom: 90px; /* Adjust for bottom nav */
+            }
         }
         
         /* Contact Form Styles */
@@ -1034,27 +1031,6 @@
         
         /* Responsive Design */
         @media (max-width: 768px) {
-            .hamburger {
-                display: flex;
-            }
-            
-            .nav-links {
-                display: none;
-                position: absolute;
-                top: 100%;
-                left: 0;
-                right: 0;
-                width: 100%;
-                background: rgba(10, 14, 39, 0.98);
-                flex-direction: column;
-                padding: 2rem;
-                gap: 1rem;
-                border-top: 1px solid rgba(102, 126, 234, 0.2);
-            }
-            
-            .nav-links.active {
-                display: flex;
-            }
             
             .hero h1 {
                 font-size: 2.5rem;
@@ -1082,12 +1058,13 @@
             }
             
             .contact-grid {
-                grid-template-columns: 1fr;
+                grid-template-columns: 1fr; /* Stack on mobile */
             }
             
             .tab-nav {
                 overflow-x: auto;
                 justify-content: flex-start;
+                flex-wrap: nowrap;
             }
             
             .modal-content {
@@ -1104,12 +1081,12 @@
         body.light-theme {
             background: linear-gradient(135deg, #f0f4f8 0%, #e2e8f0 100%);
             color: #2d3748;
-            transition: all 1s ease; /* ADD THIS LINE */
+            transition: all 1s ease;
         }
         
         body.light-theme nav {
             background: rgba(255, 255, 255, 0.95);
-            border-bottom: 1px solid rgba(102, 126, 234, 0.2);
+            border-color: rgba(102, 126, 234, 0.2);
         }
         
         body.light-theme .nav-links a {
@@ -1118,20 +1095,28 @@
         
         body.light-theme .nav-links a:hover {
             color: #667eea;
+            background: rgba(102, 126, 234, 0.1);
         }
         
         body.light-theme .hero-subtitle,
         body.light-theme .project-description,
-        body.light-theme .about-text {
+        body.light-theme .about-text,
+        body.light-theme .skill-list {
             color: #4a5568;
         }
         
         body.light-theme .project-card,
         body.light-theme .skill-category,
         body.light-theme .contact-item,
-        body.light-theme .contact-form {
+        body.light-theme .contact-form,
+        body.light-theme .stat-box,
+        body.light-theme .timeline-content {
             background: rgba(255, 255, 255, 0.8);
             border: 1px solid rgba(102, 126, 234, 0.2);
+        }
+
+        body.light-theme .timeline-dot {
+            border-color: #f0f4f8;
         }
         
         body.light-theme .project-title,
@@ -1145,38 +1130,45 @@
             color: #2d3748;
             border-color: rgba(102, 126, 234, 0.3);
         }
+
+        body.light-theme .theme-toggle {
+            background: rgba(0, 0, 0, 0.05);
+            color: #2d3748;
+            border-color: rgba(0, 0, 0, 0.1);
+        }
+
+        body.light-theme .theme-selector {
+            background: rgba(255, 255, 255, 0.5);
+        }
     </style>
 </head>
 <body>
     <div id="scroll-progress"></div>
     
     <canvas id="network-canvas"></canvas>
+    <audio id="secret-sound" src="https://www.myinstants.com/media/sounds/zelda-secret-sound.mp3" preload="auto"></audio>
     
     <nav>
         <div class="logo">JeQa Powe</div>
         <ul class="nav-links">
             <li><a href="#home">Home</a></li>
-            <li><a href="#about">About</a></li>
             <li><a href="#content-area" data-trigger="academic">Academic</a></li>
             <li><a href="#content-area" data-trigger="professional">Professional</a></li>
             <li><a href="#contact">Contact</a></li>
         </ul>
-        <button class="hamburger" onclick="toggleMobileMenu()" aria-label="Toggle menu">
-            <span></span>
-            <span></span>
-            <span></span>
-        </button>
-        <button class="theme-toggle" onclick="toggleTheme()">🌙 Theme</button>
+        
+        <div class="theme-controls-container">
+            <div class="theme-selector">
+                <div class="theme-option theme-intelligence active" onclick="changeTheme('intelligence')" title="Intelligence (Default)"></div>
+                <div class="theme-option theme-thunder" onclick="changeTheme('thunder')" title="OKC Thunder"></div>
+                <div class="theme-option theme-destiny" onclick="changeTheme('destiny')" title="Destiny 2"></div>
+                <div class="theme-option theme-samurai" onclick="changeTheme('samurai')" title="Samurai"></div>
+                <div class="theme-option theme-tech" onclick="changeTheme('tech')" title="Tech Green"></div>
+                <div class="theme-option theme-hiphop" onclick="changeTheme('hiphop')" title="Hip Hop"></div>
+            </div>
+            <button class="theme-toggle" onclick="toggleTheme()">🌙 Dark Mode</button>
+        </div>
     </nav>
-    
-    <div class="theme-selector">
-        <div class="theme-option theme-intelligence active" onclick="changeTheme('intelligence')" title="Intelligence (Default)"></div>
-        <div class="theme-option theme-thunder" onclick="changeTheme('thunder')" title="OKC Thunder"></div>
-        <div class="theme-option theme-destiny" onclick="changeTheme('destiny')" title="Destiny 2"></div>
-        <div class="theme-option theme-samurai" onclick="changeTheme('samurai')" title="Samurai"></div>
-        <div class="theme-option theme-tech" onclick="changeTheme('tech')" title="Tech Green"></div>
-        <div class="theme-option theme-hiphop" onclick="changeTheme('hiphop')" title="Hip Hop"></div>
-    </div>
     
     <section class="hero" id="home">
         <div class="container">
@@ -1200,12 +1192,22 @@
             
             <div class="path-selection">
                 <button class="path-btn academic" onclick="loadContent('academic')">
-                    <span>🎓 Academic Research & CV</span>
+                    <span>🎓 Academic Research</span>
                 </button>
                 <button class="path-btn professional" onclick="loadContent('professional')">
-                    <span>💼 Professional Projects & Resume</span>
+                    <span>💼 Professional Experience</span>
                 </button>
             </div>
+
+            <div class="about-content">
+                <div>
+                    <div class="about-text" style="max-width: 800px; margin: 0 auto; text-align: center;">
+                        <h2 class="section-title" style="font-size: 2rem; margin-bottom: 1.5rem;">About Me</h2>
+                        <p>I build data-driven solutions at the intersection of economics, intelligence analysis, and advanced computational methods. With an M.A. in Economics from Howard University and 5+ years deploying machine learning systems in defense and intelligence environments, I translate complex problems into actionable insights.</p>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </section>
     
@@ -1213,1211 +1215,953 @@
         <div class="container">
         </div>
     </section>
-    
-    <section class="content-section" id="about">
-        <div class="container">
-            <h2 class="section-title">About Me</h2>
-            <div class="about-content">
-                <div>
-                    <img src="https://via.placeholder.com/400x500" alt="JeQa Powe" class="profile-image">
-                </div>
-                <div>
-                    <div class="about-text">
-                        <p>I build data-driven solutions at the intersection of economics, intelligence analysis, and advanced computational methods. With an M.A. in Economics from Howard University and 5+ years deploying machine learning systems in defense and intelligence environments, I translate complex problems into actionable insights.</p>
-  <p>Former DoD Research Operations Analyst (TS/SCI) specializing in network analysis, spatial econometrics, and cross-domain data integration. Expert in ArcGIS, Python, R, and geospatial intelligence applications.</p>
-  <p>Economics researcher with presentations to National Economic Council and Federal Reserve Board.</p>
-  </div>
-  <div class="about-stats">
-    <div class="stat-box">
-      <div class="stat-box-number">5+</div>
-        <div class="stat-box-label">Years Experience</div>
-          </div>
-          <div class="stat-box">
-            <div class="stat-box-number">7</div>
-              <div class="stat-box-label">Live Projects</div>
-                </div>
-                <div class="stat-box">
-                  <div class="stat-box-number">$2M+</div>
-                    <div class="stat-box-label">Impact Generated</div>
-                      </div>
-                      <div class="stat-box">
-                        <div class="stat-box-number">40%</div>
-                          <div class="stat-box-label">Accuracy Gain</div>
-                            </div>
-                            </div>
-                            </div>
-                            </div>
-                            </div>
-                            </section>
                             
-                            <section class="content-section" id="contact">
-                              <div class="container">
-                                <h2 class="section-title">Get In Touch</h2>
-                                  <div class="contact-grid">
+    <section class="content-section" id="contact">
+        <div class="container">
+        <h2 class="section-title">Get In Touch</h2>
+            <div class="contact-grid">
+            <div>
+            <div class="contact-form">
+                <h3 style="color: #fff; margin-bottom: 1.5rem;">Send a Message</h3>
+                <form id="feedback-form">
+                    <div class="form-group">
+                    <label for="name">Name</label>
+                        <input type="text" id="name" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="contact-info">Email or Phone</label>
+                            <input type="text" id="contact-info" name="contact-info" required>
+                        </div>
+                        <div class="form-group">
+                        <label for="reason">Reason for Inquiry</label>
+                            <textarea id="reason" name="reason" rows="4" required></textarea>
+                            </div>
+                            
+                            <h4 style="color: #fff; margin-top: 2rem; margin-bottom: 1rem;">Site Feedback (Optional)</h4>
+                                <div class="star-rating">
+                                <input type="radio" id="5-stars" name="rating" value="5" /><label for="5-stars">☆</label>
+                                <input type="radio" id="4-stars" name="rating" value="4" /><label for="4-stars">☆</label>
+                                    <input type="radio" id="3-stars" name="rating" value="3" /><label for="3-stars">☆</label>
+                                    <input type="radio" id="2-stars" name="rating" value="2" /><label for="2-stars">☆</label>
+                                    <input type="radio" id="1-star" name="rating" value="1" /><label for="1-star">☆</label>
+                                    </div>
+                                    <div class="form-group" style="margin-top: 1rem;">
+                                        <label for="notes">Notes</label>
+                                        <textarea id="notes" name="notes" rows="3"></textarea>
+                                        </div>
+                                        
+                                        <button type="submit" class="btn-primary" style="width: 100%; margin-top: 1.5rem; border: none; cursor: pointer;">Submit Inquiry</button>
+                                    </form>
+                                    </div>
+                                    </div>
+                                    
                                     <div>
-                                    <div class="contact-form">
-                                      <h3 style="color: #fff; margin-bottom: 1.5rem;">Send a Message</h3>
-                                        <form id="feedback-form">
-                                          <div class="form-group">
-                                            <label for="name">Name</label>
-                                              <input type="text" id="name" name="name" required>
-                                                </div>
-                                                <div class="form-group">
-                                                  <label for="contact-info">Email or Phone</label>
-                                                    <input type="text" id="contact-info" name="contact-info" required>
-                                                      </div>
-                                                      <div class="form-group">
-                                                        <label for="reason">Reason for Inquiry</label>
-                                                          <textarea id="reason" name="reason" rows="4" required></textarea>
-                                                            </div>
-                                                            
-                                                            <h4 style="color: #fff; margin-top: 2rem; margin-bottom: 1rem;">Site Feedback (Optional)</h4>
-                                                              <div class="star-rating">
-                                                                <input type="radio" id="5-stars" name="rating" value="5" /><label for="5-stars">☆</label>
-                                                                  <input type="radio" id="4-stars" name="rating" value="4" /><label for="4-stars">☆</label>
-                                                                    <input type="radio" id="3-stars" name="rating" value="3" /><label for="3-stars">☆</label>
-                                                                      <input type="radio" id="2-stars" name="rating" value="2" /><label for="2-stars">☆</label>
-                                                                        <input type="radio" id="1-star" name="rating" value="1" /><label for="1-star">☆</label>
-                                                                          </div>
-                                                                          <div class="form-group" style="margin-top: 1rem;">
-                                                                            <label for="notes">Notes</label>
-                                                                              <textarea id="notes" name="notes" rows="3"></textarea>
+                                    <div class="availability-status">
+                                        <div class="status-indicator">
+                                        <span class="status-dot"></span>
+                                            <span class="status-text">OPEN TO OPPORTUNITIES</span>
+                                            </div>
+                                            <p style="color: #cbd5e0; margin-bottom: 1rem;">Currently seeking: Cleared intelligence analyst or economics research roles</p>
+                                            <p style="color: #a0aec0; font-size: 0.9rem;">📧 Response time: < 24 hours</p>
+                                                <p style="color: #a0aec0; font-size: 0.9rem;">🔒 TS/SCI: Transferable through 2027</p>
+                                                <p style="color: #a0aec0; font-size: 0.9rem;">📅 Available: Immediate</p>
+                                                    <p style="color: #a0aec0; font-size: 0.9rem; margin-top: 1rem;">Last updated: January 2025</p>
+                                                    </div>
+                                                    
+                                                    <div class="contact-info" style="margin-top: 2rem;">
+                                                        <div class="contact-item">
+                                                        <span class="contact-icon">🔗</span>
+                                                            <div class="contact-details">
+                                                            <strong>LinkedIn</strong><br>
+                                                            <a href="https://linkedin.com/in/jeqapowe" target="_blank">linkedin.com/in/jeqapowe</a>
+                                                                </div>
+                                                                </div>
+                                                                <div class="contact-item">
+                                                                    <span class="contact-icon">📍</span>
+                                                                    <div class="contact-details">
+                                                                        <strong>Location</strong><br>
+                                                                        Washington, DC Metro Area
+                                                                    </div>
+                                                                    </div>
+                                                                    </div>
+                                                                    </div>
+                                                                    </div>
+                                                                    </div>
+                                                                    </section>
+                                                                    
+                                                                    <button class="back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" aria-label="Back to top">
+                                                                        ↑
+                                                                    </button>
+                                                                        
+                                                                        <div class="demo-modal" id="network-analysis-demo-modal">
+                                                                            <div class="modal-content">
+                                                                            <button class="close-modal">&times;</button>
+                                                                                <h2>Network Analysis Tool - Live Demo</h2>
+                                                                                <iframe 
+                                                                            src="https://your-demo-url.com/network-tool"
+                                                                            width="100%"
+                                                                            height="600px"
+                                                                            frameborder="0"
+                                                                            loading="lazy">
+                                                                                </iframe>
+                                                                                <div class="modal-footer">
+                                                                                <a href="https://github.com/..." class="btn-secondary">View Source Code</a>
+                                                                                <a href="/case-studies/network-analysis" class="btn-primary">Read Case Study</a>
+                                                                                </div>
+                                                                                </div>
                                                                                 </div>
                                                                                 
-                                                                                <button type="submit" class="btn-primary" style="width: 100%; margin-top: 1.5rem; border: none; cursor: pointer;">Submit Inquiry</button>
-                                                                                  </form>
-                                                                                  </div>
-                                                                                  </div>
-                                                                                  
-                                                                                  <div>
-                                                                                  <div class="availability-status">
-                                                                                    <div class="status-indicator">
-                                                                                      <span class="status-dot"></span>
-                                                                                        <span class="status-text">OPEN TO OPPORTUNITIES</span>
-                                                                                          </div>
-                                                                                          <p style="color: #cbd5e0; margin-bottom: 1rem;">Currently seeking: Cleared intelligence analyst or economics research roles</p>
-                                                                                            <p style="color: #a0aec0; font-size: 0.9rem;">📧 Response time: < 24 hours</p>
-                                                                                              <p style="color: #a0aec0; font-size: 0.9rem;">🔒 TS/SCI: Transferable through 2027</p>
-                                                                                                <p style="color: #a0aec0; font-size: 0.9rem;">📅 Available: Immediate</p>
-                                                                                                  <p style="color: #a0aec0; font-size: 0.9rem; margin-top: 1rem;">Last updated: January 2025</p>
+                                                                                <footer>
+                                                                                <div class="container">
+                                                                                <p id="catchphrase">&copy; 2025 JeQa Powe | Built with passion and precision</p>
+                                                                                <p style="color: #4a5568; font-size: 0.8rem; font-style: italic; margin-top: 0.5rem;">
+                                                                                    Hint: Try the Konami Code (↑↑↓↓←→←→BA) 🎮
+                                                                                </p>
+                                                                                <div class="social-links">
+                                                                                <a href="https://linkedin.com/in/jeqapowe" class="social-link" target="_blank">💼</a>
+                                                                                <a href="https://github.com/your-username" class="social-link" target="_blank">💻</a>
+                                                                                <a href="mailto:JeQa.Powe@outlook.com" class="social-link">📧</a>
+                                                                                </div>
+                                                                                <p style="margin-top: 1rem; font-size: 0.9rem;">Last updated: January 2025</p>
+                                                                                </div>
+                                                                                </footer>
+                                                                                
+                                                                                <script>
+                                                                                // Network Background Animation
+                                                                            class NetworkBackground {
+                                                                                constructor() {
+                                                                                    this.canvas = document.getElementById('network-canvas');
+                                                                                    this.ctx = this.canvas.getContext('2d');
+                                                                                    this.particles = [];
+                                                                                    this.particleCount = 50;
+                                                                                    this.maxDistance = 150;
+                                                                                    this.isActive = true;
+                                                                                    this.fps = 30;
+                                                                                    this.fpsInterval = 1000 / this.fps;
+                                                                                    this.then = Date.now();
+                                                                                    
+                                                                                    this.resize();
+                                                                                    this.init();
+                                                                                    this.animate();
+                                                                                    
+                                                                                    window.addEventListener('resize', () => this.resize());
+                                                                                    
+                                                                                    // Pause animation when tab not visible
+                                                                                    document.addEventListener('visibilitychange', () => {
+                                                                                        this.isActive = !document.hidden;
+                                                                                    });
+                                                                                }
+                                                                                
+                                                                                resize() {
+                                                                                    this.canvas.width = window.innerWidth;
+                                                                                    this.canvas.height = window.innerHeight;
+                                                                                }
+                                                                                
+                                                                                init() {
+                                                                                    this.particles = [];
+                                                                                    for (let i = 0; i < this.particleCount; i++) {
+                                                                                        this.particles.push({
+                                                                                            x: Math.random() * this.canvas.width,
+                                                                                            y: Math.random() * this.canvas.height,
+                                                                                            vx: (Math.random() - 0.5) * 0.5,
+                                                                                            vy: (Math.random() - 0.5) * 0.5,
+                                                                                            radius: Math.random() * 2 + 1
+                                                                                        });
+                                                                                    }
+                                                                                }
+                                                                                
+                                                                                animate() {
+                                                                                    requestAnimationFrame(() => this.animate());
+                                                                                    
+                                                                                    if (!this.isActive) {
+                                                                                        return;
+                                                                                    }
+                                                                                    
+                                                                                    const now = Date.now();
+                                                                                    const elapsed = now - this.then;
+                                                                                    
+                                                                                    if (elapsed <= this.fpsInterval) {
+                                                                                        return;
+                                                                                    }
+                                                                                    
+                                                                                    this.then = now - (elapsed % this.fpsInterval);
+                                                                                    
+                                                                                    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+                                                                                    
+                                                                                    this.particles.forEach(p => {
+                                                                                        p.x += p.vx;
+                                                                                        p.y += p.vy;
+                                                                                        
+                                                                                        if (p.x < 0 || p.x > this.canvas.width) p.vx *= -1;
+                                                                                        if (p.y < 0 || p.y > this.canvas.height) p.vy *= -1;
+                                                                                        
+                                                                                        this.ctx.fillStyle = 'rgba(102, 126, 234, 0.6)';
+                                                                                        this.ctx.beginPath();
+                                                                                        this.ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                                                                                        this.ctx.fill();
+                                                                                    });
+                                                                                    
+                                                                                    for (let i = 0; i < this.particles.length; i++) {
+                                                                                        for (let j = i + 1; j < this.particles.length; j++) {
+                                                                                            const dx = this.particles[i].x - this.particles[j].x;
+                                                                                            const dy = this.particles[i].y - this.particles[j].y;
+                                                                                            const distance = Math.sqrt(dx * dx + dy * dy);
+                                                                                            
+                                                                                            if (distance < this.maxDistance) {
+                                                                                                const opacity = (1 - distance / this.maxDistance) * 0.3;
+                                                                                                this.ctx.strokeStyle = `rgba(102, 126, 234, ${opacity})`;
+                                                                                                this.ctx.lineWidth = 1;
+                                                                                                this.ctx.beginPath();
+                                                                                                this.ctx.moveTo(this.particles[i].x, this.particles[i].y);
+                                                                                                this.ctx.lineTo(this.particles[j].x, this.particles[j].y);
+                                                                                                this.ctx.stroke();
+                                                                                            }
+                                                                                        }
+                                                                                    }
+                                                                                }
+                                                                            }
+                                                                            
+                                                                            // Initialize network background
+                                                                            new NetworkBackground();
+                                                                            
+                                                                            // Rotating Statistics
+                                                                            let currentStatIndex = 0;
+                                                                            const statItems = document.querySelectorAll('.stat-item');
+                                                                            
+                                                                            function rotateStats() {
+                                                                                statItems[currentStatIndex].classList.remove('active');
+                                                                                currentStatIndex = (currentStatIndex + 1) % statItems.length;
+                                                                                statItems[currentStatIndex].classList.add('active');
+                                                                            }
+                                                                            
+                                                                            setInterval(rotateStats, 3000);
+                                                                            
+                                                                            // Theme Toggle
+                                                                            function toggleTheme() {
+                                                                                document.body.classList.toggle('light-theme');
+                                                                                const themeBtn = document.querySelector('.theme-toggle');
+                                                                                if (document.body.classList.contains('light-theme')) {
+                                                                                    themeBtn.textContent = '☀️ Light Mode';
+                                                                                } else {
+                                                                                    themeBtn.textContent = '🌙 Dark Mode';
+                                                                                }
+                                                                            }
+                                                                            
+                                                                            // Theme Selector
+                                                                            function changeTheme(theme) {
+                                                                                // Remove all theme classes
+                                                                                document.body.classList.remove('theme-thunder', 'theme-destiny', 'theme-samurai', 'theme-tech', 'theme-hiphop');
+                                                                                
+                                                                                // Add new theme if not default
+                                                                                if (theme !== 'intelligence') {
+                                                                                    document.body.classList.add(`theme-${theme}`);
+                                                                                }
+                                                                                
+                                                                                // Update active indicator
+                                                                                document.querySelectorAll('.theme-option').forEach(opt => opt.classList.remove('active'));
+                                                                                document.querySelector(`.theme-${theme}`).classList.add('active');
+                                                                                
+                                                                                // Save preference
+                                                                                localStorage.setItem('preferredTheme', theme);
+                                                                            }
+                                                                            
+                                                                            // Global var for stat rotator
+                                                                            let professionalStatInterval;
+                                                                            
+                                                                            // Load Content Based on Path Selection
+                                                                            function loadContent(path) {
+                                                                                const contentArea = document.getElementById('content-area');
+                                                                                const container = contentArea.querySelector('.container');
+                                                                                
+                                                                                // Clear previous interval if it exists
+                                                                                if (professionalStatInterval) {
+                                                                                    clearInterval(professionalStatInterval);
+                                                                                }
+                                                                                
+                                                                                contentArea.style.display = 'block';
+                                                                                
+                                                                                if (path === 'academic') {
+                                                                                    container.innerHTML = `
+                                                                                    <h2 class="section-title">Academic Portfolio</h2>
+                                                                                        
+                                                                                        <div class="tab-container">
+                                                                                        <div class="tab-nav">
+                                                                                            <button class="tab-btn active" onclick="switchTab('overview-academic')">Overview</button>
+                                                                                            <button class="tab-btn" onclick="switchTab('research-projects')">Research & Projects</button>
+                                                                                        </div>
+                                                                                            
+                                                                                        <div id="overview-academic" class="tab-content active">
+                                                                                            <h3 style="color: #667eea; margin-bottom: 1.5rem;">Research Interests</h3>
+                                                                                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 2rem;">
+                                                                                                <div>
+                                                                                                <h4 style="color: #e2e8f0; margin-bottom: 1rem;">Methodological</h4>
+                                                                                                <ul style="color: #a0aec0; line-height: 2;">
+                                                                                                    <li>Spatial Econometrics & GIS Integration</li>
+                                                                                                    <li>Causal Inference (DiD, RDD, IV)</li>
+                                                                                                    <li>Network Science & Graph Theory</li>
+                                                                                                    <li>Machine Learning for Social Science</li>
+                                                                                                    <li>Geospatial Analysis & Hotspot Detection</li>
+                                                                                                    <li>Time-Series & Panel Data Methods</li>
+                                                                                                    <li>Natural Language Processing</li>
+                                                                                                </ul>
                                                                                                     </div>
-                                                                                                    
-                                                                                                    <div class="contact-info" style="margin-top: 2rem;">
-                                                                                                      <div class="contact-item">
-                                                                                                        <span class="contact-icon">🔗</span>
-                                                                                                          <div class="contact-details">
-                                                                                                            <strong>LinkedIn</strong><br>
-                                                                                                            <a href="https://linkedin.com/in/jeqapowe" target="_blank">linkedin.com/in/jeqapowe</a>
-                                                                                                              </div>
-                                                                                                              </div>
-                                                                                                              <div class="contact-item">
-                                                                                                                <span class="contact-icon">📍</span>
-                                                                                                                  <div class="contact-details">
-                                                                                                                    <strong>Location</strong><br>
-                                                                                                                    Washington, DC Metro Area
-                                                                                                                  </div>
+                                                                                                    <div>
+                                                                                                    <h4 style="color: #e2e8f0; margin-bottom: 1rem;">Substantive</h4>
+                                                                                                        <ul style="color: #a0aec0; line-height: 2;">
+                                                                                                        <li>Urban & Regional Economics</li>
+                                                                                                        <li>Agricultural & Food Systems</li>
+                                                                                                        <li>Environmental Justice & Equity</li>
+                                                                                                        <li>Economic Geography & Spatial Development</li>
+                                                                                                        <li>Labor Economics</li>
+                                                                                                        <li>Public Economics</li>
+                                                                                                        <li>Development Economics</li>
+                                                                                                        </ul>
+                                                                                                        </div>
+                                                                                                        </div>
+                                                                                                        
+                                                                                                        <h3 style="color: #667eea; margin-bottom: 1.5rem;">Research Experience</h3>
+                                                                                                        <div class="project-card" style="margin-bottom: 1.5rem;">
+                                                                                                            <div class="project-info">
+                                                                                                            <h3 class="project-title">Research Operations Analyst</h3>
+                                                                                                                <p style="color: #a0aec0; margin-bottom: 1rem;">Joint Warfare Analysis Center (JWAC), DoD | June 2022 – March 2023</p>
+                                                                                                                <p class="project-description">
+                                                                                                                    Conducted advanced quantitative research combining econometrics, machine learning, and network analysis in classified environment. 
+                                                                                                                Collaborated with MIT Lincoln Laboratory data scientists on large language models for entity extraction. 
+                                                                                                                Applied spatial econometric methods using ArcGIS Pro and developed predictive models integrating multi-source data.
+                                                                                                                </p>
+                                                                                                                <div class="tech-tags">
+                                                                                                                <span class="tech-tag">Python</span>
+                                                                                                                <span class="tech-tag">R</span>
+                                                                                                                <span class="tech-tag">ArcGIS</span>
+                                                                                                                <span class="tech-tag">Machine Learning</span>
+                                                                                                                <span class="tech-tag">Network Analysis</span>
+                                                                                                                </div>
+                                                                                                                </div>
+                                                                                                                </div>
+
+                                                                                                        <div style="text-align: center; margin-top: 3rem;">
+                                                                                                            <a href="JeQa Powe cv.pdf" target="_blank" style="display: inline-block; padding: 1rem 3rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; text-decoration: none; border-radius: 8px; font-weight: 600; transition: all 0.3s ease;">
+                                                                                                            📄 Download Full Academic CV (PDF)
+                                                                                                            </a>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                        
+                                                                                                        <div id="research-projects" class="tab-content">
+                                                                                                            <h3 style="color: #667eea; margin-bottom: 1.5rem;">Peer-Reviewed & Conference Presentations</h3>
+                                                                                                        
+                                                                                                            <div class="project-card" style="margin-bottom: 1.5rem;">
+                                                                                                                <div class="project-info">
+                                                                                                                    <h3 class="project-title">"Economic Changes & Small Farmers: An Analysis on America's Hidden Lifeline"</h3>
+                                                                                                                    <p style="color: #a0aec0; margin-bottom: 0.5rem;">2023</p>
+                                                                                                                    <p class="project-description">
+                                                                                                                    Quantitative analysis of economic pressures facing small-scale agricultural producers. 
+                                                                                                                    Utilized panel data regression and time-series analysis. Policy recommendations for supporting agricultural economic development.
+                                                                                                                    </p>
+                                                                                                                    <p style="color: #667eea; font-weight: 600;">Presented to: National Economic Council, American Economic Association</p>
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                            
+                                                                                                            <div class="project-card" style="margin-bottom: 1.5rem;">
+                                                                                                                <div class="project-info">
+                                                                                                                    <h3 class="project-title">"Who Lives Near Powerplants?"</h3>
+                                                                                                                    <p style="color: #a0aec0; margin-bottom: 0.5rem;">2022</p>
+                                                                                                                    <p class="project-description">
+                                                                                                                    Spatial econometric analysis examining demographic patterns and environmental justice. 
+                                                                                                                    Applied hedonic pricing models and spatial regression techniques. 
+                                                                                                                    Utilized ArcGIS for spatial data visualization and kernel density estimation.
+                                                                                                                    </p>
+                                                                                                                    <p style="color: #667eea; font-weight: 600;">Presented to: Federal Reserve Board</p>
+                                                                                                                    <div class="project-links" style="margin-top: 1rem;">
+                                                                                                                        <a href="#" class="project-link">→ Interactive Dashboard</a>
                                                                                                                     </div>
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                            
+                                                                                                            <div class="project-card" style="margin-bottom: 2.5rem;">
+                                                                                                                <div class="project-info">
+                                                                                                                    <h3 class="project-title">"Economic Benefits of Urban Agriculture"</h3>
+                                                                                                                    <p style="color: #a0aec0; margin-bottom: 0.5rem;">Master's Thesis, Howard University | 2022</p>
+                                                                                                                    <p class="project-description">
+                                                                                                                        Original research utilizing difference-in-differences and spatial econometrics. 
+                                                                                                                        Analyzed property value impacts and community economic development. 
+                                                                                                                        Employed GIS network analysis and spatial autocorrelation methods.
+                                                                                                                    </p>
+                                                                                                                    <div class="project-links" style="margin-top: 1rem;">
+                                                                                                                        <a href="#" class="project-link">→ Impact Calculator</a>
+                                                                                                                        <a href="#" class="project-link">→ Full Thesis</a>
                                                                                                                     </div>
+                                                                                                                </div>
+                                                                                                            </div>
+
+                                                                                                            <h3 style="color: #667eea; margin-bottom: 1.5rem;">Research Portfolio & Code Samples</h3>
+                                                                                                            <p style="color: #a0aec0; margin-bottom: 2rem;">Interactive demonstrations of methodological approaches</p>
+                                                                                                            
+                                                                                                            <div class="project-grid">
+                                                                                                                <div class="project-card">
+                                                                                                                    <img src="https://inomics.com/sites/default/files/styles/article_full_responsive/public/pictures/picture/economists-on-a-date-meme.jpeg?itok=G4-n3cna" alt="Economists on a date meme" class="project-image">
+                                                                                                                    <div class="project-info">
+                                                                                                                        <h3 class="project-title">Spatial Econometrics Dashboard</h3>
+                                                                                                                        <p class="project-description">
+                                                                                                                            Interactive map with regression results, Moran's I statistics, and spatial autocorrelation visualization.
+                                                                                                                        </p>
+                                                                                                                        <div class="tech-tags">
+                                                                                                                            <span class="tech-tag">R Shiny</span>
+                                                                                                                            <span class="tech-tag">sf</span>
+                                                                                                                            <span class="tech-tag">spdep</span>
+                                                                                                                            <span class="tech-tag">leaflet</span>
+                                                                                                                        </div>
+                                                                                                                        <div class="project-links">
+                                                                                                                            <a href="#" class="project-link">Live Demo</a>
+                                                                                                                            <a href="#" class="project-link">Code</a>
+                                                                                                                            <a href="#" class="project-link">Methodology</a>
+                                                                                                                        </div>
                                                                                                                     </div>
+                                                                                                                </div>
+                                                                                                                
+                                                                                                                <div class="project-card">
+                                                                                                                    <img src="https://inomics.com/sites/default/files/styles/article_full_responsive/public/pictures/picture/economist-girlfriend-wants-to-talk-meme.jpeg?itok=uC-jYFh4" alt="Economist girlfriend meme" class="project-image">
+                                                                                                                    <div class="project-info">
+                                                                                                                        <h3 class="project-title">Urban Agriculture Impact Calculator</h3>
+                                                                                                                        <p class="project-description">
+                                                                                                                            Economic impact estimator based on thesis research. Input city parameters, see predicted property value impacts.
+                                                                                                                        </p>
+                                                                                                                        <div class="tech-tags">
+                                                                                                                            <span class="tech-tag">R Shiny</span>
+                                                                                                                            <span class="tech-tag">Econometrics</span>
+                                                                                                                            <span class="tech-tag">ggplot2</span>
+                                                                                                                        </div>
+                                                                                                                        <div class="project-links">
+                                                                                                                            <a href="#" class="project-link">Live Tool</a>
+                                                                                                                            <a href="#" class="project-link">Paper</a>
+                                                                                                                        </div>
                                                                                                                     </div>
+                                                                                                                </div>
+                                                                                                                
+                                                                                                                <div class="project-card">
+                                                                                                                    <img src="https://inomics.com/sites/default/files/styles/article_full_responsive/public/pictures/picture/economists-dont-believe-in-god-meme.jpeg?itok=bnhZX38y" alt="Economist god meme" class="project-image">
+                                                                                                                    <div class="project-info">
+                                                                                                                        <h3 class="project-title">Difference-in-Differences Simulator</h3>
+                                                                                                                        <p class="project-description">
+                                                                                                                            Educational tool showing parallel trends assumption, treatment effects, and statistical inference.
+                                                                                                                        </p>
+                                                                                                                        <div class="tech-tags">
+                                                                                                                            <span class="tech-tag">R</span>
+                                                                                                                            <span class="tech-tag">Causal Inference</span>
+                                                                                                                            <span class="tech-tag">Interactive</span>
+                                                                                                                        </div>
+                                                                                                                        <div class="project-links">
+                                                                                                                            <a href="#" class="project-link">Try It</a>
+                                                                                                                            <a href="#" class="project-link">Learn More</a>
+                                                                                                                        </div>
                                                                                                                     </div>
-                                                                                                                    </section>
-                                                                                                                    
-                                                                                                                    <button class="back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" aria-label="Back to top">
-                                                                                                                      ↑
-                                                                                                                    </button>
-                                                                                                                      
-                                                                                                                      <div class="demo-modal" id="network-analysis-demo-modal">
-                                                                                                                        <div class="modal-content">
-                                                                                                                          <button class="close-modal">&times;</button>
-                                                                                                                            <h2>Network Analysis Tool - Live Demo</h2>
-                                                                                                                            <iframe 
-                                                                                                                          src="https://your-demo-url.com/network-tool"
-                                                                                                                          width="100%"
-                                                                                                                          height="600px"
-                                                                                                                          frameborder="0"
-                                                                                                                          loading="lazy">
-                                                                                                                            </iframe>
-                                                                                                                            <div class="modal-footer">
-                                                                                                                            <a href="https://github.com/..." class="btn-secondary">View Source Code</a>
-                                                                                                                            <a href="/case-studies/network-analysis" class="btn-primary">Read Case Study</a>
-                                                                                                                            </div>
-                                                                                                                            </div>
-                                                                                                                            </div>
-                                                                                                                            
-                                                                                                                            <footer>
-                                                                                                                            <div class="container">
-                                                                                                                            <p id="catchphrase">&copy; 2025 JeQa Powe | Built with passion and precision</p>
-                                                                                                                            <p style="color: #4a5568; font-size: 0.8rem; font-style: italic; margin-top: 0.5rem;">
-                                                                                                                                Hint: Try the Konami Code (↑↑↓↓←→←→BA) 🎮
-                                                                                                                            </p>
-                                                                                                                            <div class="social-links">
-                                                                                                                            <a href="https://linkedin.com/in/jeqapowe" class="social-link" target="_blank">💼</a>
-                                                                                                                            <a href="https://github.com/your-username" class="social-link" target="_blank">💻</a>
-                                                                                                                            <a href="mailto:JeQa.Powe@outlook.com" class="social-link">📧</a>
-                                                                                                                            </div>
-                                                                                                                            <p style="margin-top: 1rem; font-size: 0.9rem;">Last updated: January 2025</p>
-                                                                                                                            </div>
-                                                                                                                            </footer>
-                                                                                                                            
-                                                                                                                            <script>
-                                                                                                                            // Network Background Animation
-                                                                                                                          class NetworkBackground {
-                                                                                                                            constructor() {
-                                                                                                                              this.canvas = document.getElementById('network-canvas');
-                                                                                                                              this.ctx = this.canvas.getContext('2d');
-                                                                                                                              this.particles = [];
-                                                                                                                              this.particleCount = 50;
-                                                                                                                              this.maxDistance = 150;
-                                                                                                                              this.isActive = true;
-                                                                                                                              this.fps = 30;
-                                                                                                                              this.fpsInterval = 1000 / this.fps;
-                                                                                                                              this.then = Date.now();
-                                                                                                                              
-                                                                                                                              this.resize();
-                                                                                                                              this.init();
-                                                                                                                              this.animate();
-                                                                                                                              
-                                                                                                                              window.addEventListener('resize', () => this.resize());
-                                                                                                                              
-                                                                                                                              // Pause animation when tab not visible
-                                                                                                                              document.addEventListener('visibilitychange', () => {
-                                                                                                                                this.isActive = !document.hidden;
-                                                                                                                              });
-                                                                                                                            }
-                                                                                                                            
-                                                                                                                            resize() {
-                                                                                                                              this.canvas.width = window.innerWidth;
-                                                                                                                              this.canvas.height = window.innerHeight;
-                                                                                                                            }
-                                                                                                                            
-                                                                                                                            init() {
-                                                                                                                              this.particles = [];
-                                                                                                                              for (let i = 0; i < this.particleCount; i++) {
-                                                                                                                                this.particles.push({
-                                                                                                                                  x: Math.random() * this.canvas.width,
-                                                                                                                                  y: Math.random() * this.canvas.height,
-                                                                                                                                  vx: (Math.random() - 0.5) * 0.5,
-                                                                                                                                  vy: (Math.random() - 0.5) * 0.5,
-                                                                                                                                  radius: Math.random() * 2 + 1
-                                                                                                                                });
-                                                                                                                              }
-                                                                                                                            }
-                                                                                                                            
-                                                                                                                            animate() {
-                                                                                                                              requestAnimationFrame(() => this.animate());
-                                                                                                                              
-                                                                                                                              if (!this.isActive) {
-                                                                                                                                return;
-                                                                                                                              }
-                                                                                                                              
-                                                                                                                              const now = Date.now();
-                                                                                                                              const elapsed = now - this.then;
-                                                                                                                              
-                                                                                                                              if (elapsed <= this.fpsInterval) {
-                                                                                                                                return;
-                                                                                                                              }
-                                                                                                                              
-                                                                                                                              this.then = now - (elapsed % this.fpsInterval);
-                                                                                                                              
-                                                                                                                              this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-                                                                                                                              
-                                                                                                                              this.particles.forEach(p => {
-                                                                                                                                p.x += p.vx;
-                                                                                                                                p.y += p.vy;
-                                                                                                                                
-                                                                                                                                if (p.x < 0 || p.x > this.canvas.width) p.vx *= -1;
-                                                                                                                                if (p.y < 0 || p.y > this.canvas.height) p.vy *= -1;
-                                                                                                                                
-                                                                                                                                this.ctx.fillStyle = 'rgba(102, 126, 234, 0.6)';
-                                                                                                                                this.ctx.beginPath();
-                                                                                                                                this.ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-                                                                                                                                this.ctx.fill();
-                                                                                                                              });
-                                                                                                                              
-                                                                                                                              for (let i = 0; i < this.particles.length; i++) {
-                                                                                                                                for (let j = i + 1; j < this.particles.length; j++) {
-                                                                                                                                  const dx = this.particles[i].x - this.particles[j].x;
-                                                                                                                                  const dy = this.particles[i].y - this.particles[j].y;
-                                                                                                                                  const distance = Math.sqrt(dx * dx + dy * dy);
-                                                                                                                                  
-                                                                                                                                  if (distance < this.maxDistance) {
-                                                                                                                                    const opacity = (1 - distance / this.maxDistance) * 0.3;
-                                                                                                                                    this.ctx.strokeStyle = `rgba(102, 126, 234, ${opacity})`;
-                                                                                                                                    this.ctx.lineWidth = 1;
-                                                                                                                                    this.ctx.beginPath();
-                                                                                                                                    this.ctx.moveTo(this.particles[i].x, this.particles[i].y);
-                                                                                                                                    this.ctx.lineTo(this.particles[j].x, this.particles[j].y);
-                                                                                                                                    this.ctx.stroke();
-                                                                                                                                  }
-                                                                                                                                }
-                                                                                                                              }
-                                                                                                                            }
-                                                                                                                          }
-                                                                                                                          
-                                                                                                                          // Initialize network background
-                                                                                                                          new NetworkBackground();
-                                                                                                                          
-                                                                                                                          // Rotating Statistics
-                                                                                                                          let currentStatIndex = 0;
-                                                                                                                          const statItems = document.querySelectorAll('.stat-item');
-                                                                                                                          
-                                                                                                                          function rotateStats() {
-                                                                                                                            statItems[currentStatIndex].classList.remove('active');
-                                                                                                                            currentStatIndex = (currentStatIndex + 1) % statItems.length;
-                                                                                                                            statItems[currentStatIndex].classList.add('active');
-                                                                                                                          }
-                                                                                                                          
-                                                                                                                          setInterval(rotateStats, 3000);
-                                                                                                                          
-                                                                                                                          // Theme Toggle
-                                                                                                                          function toggleTheme() {
-                                                                                                                            document.body.classList.toggle('light-theme');
-                                                                                                                            const themeBtn = document.querySelector('.theme-toggle');
-                                                                                                                            if (document.body.classList.contains('light-theme')) {
-                                                                                                                              themeBtn.textContent = '☀️ Theme';
-                                                                                                                            } else {
-                                                                                                                              themeBtn.textContent = '🌙 Theme';
-                                                                                                                            }
-                                                                                                                          }
-                                                                                                                          
-                                                                                                                          // Theme Selector
-                                                                                                                          function changeTheme(theme) {
-                                                                                                                              // Remove all theme classes
-                                                                                                                              document.body.classList.remove('theme-thunder', 'theme-destiny', 'theme-samurai', 'theme-tech', 'theme-hiphop');
-                                                                                                                              
-                                                                                                                              // Add new theme if not default
-                                                                                                                              if (theme !== 'intelligence') {
-                                                                                                                                  document.body.classList.add(`theme-${theme}`);
-                                                                                                                              }
-                                                                                                                              
-                                                                                                                              // Update active indicator
-                                                                                                                              document.querySelectorAll('.theme-option').forEach(opt => opt.classList.remove('active'));
-                                                                                                                              document.querySelector(`.theme-${theme}`).classList.add('active');
-                                                                                                                              
-                                                                                                                              // Save preference
-                                                                                                                              localStorage.setItem('preferredTheme', theme);
-                                                                                                                          }
-                                                                                                                          
-                                                                                                                          // Mobile Menu Toggle
-                                                                                                                          function toggleMobileMenu() {
-                                                                                                                            document.querySelector('.nav-links').classList.toggle('active');
-                                                                                                                            document.querySelector('.hamburger').classList.toggle('active');
-                                                                                                                          }
-                                                                                                                          
-                                                                                                                          // Load Content Based on Path Selection
-                                                                                                                          function loadContent(path) {
-                                                                                                                            const contentArea = document.getElementById('content-area');
-                                                                                                                            const container = contentArea.querySelector('.container');
-                                                                                                                            
-                                                                                                                            contentArea.style.display = 'block';
-                                                                                                                            
-                                                                                                                            if (path === 'academic') {
-                                                                                                                              container.innerHTML = `
-                                                                                                                              <h2 class="section-title">Academic Portfolio</h2>
-                                                                                                                                
-                                                                                                                                <div class="tab-container">
-                                                                                                                                  <div class="tab-nav">
-                                                                                                                                    <button class="tab-btn active" onclick="switchTab('research')">Research</button>
-                                                                                                                                      <button class="tab-btn" onclick="switchTab('publications')">Publications</button>
-                                                                                                                                        <button class="tab-btn" onclick="switchTab('projects-academic')">Projects</button>
-                                                                                                                                          <button class="tab-btn" onclick="switchTab('cv')">CV</button>
-                                                                                                                                            </div>
-                                                                                                                                            
-                                                                                                                                            <div id="research" class="tab-content active">
-                                                                                                                                              <h3 style="color: #667eea; margin-bottom: 1.5rem;">Research Interests</h3>
-                                                                                                                                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 2rem;">
-                                                                                                                                                  <div>
-                                                                                                                                                  <h4 style="color: #e2e8f0; margin-bottom: 1rem;">Methodological</h4>
-                                                                                                                                                  <ul style="color: #a0aec0; line-height: 2;">
-                                                                                                                                                      <li>Spatial Econometrics & GIS Integration</li>
-                                                                                                                                                      <li>Causal Inference (DiD, RDD, IV)</li>
-                                                                                                                                                      <li>Network Science & Graph Theory</li>
-                                                                                                                                                      <li>Machine Learning for Social Science</li>
-                                                                                                                                                      <li>Geospatial Analysis & Hotspot Detection</li>
-                                                                                                                                                      <li>Time-Series & Panel Data Methods</li>
-                                                                                                                                                      <li>Natural Language Processing</li>
-                                                                                                                                                      <li>Agent-Based Modeling</li>
-                                                                                                                                                  </ul>
-                                                                                                                                                      </div>
-                                                                                                                                                      <div>
-                                                                                                                                                      <h4 style="color: #e2e8f0; margin-bottom: 1rem;">Substantive</h4>
-                                                                                                                                                        <ul style="color: #a0aec0; line-height: 2;">
-                                                                                                                                                          <li>Urban & Regional Economics</li>
-                                                                                                                                                          <li>Agricultural & Food Systems</li>
-                                                                                                                                                          <li>Environmental Justice & Equity</li>
-                                                                                                                                                          <li>Economic Geography & Spatial Development</li>
-                                                                                                                                                          <li>Defense & Intelligence Economics</li>
-                                                                                                                                                          <li>Network Effects & Social Capital</li>
-                                                                                                                                                          <li>Development Economics</li>
-                                                                                                                                                        </ul>
-                                                                                                                                                          </div>
-                                                                                                                                                          </div>
-                                                                                                                                                          
-                                                                                                                                                          <h3 style="color: #667eea; margin-bottom: 1.5rem;">Research Experience</h3>
-                                                                                                                                                            <div class="project-card" style="margin-bottom: 1.5rem;">
-                                                                                                                                                              <div class="project-info">
-                                                                                                                                                                <h3 class="project-title">Research Operations Analyst</h3>
-                                                                                                                                                                  <p style="color: #a0aec0; margin-bottom: 1rem;">Joint Warfare Analysis Center (JWAC), DoD | June 2022 – March 2023</p>
-                                                                                                                                                                    <p class="project-description">
-                                                                                                                                                                      Conducted advanced quantitative research combining econometrics, machine learning, and network analysis in classified environment. 
-                                                                                                                                                                    Collaborated with MIT Lincoln Laboratory data scientists on large language models for entity extraction. 
-                                                                                                                                                                    Applied spatial econometric methods using ArcGIS Pro and developed predictive models integrating multi-source data.
-                                                                                                                                                                    </p>
-                                                                                                                                                                      <div class="tech-tags">
-                                                                                                                                                                      <span class="tech-tag">Python</span>
-                                                                                                                                                                      <span class="tech-tag">R</span>
-                                                                                                                                                                      <span class="tech-tag">ArcGIS</span>
-                                                                                                                                                                      <span class="tech-tag">Machine Learning</span>
-                                                                                                                                                                      <span class="tech-tag">Network Analysis</span>
-                                                                                                                                                                      </div>
-                                                                                                                                                                      </div>
-                                                                                                                                                                      </div>
-                                                                                                                                                                      </div>
-                                                                                                                                                                      
-                                                                                                                                                                      <div id="publications" class="tab-content">
-                                                                                                                                                                      <h3 style="color: #667eea; margin-bottom: 1.5rem;">Peer-Reviewed & Conference Presentations</h3>
-                                                                                                                                                                      
-                                                                                                                                                                      <div class="project-card" style="margin-bottom: 1.5rem;">
-                                                                                                                                                                      <div class="project-info">
-                                                                                                                                                                      <h3 class="project-title">"Economic Changes & Small Farmers: An Analysis on America's Hidden Lifeline"</h3>
-                                                                                                                                                                      <p style="color: #a0aec0; margin-bottom: 0.5rem;">2023</p>
-                                                                                                                                                                      <p class="project-description">
-                                                                                                                                                                      Quantitative analysis of economic pressures facing small-scale agricultural producers. 
-                                                                                                                                                                    Utilized panel data regression and time-series analysis. Policy recommendations for supporting agricultural economic development.
-                                                                                                                                                                    </p>
-                                                                                                                                                                      <p style="color: #667eea; font-weight: 600;">Presented to: National Economic Council, American Economic Association</p>
-                                                                                                                                                                      </div>
-                                                                                                                                                                      </div>
-                                                                                                                                                                      
-                                                                                                                                                                      <div class="project-card" style="margin-bottom: 1.5rem;">
-                                                                                                                                                                      <div class="project-info">
-                                                                                                                                                                      <h3 class="project-title">"Who Lives Near Powerplants?"</h3>
-                                                                                                                                                                      <p style="color: #a0aec0; margin-bottom: 0.5rem;">2022</p>
-                                                                                                                                                                      <p class="project-description">
-                                                                                                                                                                      Spatial econometric analysis examining demographic patterns and environmental justice. 
-                                                                                                                                                                    Applied hedonic pricing models and spatial regression techniques. 
-                                                                                                                                                                    Utilized ArcGIS for spatial data visualization and kernel density estimation.
-                                                                                                                                                                    </p>
-                                                                                                                                                                      <p style="color: #667eea; font-weight: 600;">Presented to: Federal Reserve Board</p>
-                                                                                                                                                                      <div class="project-links" style="margin-top: 1rem;">
-                                                                                                                                                                      <a href="#" class="project-link">→ Interactive Dashboard</a>
-                                                                                                                                                                      </div>
-                                                                                                                                                                      </div>
-                                                                                                                                                                      </div>
-                                                                                                                                                                      
-                                                                                                                                                                      <div class="project-card">
-                                                                                                                                                                      <div class="project-info">
-                                                                                                                                                                      <h3 class="project-title">"Economic Benefits of Urban Agriculture"</h3>
-                                                                                                                                                                      <p style="color: #a0aec0; margin-bottom: 0.5rem;">Master's Thesis, Howard University | 2022</p>
-                                    <p class="project-description">
-                                        Original research utilizing difference-in-differences and spatial econometrics. 
-                                        Analyzed property value impacts and community economic development. 
-                                        Employed GIS network analysis and spatial autocorrelation methods.
-                                    </p>
-                                    <div class="project-links" style="margin-top: 1rem;">
-                                        <a href="#" class="project-link">→ Impact Calculator</a>
-                                        <a href="#" class="project-link">→ Full Thesis</a>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <h3 style="color: #667eea; margin: 2rem 0 1.5rem;">Conference Participation</h3>
-                            <ul style="color: #a0aec0; line-height: 2;">
-                                <li>Allied Social Sciences Association Conference (ASSA) | January 2025 | San Francisco, CA</li>
-                                <li>Special Libraries Association (SLA) - Presenter | 2024 | Kingston, RI</li>
-                                <li>American Economic Association Summer Pipeline - Presenter | 2022, 2023 | Washington, DC</li>
-                                <li>Association for Public Policy Analysis & Management (APPAM) | 2022 | Washington, DC</li>
-                                <li>ESRI Federal GIS Conference (FEDGIS) | 2022 | Washington, DC</li>
-                            </ul>
-                        </div>
-                        
-                        <div id="projects-academic" class="tab-content">
-                            <h3 style="color: #667eea; margin-bottom: 1.5rem;">Research Portfolio & Code Samples</h3>
-                            <p style="color: #a0aec0; margin-bottom: 2rem;">Interactive demonstrations of methodological approaches</p>
-                            
-                            <div class="project-grid">
-                                <div class="project-card">
-                                    <img src="https://via.placeholder.com/400x250" alt="Spatial Econometrics Dashboard" class="project-image">
-                                    <div class="project-info">
-                                        <h3 class="project-title">Spatial Econometrics Dashboard</h3>
-                                        <p class="project-description">
-                                            Interactive map with regression results, Moran's I statistics, and spatial autocorrelation visualization.
-                                                                                                                                                                    </p>
-                                                                                                                                                                      <div class="tech-tags">
-                                                                                                                                                                      <span class="tech-tag">R Shiny</span>
-                                                                                                                                                                      <span class="tech-tag">sf</span>
-                                                                                                                                                                      <span class="tech-tag">spdep</span>
-                                                                                                                                                                      <span class="tech-tag">leaflet</span>
-                                                                                                                                                                      </div>
-                                                                                                                                                                      <div class="project-links">
-                                                                                                                                                                      <a href="#" class="project-link">Live Demo</a>
-                                                                                                                                                                      <a href="#" class="project-link">Code</a>
-                                                                                                                                                                      <a href="#" class="project-link">Methodology</a>
-                                                                                                                                                                      </div>
-                                                                                                                                                                      </div>
-                                                                                                                                                                      </div>
-                                                                                                                                                                      
-                                                                                                                                                                      <div class="project-card">
-                                                                                                                                                                      <img src="https://via.placeholder.com/400x250" alt="Urban Agriculture Calculator" class="project-image">
-                                                                                                                                                                      <div class="project-info">
-                                                                                                                                                                      <h3 class="project-title">Urban Agriculture Impact Calculator</h3>
-                                                                                                                                                                      <p class="project-description">
-                                                                                                                                                                      Economic impact estimator based on thesis research. Input city parameters, see predicted property value impacts.
-                                                                                                                                                                    </p>
-                                                                                                                                                                      <div class="tech-tags">
-                                                                                                                                                                      <span class="tech-tag">R Shiny</span>
-                                                                                                                                                                      <span class="tech-tag">Econometrics</span>
-                                                                                                                                                                      <span class="tech-tag">ggplot2</span>
-                                                                                                                                                                      </div>
-                                                                                                                                                                      <div class="project-links">
-                                                                                                                                                                      <a href="#" class="project-link">Live Tool</a>
-                                                                                                                                                                      <a href="#" class="project-link">Paper</a>
-                                                                                                                                                                      </div>
-                                                                                                                                                                      </div>
-                                                                                                                                                                      </div>
-                                                                                                                                                                      
-                                                                                                                                                                      <div class="project-card">
-                                                                                                                                                                      <img src="https://via.placeholder.com/400x250" alt="DiD Simulator" class="project-image">
-                                                                                                                                                                      <div class="project-info">
-                                                                                                                                                                      <h3 class="project-title">Difference-in-Differences Simulator</h3>
-                                                                                                                                                                      <p class="project-description">
-                                                                                                                                                                      Educational tool showing parallel trends assumption, treatment effects, and statistical inference.
-                                                                                                                                                                    </p>
-                                                                                                                                                                      <div class="tech-tags">
-                                                                                                                                                                      <span class="tech-tag">R</span>
-                                                                                                                                                                      <span class="tech-tag">Causal Inference</span>
-                                                                                                                                                                      <span class="tech-tag">Interactive</span>
-                                                                                                                                                                      </div>
-                                                                                                                                                                      <div class="project-links">
-                                                                                                                                                                      <a href="#" class="project-link">Try It</a>
-                                                                                                                                                                      <a href="#" class="project-link">Learn More</a>
-                                                                                                                                                                      </div>
-                                                                                                                                                                      </div>
-                                                                                                                                                                      </div>
-                                                                                                                                                                      
-                                                                                                                                                                      <div class="project-card">
-                                                                                                                                                                      <img src="https://via.placeholder.com/400x250" alt="Network Visualization" class="project-image">
-                                                                                                                                                                      <div class="project-info">
-                                                                                                                                                                      <h3 class="project-title">Network Analysis Visualizations</h3>
-                                                                                                                                                                      <p class="project-description">
-                                                                                                                                                                      Graph theory demonstrations with centrality calculations and community detection algorithms.
-                                                                                                                                                                    </p>
-                                                                                                                                                                      <div class="tech-tags">
-                                                                                                                                                                      <span class="tech-tag">Python</span>
-                                                                                                                                                                      <span class="tech-tag">NetworkX</span>
-                                                                                                                                                                      <span class="tech-tag">Plotly</span>
-                                                                                                                                                                      </div>
-                                                                                                                                                                      <div class="project-links">
-                                                                                                                                                                      <a href="#" class="project-link">Interactive Demo</a>
-                                                                                                                                                                      <a href="#" class="project-link">GitHub</a>
-                                                                                                                                                                      </div>
-                                                                                                                                                                      </div>
-                                                                                                                                                                      </div>
-                                                                                                                                                                      
-                                                                                                                                                                      <div class="project-card">
-                                                                                                                                                                      <img src="https://via.placeholder.com/400x250" alt="Report Generation" class="project-image">
-                                                                                                                                                                      <div class="project-info">
-                                                                                                                                                                      <h3 class="project-title">Automated Report Generation</h3>
-                                                                                                                                                                      <p class="project-description">
-                                                                                                                                                                      R Markdown templates for reproducible research reports with parameterized outputs.
-                                                                                                                                                                    </p>
-                                                                                                                                                                      <div class="tech-tags">
-                                                                                                                                                                      <span class="tech-tag">R Markdown</span>
-                                                                                                                                                                      <span class="tech-tag">knitr</span>
-                                                                                                                                                                      <span class="tech-tag">LaTeX</span>
-                                                                                                                                                                      </div>
-                                                                                                                                                                      <div class="project-links">
-                                                                                                                                                                      <a href="#" class="project-link">Templates</a>
-                                                                                                                                                                      <a href="#" class="project-link">Examples</a>
-                                                                                                                                                                      </div>
-                                                                                                                                                                      </div>
-                                                                                                                                                                      </div>
-                                                                                                                                                                      
-                                                                                                                                                                      <div class="project-card">
-                                                                                                                                                                      <img src="https://via.placeholder.com/400x250" alt="Literature Network" class="project-image">
-                                                                                                                                                                      <div class="project-info">
-                                                                                                                                                                      <h3 class="project-title">Literature Review Network Map</h3>
-                                                                                                                                                                      <p class="project-description">
-                                                                                                                                                                      Citation network visualization showing connections between economic research papers.
-                                                                                                                                                                    </p>
-                                                                                                                                                                      <div class="tech-tags">
-                                                                                                                                                                      <span class="tech-tag">D3.js</span>
-                                                                                                                                                                      <span class="tech-tag">Bibliometrics</span>
-                                                                                                                                                                      <span class="tech-tag">Interactive</span>
-                                                                                                                                                                      </div>
-                                                                                                                                                                      <div class="project-links">
-                                                                                                                                                                      <a href="#" class="project-link">Explore</a>
-                                                                                                                                                                      </div>
-                                                                                                                                                                      </div>
-                                                                                                                                                                      </div>
-                                                                                                                                                                      </div>
-                                                                                                                                                                      </div>
-                                                                                                                                                                      
-                                                                                                                                                                      <div id="cv" class="tab-content">
-                                                                                                                                                                      <div style="text-align: center; margin-bottom: 2rem;">
-                                                                                                                                                                      <a href="JeQa Powe cv.pdf" target="_blank" style="display: inline-block; padding: 1rem 3rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; text-decoration: none; border-radius: 8px; font-weight: 600; transition: all 0.3s ease;">
-                                                                                                                                                                      📄 Download Full Academic CV (PDF)
-                                                                                                                                                                    </a>
-                                                                                                                                                                      </div>
-                                                                                                                                                                      
-                                                                                                                                                                      <div style="background: rgba(255, 255, 255, 0.05); padding: 2rem; border-radius: 12px; border: 1px solid rgba(102, 126, 234, 0.2);">
-                                                                                                                                                                      <h3 style="color: #667eea; margin-bottom: 1.5rem;">Curriculum Vitae Summary</h3>
-                                                                                                                                                                      
-                                                                                                                                                                      <h4 style="color: #e2e8f0; margin: 1.5rem 0 1rem;">Education</h4>
-                                                                                                                                                                      <p style="color: #a0aec0; line-height: 1.8;">
-                                                                                                                                                                      <strong>M.A. Economics</strong> | Howard University | December 2022<br>
-                                                                                                                                                                      Thesis: Economic Benefits of Urban Agriculture<br><br>
-                                                                                                                                                                      <strong>Post-Graduate Coursework</strong> | UC San Diego | Spring 2025<br>
-                                                                                                                                                                      Linear Algebra, Multivariate Calculus<br><br>
-                                                                                                                                                                      <strong>B.S. Food & Resource Economics</strong> | University of Florida | December 2020<br>
-                                                                                                                                                                      Minor: International Disaster Development
-                                                                                                                                                                    </p>
-                                                                                                                                                                      
-                                                                                                                                                                      <h4 style="color: #e2e8f0; margin: 1.5rem 0 1rem;">Fellowships & Honors</h4>
-                                                                                                                                                                      <p style="color: #a0aec0; line-height: 1.8;">
-                                                                                                                                                                      <strong>Frederic Basquiat Fellowship</strong> | Mercatus Center at George Mason University | 2022-2023<br>
-                                                                                                                                                                      Competitive fellowship supporting emerging scholars in economics and public policy research
-                                                                                                                                                                    </p>
-                                                                                                                                                                      
-                                                                                                                                                                      <h4 style="color: #e2e8f0; margin: 1.5rem 0 1rem;">Professional Affiliations</h4>
-                                                                                                                                                                      <p style="color: #a0aec0; line-height: 1.8;">
-                                                                                                                                                                      American Economic Association (AEA)<br>
-                                                                                                                                                                      Graduate Economic Student Association (GESA), Howard University<br>
-                                                                                                                                                                      Howard University Economic Development & Data Analysis (HUEDDA)
-                                                                                                                                                                    </p>
-                                                                                                                                                                      </div>
-                                                                                                                                                                      </div>
-                                                                                                                                                                      </div>
-                                                                                                                                                                      `;
-                                                                                                                            } else if (path === 'professional') {
-                                                                                                                              container.innerHTML = `
-                                                                                                                              <h2 class="section-title">Professional Portfolio</h2>
-                                                                                                                                
-                                                                                                                                <div class="tab-container">
-                                                                                                                                  <div class="tab-nav">
-                                                                                                                                    <button class="tab-btn active" onclick="switchTab('overview')">Overview</button>
-                                                                                                                                      <button class="tab-btn" onclick="switchTab('projects-pro')">Projects</button>
-                                                                                                                                        <button class="tab-btn" onclick="switchTab('skills')">Skills</button>
-                                                                                                                                          <button class="tab-btn" onclick="switchTab('resume')">Resume</button>
-                                                                                                                                            </div>
-                                                                                                                                            
-                                                                                                                                            <div id="overview" class="tab-content active">
-                                                                                                                                              <div class="about-stats" style="margin-bottom: 3rem;">
-                                                                                                                                                <div class="stat-box">
-                                                                                                                                                  <div class="stat-box-number">5+</div>
-                                                                                                                                                    <div class="stat-box-label">Years Experience</div>
-                                                                                                                                                      </div>
-                                                                                                                                                      <div class="stat-box">
-                                                                                                                                                        <div class="stat-box-number">40%</div>
-                                                                                                                                                          <div class="stat-box-label">Accuracy Improvement</div>
-                                                                                                                                                            </div>
-                                                                                                                                                            <div class="stat-box">
-                                                                                                                                                              <div class="stat-box-number">$2M+</div>
-                                                                                                                                                                <div class="stat-box-label">Cost Savings ID'd</div>
-                                </div>
-                                <div class="stat-box">
-                                    <div class="stat-box-number">75%</div>
-                                    <div class="stat-box-label">Process Reduction</div>
-                                </div>
-                            </div>
-                            
-                            <h3 style="color: #667eea; margin-bottom: 1.5rem;">Core Competencies</h3>
-                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
-                                <div style="background: rgba(102, 126, 234, 0.1); padding: 1rem; border-radius: 8px; border-left: 4px solid #667eea;">
-                                    <strong style="color: #e2e8f0;">Operations Research</strong>
-                                </div>
-                                <div style="background: rgba(102, 126, 234, 0.1); padding: 1rem; border-radius: 8px; border-left: 4px solid #667eea;">
-                                    <strong style="color: #e2e8f0;">Intelligence Analysis</strong>
-                                </div>
-                                <div style="background: rgba(102, 126, 234, 0.1); padding: 1rem; border-radius: 8px; border-left: 4px solid #667eea;">
-                                    <strong style="color: #e2e8f0;">Machine Learning & AI</strong>
-                                </div>
-                                <div style="background: rgba(102, 126, 234, 0.1); padding: 1rem; border-radius: 8px; border-left: 4px solid #667eea;">
-                                    <strong style="color: #e2e8f0;">Network Analysis</strong>
-                                </div>
-                                <div style="background: rgba(102, 126, 234, 0.1); padding: 1rem; border-radius: 8px; border-left: 4px solid #667eea;">
-                                    <strong style="color: #e2e8f0;">Geospatial Intelligence</strong>
-                                </div>
-                                <div style="background: rgba(102, 126, 234, 0.1); padding: 1rem; border-radius: 8px; border-left: 4px solid #667eea;">
-                                    <strong style="color: #e2e8f0;">Cross-Domain Solutions</strong>
-                                </div>
-                            </div>
-                            
-                            <h3 style="color: #667eea; margin-bottom: 1.5rem;">Key Experience</h3>
-                            
-                            <div class="project-card" style="margin-bottom: 1.5rem;">
-                                <div class="project-info">
-                                    <h3 class="project-title">Research Operations Analyst</h3>
-                                    <p style="color: #a0aec0; margin-bottom: 1rem;">Joint Warfare Analysis Center (JWAC), DoD | June 2022 – March 2023</p>
-                                    <p class="project-description" style="margin-bottom: 1rem;">
-                                        Built machine learning systems and conducted advanced network analysis in TS/SCI environment to support operational targeting and strategic intelligence.
-                                    </p>
-                                    <ul style="color: #cbd5e0; line-height: 1.8; margin-bottom: 1rem;">
-                                        <li>Designed and deployed LLM for target network analysis, collaborating with MIT Lincoln Laboratory</li>
-                                        <li><strong style="color: #667eea;">40% improvement</strong> in network mapping accuracy through multi-modal ML pipeline</li>
-                                        <li><strong style="color: #667eea;">75% reduction</strong> in manual data transfer time via cross-domain automation</li>
-                                        <li>Created social network analysis models identifying high-value targets</li>
-                                        <li>Briefed senior DoD leadership on research findings</li>
-                                    </ul>
-                                    <div class="tech-tags">
-                                        <span class="tech-tag">Python</span>
-                                        <span class="tech-tag">ML/AI</span>
-                                        <span class="tech-tag">ArcGIS</span>
-                                        <span class="tech-tag">TS/SCI</span>
-                                        <span class="tech-tag">Power BI</span>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="project-card" style="margin-bottom: 1.5rem;">
-                                <div class="project-info">
-                                    <h3 class="project-title">Data Analyst III</h3>
-                                    <p style="color: #a0aec0; margin-bottom: 1rem;">Naval Surface Warfare Center Dahlgren Division | March 2025 – May 2025</p>
-                                    <ul style="color: #cbd5e0; line-height: 1.8;">
-                                        <li>Identified <strong style="color: #667eea;">$2M in potential cost savings</strong> through predictive maintenance modeling</li>
-                                        <li>Conducted regression analysis on fleet maintenance data</li>
-                                        <li>Applied statistical methods supporting naval research programs</li>
-                                    </ul>
-                                </div>
-                            </div>
-                            
-                            <div class="project-card">
-                                <div class="project-info">
-                                    <h3 class="project-title">Principal Consultant</h3>
-                                    <p style="color: #a0aec0; margin-bottom: 1rem;">Black Winter, LLC | January 2021 – Present</p>
-                                    <ul style="color: #cbd5e0; line-height: 1.8;">
-                                        <li>Identified <strong style="color: #667eea;">$100K+ in cost reduction opportunities</strong> for SMBs</li>
-                                        <li>Developed network analysis frameworks and economic impact studies</li>
-                                        <li>Provided strategic consulting for 20+ professionals</li>
-                                    </ul>
-                                </div>
-                            </div>
+                                                                                                                </div>
+                                                                                                                
+                                                                                                                <div class="project-card">
+                                                                                                                    <img src="https://inomics.com/sites/default/files/styles/article_full_responsive/public/pictures/picture/what-my-friends-think-i-do-economist-meme.jpeg?itok=9cIe-Ggq" alt="What economists do meme" class="project-image">
+                                                                                                                    <div class="project-info">
+                                                                                                                        <h3 class="project-title">Network Analysis Visualizations</h3>
+                                                                                                                        <p class="project-description">
+                                                                                                                            Graph theory demonstrations with centrality calculations and community detection algorithms.
+                                                                                                                        </p>
+                                                                                                                        <div class="tech-tags">
+                                                                                                                            <span class="tech-tag">Python</span>
+                                                                                                                            <span class="tech-tag">NetworkX</span>
+                                                                                                                            <span class="tech-tag">Plotly</span>
+                                                                                                                        </div>
+                                                                                                                        <div class="project-links">
+                                                                                                                            <a href="#" class="project-link">Interactive Demo</a>
+                                                                                                                            <a href="#" class="project-link">GitHub</a>
+                                                                                                                        </div>
+                                                                                                                    </div>
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                    `;
+                                                                                } else if (path === 'professional') {
+                                                                                    container.innerHTML = `
+                                                                                    <h2 class="section-title">Professional Portfolio</h2>
+                                                                                        
+                                                                                        <div class="tab-container">
+                                                                                        <div class="tab-nav">
+                                                                                            <button class="tab-btn active" onclick="switchTab('overview-pro')">Overview</button>
+                                                                                            <button class="tab-btn" onclick="switchTab('skills-exp-pro')">Skills & Experience</button>
+                                                                                            <button class="tab-btn" onclick="switchTab('timeline-pro')">Timeline</button>
+                                                                                        </div>
+                                                                                            
+                                                                                        <div id="overview-pro" class="tab-content active">
+                                                                                            <div style="text-align: center; margin-bottom: 2rem;">
+                                                                                                <a href="Analyst Resume JeQa Powe.pdf" target="_blank" style="display: inline-block; padding: 1rem 3rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; text-decoration: none; border-radius: 8px; font-weight: 600; transition: all 0.3s ease;">
+                                                                                                    📄 Download Full Resume (PDF)
+                                                                                                </a>
+                                                                                            </div>
+                                                                                            
+                                                                                            <div style="background: rgba(255, 255, 255, 0.05); padding: 2rem; border-radius: 12px; border: 1px solid rgba(102, 126, 234, 0.2);">
+                                                                                                <h3 style="color: #667eea; margin-bottom: 1.5rem;">Professional Summary</h3>
+                                                                                                <p style="color: #cbd5e0; line-height: 1.8; margin-bottom: 2rem;">
+                                                                                                    TS/SCI-cleared Quantitative Analyst with 5+ years of experience blending operations research, economics, and machine learning to solve complex intelligence problems. Proven ability to deliver actionable insights, identifying over $2M in cost savings and improving network analysis accuracy by 40%.
+                                                                                                </p>
+                                                                                                
+                                                                                                <h4 style="color: #e2e8f0; margin: 1.5rem 0 1rem;">Core Competencies</h4>
+                                                                                                <div class="tech-tags" style="margin-bottom: 2rem;">
+                                                                                                    <span class="tech-tag" style="font-size: 1rem;">Operations Research</span>
+                                                                                                    <span class="tech-tag" style="font-size: 1rem;">ML/AI</span>
+                                                                                                    <span class="tech-tag" style="font-size: 1rem;">Geospatial Intelligence</span>
+                                                                                                    <span class="tech-tag" style="font-size: 1rem;">Network Analysis</span>
+                                                                                                    <span class="tech-tag" style="font-size: 1rem;">Econometrics</span>
+                                                                                                    <span class="tech-tag" style="font-size: 1rem;">Python</span>
+                                                                                                    <span class="tech-tag" style="font-size: 1rem;">R</span>
+                                                                                                    <span class="tech-tag" style="font-size: 1rem;">ArcGIS</span>
+                                                                                                </div>
+                                                                                                
+                                                                                                <h4 style="color: #e2e8f0; margin: 1.5rem 0 1rem;">Security Clearance</h4>
+                                                                                                <p style="color: #a0aec0; line-height: 1.8;">
+                                                                                                    <strong>Top Secret / SCI</strong> (Transferable through 2027)
+                                                                                                </p>
+                                                                                                
+                                                                                                <div style="margin-top: 2rem; text-align: center;">
+                                                                                                    <a href="#content-area" data-trigger="academic" class="project-link" style="font-size: 1.1rem;" onclick="loadContent('academic'); return false;">→ View Academic Research & Projects</a>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        
+                                                                                        <div id="skills-exp-pro" class="tab-content">
+                                                                                            
+                                                                                            <div class="about-stats" style="margin-bottom: 3rem;">
+                                                                                                <div class="stat-box">
+                                                                                                    <div class="stat-box-number" id="stat-num-1">5+</div>
+                                                                                                    <div class="stat-box-label" id="stat-label-1">Years Analyst Experience</div>
+                                                                                                </div>
+                                                                                                <div class="stat-box">
+                                                                                                    <div class="stat-box-number" id="stat-num-2">$2M+</div>
+                                                                                                    <div class="stat-box-label" id="stat-label-2">Cost Savings ID'd</div>
+                                                                                                </div>
+                                                                                                <div class="stat-box">
+                                                                                                    <div class="stat-box-number" id="stat-num-3">40%</div>
+                                                                                                    <div class="stat-box-label" id="stat-label-3">Accuracy Improvement</div>
+                                                                                                </div>
+                                                                                                <div class="stat-box">
+                                                                                                    <div class="stat-box-number" id="stat-num-4">85%</div>
+                                                                                                    <div class="stat-box-label" id="stat-label-4">Global Workstation Upgrade</div>
+                                                                                                </div>
+                                                                                            </div>
 
-                            <h3 style="color: #667eea; margin: 3rem 0 1.5rem;">Career Timeline</h3>
-                            <div class="timeline-container">
-                                <div class="timeline-line"></div>
-                                
-                                <div class="timeline-item">
-                                    <div class="timeline-year">2025</div>
-                                    <div class="timeline-dot"></div>
-                                    <div class="timeline-content">
-                                        <h4 style="color: #fff; margin-bottom: 0.5rem;">Data Analyst III</h4>
-                                        <p style="color: #a0aec0;">Naval Surface Warfare Center</p>
-                                    </div>
-                                </div>
-                                
-                                <div class="timeline-item">
-                                    <div class="timeline-year">2023</div>
-                                    <div class="timeline-dot"></div>
-                                    <div class="timeline-content">
-                                        <h4 style="color: #fff; margin-bottom: 0.5rem;">Research Operations Analyst</h4>
-                                        <p style="color: #a0aec0;">JWAC, Department of Defense</p>
-                                    </div>
-                                </div>
-                                
-                                <div class="timeline-item">
-                                    <div class="timeline-year">2022</div>
-                                    <div class="timeline-dot"></div>
-                                    <div class="timeline-content">
-                                        <h4 style="color: #fff; margin-bottom: 0.5rem;">M.A. Economics</h4>
-                                        <p style="color: #a0aec0;">Howard University</p>
-                                    </div>
-                                </div>
-                                
-                                <div class="timeline-item">
-                                    <div class="timeline-year">2021</div>
-                                    <div class="timeline-dot"></div>
-                                    <div class="timeline-content">
-                                        <h4 style="color: #fff; margin-bottom: 0.5rem;">Principal Consultant</h4>
-                                        <p style="color: #a0aec0;">Black Winter, LLC (Founded)</p>
-                                    </div>
-                                </div>
-                                
-                                <div class="timeline-item">
-                                    <div class="timeline-year">2020</div>
-                                    <div class="timeline-dot"></div>
-                                    <div class="timeline-content">
-                                        <h4 style="color: #fff; margin-bottom: 0.5rem;">B.S. Food & Resource Economics</h4>
-                                        <p style="color: #a0aec0;">University of Florida</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div id="projects-pro" class="tab-content">
-                            <h3 style="color: #667eea; margin-bottom: 1.5rem;">Portfolio Highlights</h3>
-                            <p style="color: #a0aec0; margin-bottom: 2rem;">Interactive demonstrations of deployed solutions</p>
-                            
-                            <div class="project-grid">
-                                <div class="project-card" data-project="network-analysis">
-                                    <img src="https://via.placeholder.com/400x250" alt="Network Analysis Tool" class="project-image">
-                                    <div class="project-info">
-                                        <h3 class="project-title">Network Analysis Tool</h3>
-                                        <p class="project-description">
-                                            Real-time graph visualization with centrality measures and community detection. 40% accuracy improvement in operational targeting.
-                                        </p>
-                                        <div class="tech-tags">
-                                            <span class="tech-tag">Python</span>
-                                            <span class="tech-tag">NetworkX</span>
-                                            <span class="tech-tag">Plotly</span>
-                                            <span class="tech-tag">Real-time</span>
-                                        </div>
-                                        <div class="project-links">
-                                            <a href="#" class="project-link">Live Demo</a>
-                                            <a href="#" class="project-link">Case Study</a>
-                                            <a href="#" class="project-link">GitHub</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div class="project-card">
-                                    <img src="https://via.placeholder.com/400x250" alt="Geospatial Hotspot Analyzer" class="project-image">
-                                    <div class="project-info">
-                                        <h3 class="project-title">Geospatial Hotspot Analyzer</h3>
-                                        <p class="project-description">
-                                            Upload location data, visualize kernel density and clustering analysis for intelligence and operational planning.
-                                        </p>
-                                        <div class="tech-tags">
-                                            <span class="tech-tag">ArcGIS API</span>
-                                            <span class="tech-tag">Python</span>
-                                            <span class="tech-tag">Folium</span>
-                                            <span class="tech-tag">Spatial Stats</span>
-                                        </div>
-                                        <div class="project-links">
-                                            <a href="#" class="project-link">Try It</a>
-                                            <a href="#" class="project-link">Documentation</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div class="project-card">
-                                    <img src="https://via.placeholder.com/400x250" alt="Cross-Domain Pipeline" class="project-image">
-                                    <div class="project-info">
-                                        <h3 class="project-title">Cross-Domain ML Pipeline</h3>
-                                        <p class="project-description">
-                                            Simulated workflow demonstrating secure data transfer between classification levels. 75% reduction in manual processes.
-                                        </p>
-                                        <div class="tech-tags">
-                                            <span class="tech-tag">Python</span>
-                                            <span class="tech-tag">Power BI</span>
-                                            <span class="tech-tag">Automation</span>
-                                            <span class="tech-tag">Security</span>
-                                        </div>
-                                        <div class="project-links">
-                                            <a href="#" class="project-link">View Demo</a>
-                                            <a href="#" class="project-link">Methodology</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div class="project-card">
-                                    <img src="https://via.placeholder.com/400x250" alt="Predictive Maintenance" class="project-image">
-                                    <div class="project-info">
-                                        <h3 class="project-title">Predictive Maintenance Model</h3>
-                                        <p class="project-description">
-                                            Fleet analytics identifying $2M in potential cost savings through optimization of maintenance scheduling.
-                                        </p>
-                                        <div class="tech-tags">
-                                            <span class="tech-tag">Python</span>
-                                            <span class="tech-tag">scikit-learn</span>
-                                            <span class="tech-tag">Regression</span>
-                                            <span class="tech-tag">Optimization</span>
-                                        </div>
-                                        <div class="project-links">
-                                            <a href="#" class="project-link">Methodology</a>
-                                            <a href="#" class="project-link">Results</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div class="project-card">
-                                    <img src="https://via.placeholder.com/400x250" alt="Automated Reports" class="project-image">
-                                    <div class="project-info">
-                                        <h3 class="project-title">Automated Report Generation</h3>
-                                        <p class="project-description">
-                                            Template system for professional analytical reports with PDF/HTML output. Reduces report time from hours to minutes.
-                                        </p>
-                                        <div class="tech-tags">
-                                            <span class="tech-tag">R Markdown</span>
-                                            <span class="tech-tag">Python</span>
-                                            <span class="tech-tag">Automation</span>
-                                            <span class="tech-tag">Reporting</span>
-                                        </div>
-                                        <div class="project-links">
-                                            <a href="#" class="project-link">Templates</a>
-                                            <a href="#" class="project-link">Examples</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div class="project-card">
-                                    <img src="https://via.placeholder.com/400x250" alt="Data Cleaning Pipeline" class="project-image">
-                                    <div class="project-info">
-                                        <h3 class="project-title">Data Cleaning Pipeline Showcase</h3>
-                                        <p class="project-description">
-                                            Before/after transformations of messy datasets with comprehensive documentation and quality checks.
-                                        </p>
-                                        <div class="tech-tags">
-                                            <span class="tech-tag">Python</span>
-                                            <span class="tech-tag">pandas</span>
-                                            <span class="tech-tag">Quality Assurance</span>
-                                        </div>
-                                        <div class="project-links">
-                                            <a href="#" class="project-link">View Examples</a>
-                                            <a href="#" class="project-link">GitHub</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div id="skills" class="tab-content">
-                            <h3 style="color: #667eea; margin-bottom: 1.5rem;">Technical Capabilities</h3>
-                            <div style="max-width: 800px; margin: 0 auto;">
-                                <canvas id="skillsChart"></canvas>
-                            </div>
-                        </div>
-                        
-                        <div id="resume" class="tab-content">
-                            <div style="text-align: center; margin-bottom: 2rem;">
-                                <a href="Analyst Resume JeQa Powe.pdf" target="_blank" style="display: inline-block; padding: 1rem 3rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; text-decoration: none; border-radius: 8px; font-weight: 600; transition: all 0.3s ease;">
-                                    📄 Download Full Resume (PDF)
-                                </a>
-                            </div>
-                            
-                            <div style="background: rgba(255, 255, 255, 0.05); padding: 2rem; border-radius: 12px; border: 1px solid rgba(102, 126, 234, 0.2);">
-                                <h3 style="color: #667eea; margin-bottom: 1.5rem;">Professional Summary</h3>
-                                <p style="color: #cbd5e0; line-height: 1.8; margin-bottom: 2rem;">
-                                    TS/SCI-cleared Quantitative Analyst with 5+ years of experience blending operations research, economics, and machine learning to solve complex intelligence problems. Proven ability to deliver actionable insights, identifying over $2M in cost savings and improving network analysis accuracy by 40%.
-                                </p>
-                                
-                                <h4 style="color: #e2e8f0; margin: 1.5rem 0 1rem;">Core Competencies</h4>
-                                <div class="tech-tags" style="margin-bottom: 2rem;">
-                                    <span class="tech-tag" style="font-size: 1rem;">Operations Research</span>
-                                    <span class="tech-tag" style="font-size: 1rem;">ML/AI</span>
-                                    <span class="tech-tag" style="font-size: 1rem;">Geospatial Intelligence</span>
-                                    <span class="tech-tag" style="font-size: 1rem;">Network Analysis</span>
-                                    <span class="tech-tag" style="font-size: 1rem;">Econometrics</span>
-                                    <span class="tech-tag" style="font-size: 1rem;">Python</span>
-                                    <span class="tech-tag" style="font-size: 1rem;">R</span>
-                                    <span class="tech-tag" style="font-size: 1rem;">ArcGIS</span>
-                                </div>
-                                
-                                <h4 style="color: #e2e8f0; margin: 1.5rem 0 1rem;">Security Clearance</h4>
-                                <p style="color: #a0aec0; line-height: 1.8;">
-                                    <strong>Top Secret / SCI</strong> (Transferable through 2027)
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                `;
-            }
-            
-            document.getElementById('content-area').scrollIntoView({ 
-                behavior: 'smooth',
-                block: 'start'
-            });
-            
-            addModalListeners();
-            
-            setTimeout(() => {
-                if(document.getElementById('skills')) {
-                    // This function is now replaced by chart logic
-                }
-            }, 200);
-        }
-        
-        // Tab Switching Logic
-        function switchTab(tabId) {
-            document.querySelectorAll('.tab-content').forEach(content => {
-                content.classList.remove('active');
-            });
-            document.querySelectorAll('.tab-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            
-            document.getElementById(tabId).classList.add('active');
-            document.querySelector(`.tab-btn[onclick="switchTab('${tabId}')"]`).classList.add('active');
-            
-            if (tabId === 'skills') {
-                setTimeout(() => {
-                    const ctx = document.getElementById('skillsChart');
-                    if (ctx && !ctx.chart) {
-                        ctx.chart = new Chart(ctx, {
-                            type: 'radar',
-                            data: {
-                                labels: ['Python', 'R', 'SQL', 'ArcGIS', 'ML/AI', 'Network Analysis', 'Cross-Domain', 'Power BI'],
-                                datasets: [{
-                                    label: 'Proficiency Level',
-                                    data: [95, 90, 85, 95, 90, 95, 90, 85],
-                                    fill: true,
-                                    backgroundColor: 'rgba(102, 126, 234, 0.2)',
-                                    borderColor: '#667eea',
-                                    pointBackgroundColor: '#667eea',
-                                    pointBorderColor: '#fff',
-                                    pointHoverBackgroundColor: '#fff',
-                                    pointHoverBorderColor: '#667eea'
-                                }]
-                            },
-                            options: {
-                                scales: {
-                                    r: {
-                                        beginAtZero: true,
-                                        max: 100,
-                                        ticks: { color: '#a0aec0' },
-                                        grid: { color: 'rgba(102, 126, 234, 0.2)' },
-                                        pointLabels: { color: '#e2e8f0', font: { size: 14 } }
-                                    }
-                                },
-                                plugins: {
-                                    legend: { labels: { color: '#e2e8f0' } }
-                                }
-                            }
-                        });
-                    }
-                }, 300);
-            }
-            if (tabId === 'projects-pro' || tabId === 'projects-academic') {
-                addModalListeners();
-            }
-        }
-        
-        // Animate Skills
-        function animateSkills() {
-            document.querySelectorAll('.skill-progress').forEach(skill => {
-                skill.style.width = '0';
-                setTimeout(() => {
-                    skill.classList.add('animate');
-                }, 100);
-            });
-        }
-        
-        // Modal Functionality
-        function addModalListeners() {
-            document.querySelectorAll('.view-demo-btn, .project-link').forEach(btn => {
-                btn.replaceWith(btn.cloneNode(true));
-            });
-            
-            document.querySelectorAll('.view-demo-btn, .project-link').forEach(btn => {
-                btn.addEventListener('click', function(e) {
-                    if (this.textContent.includes('Live Demo') || this.classList.contains('view-demo-btn')) {
-                        e.preventDefault();
-                        const projectCard = this.closest('.project-card');
-                        if (projectCard && projectCard.dataset.project) {
-                            const project = projectCard.dataset.project;
-                            const modal = document.getElementById(`${project}-demo-modal`);
-                            if (modal) {
-                                modal.classList.add('active');
-                                document.body.style.overflow = 'hidden';
-                            }
-                        }
-                    }
-                });
-            });
-        }
-        
-        document.querySelectorAll('.close-modal').forEach(btn => {
-            btn.addEventListener('click', function() {
-                this.closest('.demo-modal').classList.remove('active');
-                document.body.style.overflow = 'auto';
-            });
-        });
-        
-        document.querySelectorAll('.demo-modal').forEach(modal => {
-            modal.addEventListener('click', function(e) {
-                if (e.target === this) {
-                    this.classList.remove('active');
-                    document.body.style.overflow = 'auto';
-                }
-            });
-        });
-        
-        addModalListeners();
-        
-        // Contact Form Handler
-        function handleContactSubmit(event) {
-            event.preventDefault();
-            const form = event.target;
-            const name = form.name.value;
-            const contact = form['contact-info'].value;
-            const reason = form.reason.value;
-            
-            let rating = "No rating";
-            if (form.rating.value) {
-                rating = `${form.rating.value} stars`;
-            }
-            const notes = form.notes.value || "No notes";
-            
-            const subject = `Portfolio Inquiry from ${name}`;
-            const body = `
-Name: ${name}
-Contact: ${contact}
-Reason: ${reason}
+                                                                                            <div class="about-text" style="max-width: 900px; margin: 0 auto 3rem auto; text-align: left;">
+                                                                                                <h3 style="color: #667eea; margin-bottom: 1rem;">Professional Profile</h3>
+                                                                                                <p>With over 10 years of combined experience in IT support, military leadership, and quantitative analysis, I bring a unique blend of technical expertise and strategic problem-solving. My background as an IT professional and veteran supporting federal environments provides a robust foundation for my analytical work.</p>
+                                                                                                <p>My core technical skills are in Python, R, SQL, and geospatial tools like ArcGIS, which I've used to build and deploy machine learning pipelines. I am focused on leveraging these skills to tackle complex challenges in intelligence and economics, with a goal of driving operational efficiency and uncovering actionable insights from complex data.</p>
+                                                                                            </div>
+                                                                                            
+                                                                                            <h3 style="color: #667eea; margin-bottom: 1.5rem;">Core Competencies</h3>
+                                                                                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
+                                                                                                <div style="background: rgba(102, 126, 234, 0.1); padding: 1rem; border-radius: 8px; border-left: 4px solid #667eea;">
+                                                                                                    <strong style="color: #e2e8f0;">Operations Research</strong>
+                                                                                                </div>
+                                                                                                <div style="background: rgba(102, 126, 234, 0.1); padding: 1rem; border-radius: 8px; border-left: 4px solid #667eea;">
+                                                                                                    <strong style="color: #e2e8f0;">Intelligence Analysis</strong>
+                                                                                                </div>
+                                                                                                <div style="background: rgba(102, 126, 234, 0.1); padding: 1rem; border-radius: 8px; border-left: 4px solid #667eea;">
+                                                                                                    <strong style="color: #e2e8f0;">Machine Learning & AI</strong>
+                                                                                                </div>
+                                                                                                <div style="background: rgba(102, 126, 234, 0.1); padding: 1rem; border-radius: 8px; border-left: 4px solid #667eea;">
+                                                                                                    <strong style="color: #e2e8f0;">Network Analysis</strong>
+                                                                                                </div>
+                                                                                                <div style="background: rgba(102, 126, 234, 0.1); padding: 1rem; border-radius: 8px; border-left: 4px solid #667eea;">
+                                                                                                    <strong style="color: #e2e8f0;">Geospatial Intelligence</strong>
+                                                                                                </div>
+                                                                                                <div style="background: rgba(102, 126, 234, 0.1); padding: 1rem; border-radius: 8px; border-left: 4px solid #667eea;">
+                                                                                                    <strong style="color: #e2e8f0;">Cross-Domain Solutions</strong>
+                                                                                                </div>
+                                                                                                <div style="background: rgba(102, 126, 234, 0.1); padding: 1rem; border-radius: 8px; border-left: 4px solid #667eea;">
+                                                                                                    <strong style="color: #e2e8f0;">IT Support & Admin</strong>
+                                                                                                </div>
+                                                                                                <div style="background: rgba(102, 126, 234, 0.1); padding: 1rem; border-radius: 8px; border-left: 4px solid #667eea;">
+                                                                                                    <strong style="color: #e2e8f0;">Team Leadership</strong>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            
+                                                                                            <h3 style="color: #667eea; margin: 3rem 0 1.5rem;">Technical Capabilities</h3>
+                                                                                            <div class="skills-grid">
+                                                                                                <div class="skill-category">
+                                                                                                    <h3>Programming & Analysis</h3>
+                                                                                                    <ul class="skill-list">
+                                                                                                        <li>✓ Python (pandas, scikit-learn, numpy)</li>
+                                                                                                        <li>✓ R (tidyverse, ggplot2, Shiny)</li>
+                                                                                                        <li>✓ SQL (complex queries, DB2, PostgreSQL)</li>
+                                                                                                        <li>✓ PowerShell scripting</li>
+                                                                                                    </ul>
+                                                                                                </div>
+                                                                                                
+                                                                                                <div class="skill-category">
+                                                                                                    <h3>Machine Learning & Geospatial</h3>
+                                                                                                    <ul class="skill-list">
+                                                                                                        <li>✓ ArcGIS (spatial analysis, ArcGIS Pro)</li>
+                                                                                                        <li>✓ LLM fine-tuning & NLP</li>
+                                                                                                        <li>✓ Network Analysis (NetworkX)</li>
+                                                                                                        <li>✓ QGIS & Spatial Statistics</li>
+                                                                                                        <li>✓ Causal Inference & Econometrics</li>
+                                                                                                    </ul>
+                                                                                                </div>
+                                                                                                
+                                                                                                <div class="skill-category">
+                                                                                                    <h3>Infrastructure & Domain</h3>
+                                                                                                    <ul class="skill-list">
+                                                                                                        <li>✓ Social network analysis</li>
+                                                                                                        <li>✓ Cross-domain automation</li>
+                                                                                                        <li>✓ Power BI / Tableau</li>
+                                                                                                        <li>✓ Operational Targeting</li>
+                                                                                                        <li>✓ IT Support & Administration</li>
+                                                                                                    </ul>
+                                                                                                </div>
+                                                                                            </div>
 
---- Feedback ---
-Rating: ${rating}
-Notes: ${notes}
-            `;
-            
-            const mailtoLink = `mailto:JeQa.Powe@outlook.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-            window.location.href = mailtoLink;
-        }
+                                                                                            <h3 style="color: #667eea; margin: 3rem 0 1.5rem;">Key Experience</h3>
+                                                                                            
+                                                                                            <div class="project-card" style="margin-bottom: 1.5rem;">
+                                                                                                <div class="project-info">
+                                                                                                    <h3 class="project-title">Research Operations Analyst</h3>
+                                                                                                    <p style="color: #a0aec0; margin-bottom: 1rem;">Joint Warfare Analysis Center (JWAC), DoD | June 2022 – March 2023</p>
+                                                                                                    <p class="project-description" style="margin-bottom: 1rem;">
+                                                                                                        Built machine learning systems and conducted advanced network analysis in TS/SCI environment to support operational targeting and strategic intelligence.
+                                                                                                    </p>
+                                                                                                    <ul style="color: #cbd5e0; line-height: 1.8; margin-bottom: 1rem;">
+                                                                                                        <li>Designed and deployed LLM for target network analysis, collaborating with MIT Lincoln Laboratory</li>
+                                                                                                        <li><strong style="color: #667eea;">40% improvement</strong> in network mapping accuracy through multi-modal ML pipeline</li>
+                                                                                                        <li><strong style="color: #667eea;">75% reduction</strong> in manual data transfer time via cross-domain automation</li>
+                                                                                                        <li>Created social network analysis models identifying high-value targets</li>
+                                                                                                        <li>Briefed senior DoD leadership on research findings</li>
+                                                                                                    </ul>
+                                                                                                    <div class="tech-tags">
+                                                                                                        <span class="tech-tag">Python</span>
+                                                                                                        <span class="tech-tag">ML/AI</span>
+                                                                                                        <span class="tech-tag">ArcGIS</span>
+                                                                                                        <span class="tech-tag">TS/SCI</span>
+                                                                                                        <span class="tech-tag">Power BI</span>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            
+                                                                                            <div class="project-card" style="margin-bottom: 1.5rem;">
+                                                                                                <div class="project-info">
+                                                                                                    <h3 class="project-title">Data Analyst III</h3>
+                                                                                                    <p style="color: #a0aec0; margin-bottom: 1rem;">Naval Surface Warfare Center Dahlgren Division | March 2025 – May 2025</p>
+                                                                                                    <ul style="color: #cbd5e0; line-height: 1.8;">
+                                                                                                        <li>Identified <strong style="color: #667eea;">$2M in potential cost savings</strong> through predictive maintenance modeling</li>
+                                                                                                        <li>Conducted regression analysis on fleet maintenance data</li>
+                                                                                                        <li>Applied statistical methods supporting naval research programs</li>
+                                                                                                    </ul>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            
+                                                                                            <div class="project-card">
+                                                                                                <div class="project-info">
+                                                                                                    <h3 class="project-title">Principal Consultant</h3>
+                                                                                                    <p style="color: #a0aec0; margin-bottom: 1rem;">Black Winter, LLC | January 2021 – Present</p>
+                                                                                                    <ul style="color: #cbd5e0; line-height: 1.8;">
+                                                                                                        <li>Identified <strong style="color: #667eea;">$100K+ in cost reduction opportunities</strong> for SMBs</li>
+                                                                                                        <li>Developed network analysis frameworks and economic impact studies</li>
+                                                                                                        <li>Provided strategic consulting for 20+ professionals</li>
+                                                                                                    </ul>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        
+                                                                                        <div id="timeline-pro" class="tab-content">
+                                                                                            <h3 style="color: #667eea; margin: 3rem 0 1.5rem;">Academic & Career Timeline</h3>
+                                                                                            <div class="timeline-container">
+                                                                                                <div class="timeline-line"></div>
+                                                                                                <div class="timeline-item"><div class="timeline-year">2011-2014</div><div class="timeline-dot"></div><div class="timeline-content school"><h4 style="color: #fff; margin-bottom: 0.5rem;">Penn State University</h4><p style="color: #a0aec0;">Student (77 Credits, Engineering/Finance)</p></div></div>
+                                                                                                <div class="timeline-item"><div class="timeline-year">2014-2015</div><div class="timeline-dot"></div><div class="timeline-content military"><h4 style="color: #fff; margin-bottom: 0.5rem;">Army National Guard (PA)</h4><p style="color: #a0aec0;">Infantryman (11B), 2/128th BSB</p></div></div>
+                                                                                                <div class="timeline-item"><div class="timeline-year">2015-2018</div><div class="timeline-dot"></div><div class="timeline-content military"><h4 style="color: #fff; margin-bottom: 0.5rem;">Army National Guard (FL)</h4><p style="color: #a0aec0;">Infantry Platoon Leader, 3/116 FA</p></div></div>
+                                                                                                <div class="timeline-item"><div class="timeline-year">2015-2017</div><div class="timeline-dot"></div><div class="timeline-content school"><h4 style="color: #fff; margin-bottom: 0.5rem;">Santa Fe College</h4><p style="color: #a0aec0;">A.A. Economics (Aug 2015 - Dec 2017)</p></div></div>
+                                                                                                <div class="timeline-item"><div class="timeline-year">2017-2020</div><div class="timeline-dot"></div><div class="timeline-content school"><h4 style="color: #fff; margin-bottom: 0.5rem;">University of Florida</h4><p style="color: #a0aec0;">B.S. Food & Resource Economics (Aug 2017 - Aug 2020)</p></div></div>
+                                                                                                <div class="timeline-item"><div class="timeline-year">2021-2022</div><div class="timeline-dot"></div><div class="timeline-content school"><h4 style="color: #fff; margin-bottom: 0.5rem;">Howard University</h4><p style="color: #a0aec0;">M.A. Economics (Aug 2021 - Dec 2022)</p></div></div>
+                                                                                                <div class="timeline-item"><div class="timeline-year">Feb 2022</div><div class="timeline-dot"></div><div class="timeline-content conference"><h4 style="color: #fff; margin-bottom: 0.5rem;">ESRI Federal GIS Conference</h4><p style="color: #a0aec0;">Participant (Feb 8-9, 2022)</p></div></div>
+                                                                                                <div class="timeline-item"><div class="timeline-year">2022</div><div class="timeline-dot"></div><div class="timeline-content conference"><h4 style="color: #fff; margin-bottom: 0.5rem;">AEA Summer Pipeline</h4><p style="color: #a0aec0;">Presenter</p></div></div>
+                                                                                                <div class="timeline-item"><div class="timeline-year">Nov 2022</div><div class="timeline-dot"></div><div class="timeline-content conference"><h4 style="color: #fff; margin-bottom: 0.5rem;">APPAM Conference</h4><p style="color: #a0aec0;">Participant (Nov 17-19, 2022)</p></div></div>
+                                                                                                <div class="timeline-item"><div class="timeline-year">2022-2023</div><div class="timeline-dot"></div><div class="timeline-content fellowship"><h4 style="color: #fff; margin-bottom: 0.5rem;">Frederic Basquiat Fellowship</h4><p style="color: #a0aec0;">Fellow, Mercatus Center at GMU</p></div></div>
+                                                                                                <div class="timeline-item"><div class="timeline-year">2023</div><div class="timeline-dot"></div><div class="timeline-content conference"><h4 style="color: #fff; margin-bottom: 0.5rem;">AEA Summer Pipeline (AEASP)</h4><p style="color: #a0aec0;">Presenter (May - Aug 2023)</p></div></div>
+                                                                                                <div class="timeline-item"><div class="timeline-year">Jul 2024</div><div class="timeline-dot"></div><div class="timeline-content conference"><h4 style="color: #fff; margin-bottom: 0.5rem;">Special Libraries Association (SLA)</h4><p style="color: #a0aec0;">Speaker (July 13-16, 2024)</p></div></div>
+                                                                                                <div class="timeline-item"><div class="timeline-year">Jan 2025</div><div class="timeline-dot"></div><div class="timeline-content conference"><h4 style="color: #fff; margin-bottom: 0.5rem;">Allied Social Sciences (ASSA)</h4><p style="color: #a0aec0;">Participant (Jan 3-5, 2025)</p></div></div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                `;
+                                                                                
+                                                                                // Start the stat rotator for professional page
+                                                                                const stats = [
+                                                                                    { num: '5+', label: 'Years Analyst Experience' },
+                                                                                    { num: '10+', label: 'Years IT Support' }
+                                                                                ];
+                                                                                const stats2 = [
+                                                                                    { num: '$2M+', label: "Cost Savings ID'd" },
+                                                                                    { num: '$100K+', label: "Opps. ID'd" }
+                                                                                ];
+                                                                                const stats3 = [
+                                                                                    { num: '40%', label: 'Accuracy Improvement' },
+                                                                                    { num: '200+', label: 'Daily Hours Saved' }
+                                                                                ];
+                                                                                const stats4 = [
+                                                                                    { num: '85%', label: 'Global Workstation Upgrade' },
+                                                                                    { num: '150+', label: 'Sites Supported' }
+                                                                                ];
+                                                                                let statIndex = 0;
 
-        // DOMContentLoaded
-        document.addEventListener('DOMContentLoaded', () => {
-            // Load saved theme
-            const savedTheme = localStorage.getItem('preferredTheme') || 'intelligence';
-            changeTheme(savedTheme);
+                                                                                function updateStatBox(numId, labelId, statArray) {
+                                                                                    const numEl = document.getElementById(numId);
+                                                                                    const lblEl = document.getElementById(labelId);
+                                                                                    if (numEl && lblEl) {
+                                                                                        numEl.classList.add('is-fading');
+                                                                                        lblEl.classList.add('is-fading');
+                                                                                        
+                                                                                        setTimeout(() => {
+                                                                                            const currentStat = statArray[statIndex % statArray.length];
+                                                                                            numEl.textContent = currentStat.num;
+                                                                                            lblEl.textContent = currentStat.label;
+                                                                                            numEl.classList.remove('is-fading');
+                                                                                            lblEl.classList.remove('is-fading');
+                                                                                        }, 300);
+                                                                                    }
+                                                                                }
 
-            // Rotating Catchphrase
-            const catchphrases = [
-                "Positivity & Purpose", "Progress over perfection", "The work is the reward", 
-                "Small steps, big impact", "Stay planted, keep growing", "Purpose fuels persistence",
-                "Gratitude unlocks clarity", "Listen more, assume less", "Questions reveal truth",
-                "Patterns tell stories", "Context changes everything", "Numbers need narratives",
-                "History informs futures", "Build don't critique", "Iterate, don't hesitate",
-                "Curiosity compounds", "Ideas need execution", "Create what you need",
-                "Make space for new thoughts", "Setbacks sharpen skills",
-                "Your story isn't over", "Rest, don't quit", "Struggle reveals strength",
-                "The mission is bigger than me"
-            ];
-            const catchphraseEl = document.getElementById('catchphrase');
-            if (catchphraseEl) {
-                const randomPhrase = catchphrases[Math.floor(Math.random() * catchphrases.length)];
-                catchphraseEl.textContent = `© 2025 JeQa Powe | ${randomPhrase}`;
-            }
-            
-            // Scroll Progress Bar
-            const progressBar = document.getElementById('scroll-progress');
-            window.addEventListener('scroll', () => {
-                const scrollTotal = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-                const scrollPercent = (window.scrollY / scrollTotal) * 100;
-                progressBar.style.height = `${scrollPercent}%`;
-            });
-            
-            // Smooth scroll for nav links
-            document.querySelectorAll('.nav-links a').forEach(link => {
-                link.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const targetId = this.getAttribute('href');
-                    const targetSection = document.querySelector(targetId);
-                    if (targetSection) {
-                        targetSection.scrollIntoView({ 
-                            behavior: 'smooth',
-                            block: 'start'
-                        });
-                        // This part for mobile menu is no longer needed with side nav
-                        // document.querySelector('.nav-links').classList.remove('active');
-                        // document.querySelector('.hamburger').classList.remove('active');
-                    }
-                });
-            });
+                                                                                professionalStatInterval = setInterval(() => {
+                                                                                    statIndex++;
+                                                                                    updateStatBox('stat-num-1', 'stat-label-1', stats);
+                                                                                    updateStatBox('stat-num-2', 'stat-label-2', stats2);
+                                                                                    updateStatBox('stat-num-3', 'stat-label-3', stats3);
+                                                                                    updateStatBox('stat-num-4', 'stat-label-4', stats4);
+                                                                                }, 3000);
+                                                                                }
+                                                                                
+                                                                                document.getElementById('content-area').scrollIntoView({ 
+                                                                                    behavior: 'smooth',
+                                                                                    block: 'start'
+                                                                                });
+                                                                                
+                                                                                addModalListeners();
+                                                                            }
+                                                                            
+                                                                            // Tab Switching Logic
+                                                                            function switchTab(tabId) {
+                                                                                document.querySelectorAll('.tab-content').forEach(content => {
+                                                                                    content.classList.remove('active');
+                                                                                });
+                                                                                document.querySelectorAll('.tab-btn').forEach(btn => {
+                                                                                    btn.classList.remove('active');
+                                                                                });
+                                                                                
+                                                                                const newTabContent = document.getElementById(tabId);
+                                                                                const newTabBtn = document.querySelector(`.tab-btn[onclick="switchTab('${tabId}')"]`);
+                                                                                
+                                                                                if(newTabContent) newTabContent.classList.add('active');
+                                                                                if(newTabBtn) newTabBtn.classList.add('active');
+                                                                                
+                                                                                if (tabId === 'skills-pro' || tabId === 'projects-pro' || tabId === 'research-projects') {
+                                                                                    addModalListeners();
+                                                                                }
+                                                                            }
+                                                                            
+                                                                            // Modal Functionality
+                                                                            function addModalListeners() {
+                                                                                document.querySelectorAll('.view-demo-btn, .project-link').forEach(btn => {
+                                                                                    btn.replaceWith(btn.cloneNode(true));
+                                                                                });
+                                                                                
+                                                                                document.querySelectorAll('.view-demo-btn, .project-link').forEach(btn => {
+                                                                                    btn.addEventListener('click', function(e) {
+                                                                                        if (this.textContent.includes('Live Demo') || this.classList.contains('view-demo-btn')) {
+                                                                                            e.preventDefault();
+                                                                                            const projectCard = this.closest('.project-card');
+                                                                                            if (projectCard && projectCard.dataset.project) {
+                                                                                                const project = projectCard.dataset.project;
+                                                                                                const modal = document.getElementById(`${project}-demo-modal`);
+                                                                                                if (modal) {
+                                                                                                    modal.classList.add('active');
+                                                                                                    document.body.style.overflow = 'hidden';
+                                                                                                }
+                                                                                            }
+                                                                                        }
+                                                                                    });
+                                                                                });
+                                                                            }
+                                                                            
+                                                                            document.querySelectorAll('.close-modal').forEach(btn => {
+                                                                                btn.addEventListener('click', function() {
+                                                                                    this.closest('.demo-modal').classList.remove('active');
+                                                                                    document.body.style.overflow = 'auto';
+                                                                                });
+                                                                            });
+                                                                            
+                                                                            document.querySelectorAll('.demo-modal').forEach(modal => {
+                                                                                modal.addEventListener('click', function(e) {
+                                                                                    if (e.target === this) {
+                                                                                        this.classList.remove('active');
+                                                                                        document.body.style.overflow = 'auto';
+                                                                                    }
+                                                                                });
+                                                                            });
+                                                                            
+                                                                            addModalListeners();
+                                                                            
+                                                                            // Contact Form Handler
+                                                                            function handleContactSubmit(event) {
+                                                                                event.preventDefault();
+                                                                                const form = event.target;
+                                                                                const name = form.name.value;
+                                                                                const contact = form['contact-info'].value;
+                                                                                const reason = form.reason.value;
+                                                                                
+                                                                                let rating = "No rating";
+                                                                                if (form.rating.value) {
+                                                                                    rating = `${form.rating.value} stars`;
+                                                                                }
+                                                                                const notes = form.notes.value || "No notes";
+                                                                                
+                                                                                const subject = `Portfolio Inquiry from ${name}`;
+                                                                                const body = `
+                                                                            Name: ${name}
+                                                                            Contact: ${contact}
+                                                                            Reason: ${reason}
 
-            // Handle Academic/Professional nav clicks
-            document.querySelectorAll('.nav-links a[data-trigger]').forEach(link => {
-                link.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const path = this.dataset.trigger;
-                    loadContent(path);
-                });
-            });
-            
-            // Back to top button visibility
-            window.addEventListener('scroll', () => {
-                const backToTop = document.querySelector('.back-to-top');
-                if (backToTop) {
-                    if (window.scrollY > 500) {
-                        backToTop.classList.add('visible');
-                    } else {
-                        backToTop.classList.remove('visible');
-                    }
-                }
-            });
+                                                                            --- Feedback ---
+                                                                            Rating: ${rating}
+                                                                            Notes: ${notes}
+                                                                                        `;
+                                                                                
+                                                                                const mailtoLink = `mailto:JeQa.Powe@outlook.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+                                                                                window.location.href = mailtoLink;
+                                                                            }
 
-            // Contact Form
-            const contactForm = document.getElementById('feedback-form');
-            if (contactForm) {
-                contactForm.addEventListener('submit', handleContactSubmit);
-            }
-            
-            // ENTP Easter Egg: Konami Code
-            let konamiCode = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
-            let konamiIndex = 0;
-            
-            document.addEventListener('keydown', (e) => {
-                if (e.key === konamiCode[konamiIndex]) {
-                    konamiIndex++;
-                    if (konamiIndex === konamiCode.length) {
-                        activateSecretMode();
-                        konamiIndex = 0;
-                    }
-                } else {
-                    konamiIndex = 0;
-                }
-            });
-            
-            function activateSecretMode() {
-                document.body.style.animation = 'rainbow 3s ease-in-out';
-                
-                if (!document.getElementById('konami-style')) {
-                    const style = document.createElement('style');
-                    style.id = 'konami-style';
-                    style.textContent = `
-                        @keyframes rainbow {
-                            0% { filter: hue-rotate(0deg); }
-                            100% { filter: hue-rotate(360deg); }
-                        }
-                    `;
-                    document.head.appendChild(style);
-                }
-                
-                const msg = document.createElement('div');
-                msg.textContent = '🎮 SECRET MODE ACTIVATED! 🎮';
-                msg.style.cssText = `
-                    position: fixed;
-                    top: 50%;
-                    left: 50%;
-                    transform: translate(-50%, -50%);
-                    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-                    color: white;
-                    padding: 2rem 4rem;
-                    border-radius: 12px;
-                    font-size: 2rem;
-                    font-weight: 700;
-                    z-index: 10000;
-                    animation: fadeInUp 0.5s ease;
-                    box-shadow: 0 20px 60px rgba(102, 126, 234, 0.8);
-                    text-align: center;
-                `;
-                document.body.appendChild(msg);
-                
-                setTimeout(() => {
-                    msg.remove();
-                    document.body.style.animation = '';
-                }, 3000);
-            }
-        });
-        
-        // Skill Animation Observer
-        const skillObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    // This function is no longer needed with chart
-                    // animateSkills(); 
-                    skillObserver.unobserve(entry.target);
-                }
-            });
-        }, { threshold: 0.2 });
-        
-        setTimeout(() => {
-            const skillsSection = document.getElementById('skills');
-            if (skillsSection) {
-                skillObserver.observe(skillsSection);
-            }
-        }, 500);
-        
-    </script>
-</body>
-</html>
-```
+                                                                            // DOMContentLoaded
+                                                                            document.addEventListener('DOMContentLoaded', () => {
+                                                                                // Load saved theme
+                                                                                const savedTheme = localStorage.getItem('preferredTheme') || 'intelligence';
+                                                                                changeTheme(savedTheme);
+
+                                                                                // Rotating Catchphrase
+                                                                                const catchphrases = [
+                                                                                    "Positivity & Purpose", "Progress over perfection", "The work is the reward", 
+                                                                                    "Small steps, big impact", "Stay planted, keep growing", "Purpose fuels persistence",
+                                                                                    "Gratitude unlocks clarity", "Listen more, assume less", "Questions reveal truth",
+                                                                                    "Patterns tell stories", "Context changes everything", "Numbers need narratives",
+                                                                                    "History informs futures", "Build don't critique", "Iterate, don't hesitate",
+                                                                                    "Curiosity compounds", "Ideas need execution", "Create what you need",
+                                                                                    "Make space for new thoughts", "Setbacks sharpen skills",
+                                                                                    "Your story isn't over", "Rest, don't quit", "Struggle reveals strength",
+                                                                                    "The mission is bigger than me"
+                                                                                ];
+                                                                                const catchphraseEl = document.getElementById('catchphrase');
+                                                                                if (catchphraseEl) {
+                                                                                    const randomPhrase = catchphrases[Math.floor(Math.random() * catchphrases.length)];
+                                                                                    catchphraseEl.textContent = `© 2025 JeQa Powe | ${randomPhrase}`;
+                                                                                }
+                                                                                
+                                                                                // Scroll Progress Bar
+                                                                                const progressBar = document.getElementById('scroll-progress');
+                                                                                window.addEventListener('scroll', () => {
+                                                                                    const scrollTotal = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                                                                                    const scrollPercent = (window.scrollY / scrollTotal) * 100;
+                                                                                    progressBar.style.height = `${scrollPercent}%`;
+                                                                                });
+                                                                                
+                                                                                // Smooth scroll for nav links
+                                                                                document.querySelectorAll('.nav-links a').forEach(link => {
+                                                                                    link.addEventListener('click', function(e) {
+                                                                                        if (this.dataset.trigger) return; // Handled by Academic/Pro click
+                                                                                        
+                                                                                        e.preventDefault();
+                                                                                        const targetId = this.getAttribute('href');
+                                                                                        const targetSection = document.querySelector(targetId);
+                                                                                        if (targetSection) {
+                                                                                            targetSection.scrollIntoView({ 
+                                                                                                behavior: 'smooth',
+                                                                                                block: 'start'
+                                                                                            });
+                                                                                        }
+                                                                                    });
+                                                                                });
+
+                                                                                // Handle Academic/Professional nav clicks
+                                                                                document.querySelectorAll('.nav-links a[data-trigger]').forEach(link => {
+                                                                                    link.addEventListener('click', function(e) {
+                                                                                        e.preventDefault();
+                                                                                        const path = this.dataset.trigger;
+                                                                                        loadContent(path);
+                                                                                    });
+                                                                                });
+                                                                                
+                                                                                // Back to top button visibility
+                                                                                window.addEventListener('scroll', () => {
+                                                                                    const backToTop = document.querySelector('.back-to-top');
+                                                                                    if (backToTop) {
+                                                                                        if (window.scrollY > 500) {
+                                                                                            backToTop.classList.add('visible');
+                                                                                        } else {
+                                                                                            backToTop.classList.remove('visible');
+                                                                                        }
+                                                                                    }
+                                                                                });
+
+                                                                                // Contact Form
+                                                                                const contactForm = document.getElementById('feedback-form');
+                                                                                if (contactForm) {
+                                                                                    contactForm.addEventListener('submit', handleContactSubmit);
+                                                                                }
+                                                                                
+                                                                                // ENTP Easter Egg: Konami Code
+                                                                                let konamiCode = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
+                                                                                let konamiIndex = 0;
+                                                                                
+                                                                                document.addEventListener('keydown', (e) => {
+                                                                                    if (e.key === konamiCode[konamiIndex]) {
+                                                                                        konamiIndex++;
+                                                                                        if (konamiIndex === konamiCode.length) {
+                                                                                            activateSecretMode();
+                                                                                            konamiIndex = 0;
+                                                                                        }
+                                                                                    } else {
+                                                                                        konamiIndex = 0;
+                                                                                    }
+                                                                                });
+                                                                                
+                                                                                function activateSecretMode() {
+                                                                                    try {
+                                                                                        document.getElementById('secret-sound').play();
+                                                                                    } catch (e) {
+                                                                                        console.log("Audio play failed (user interaction needed)");
+                                                                                    }
+                                                                                    
+                                                                                    const msg = document.createElement('div');
+                                                                                    msg.style.cssText = `
+                                                                                        position: fixed;
+                                                                                        top: 50%;
+                                                                                        left: 50%;
+                                                                                        transform: translate(-50%, -50%);
+                                                                                        background: linear-gradient(135deg, #1a202c 0%, #0a0e27 100%);
+                                                                                        color: white;
+                                                                                        padding: 2rem 2rem;
+                                                                                        border-radius: 12px;
+                                                                                        font-size: 1.5rem;
+                                                                                        font-weight: 700;
+                                                                                        z-index: 10000;
+                                                                                        animation: fadeInUp 0.5s ease;
+                                                                                        box-shadow: 0 20px 60px rgba(102, 126, 234, 0.8);
+                                                                                        text-align: center;
+                                                                                        border: 1px solid #667eea;
+                                                                                    `;
+                                                                                    
+                                                                                    msg.innerHTML = `
+                                                                                        <h2 style="color: #667eea; margin-bottom: 1rem;">SECRET FOUND!</h2>
+                                                                                        <img src="https://inomics.com/sites/default/files/styles/article_full_responsive/public/pictures/picture/economists-on-a-date-meme.jpeg?itok=G4-n3cna" style="width: 100%; max-width: 500px; border-radius: 8px;">
+                                                                                    `;
+                                                                                    document.body.appendChild(msg);
+                                                                                    
+                                                                                    setTimeout(() => {
+                                                                                        msg.remove();
+                                                                                    }, 3500);
+                                                                                }
+                                                                            });
+                                                                            
+                                                                        </script>
+                                                                    </body>
+                                                                    </html>
