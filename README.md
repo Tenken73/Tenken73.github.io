@@ -1619,11 +1619,11 @@
                             <h3 class="project-title">Research Operations Analyst</h3>
                                 <p style="color: #a0aec0; margin-bottom: 1rem;">Joint Warfare Analysis Center (JWAC), DoD | June 2022 – March 2023</p>
                                 <p class="project-description">
-                                    Conducted advanced **quantitative analysis** and research combining **econometrics**, **machine learning**, and **network analysis** in classified environment to support **operational targeting**. Used **Food & Resource Economics** principles to structure complex analysis.
+                                    Conducted advanced quantitative analysis and research combining econometrics, machine learning, and network analysis in classified environment to support operational targeting. Used Food & Resource Economics principles to structure complex analysis.
                                     Collaborated with MIT Lincoln Laboratory data scientists on large language models for entity extraction. 
                                     Applied spatial econometric methods using ArcGIS Pro and developed predictive models integrating multi-source data.
                                     <br><br>
-                                    *Supplemented experience with **Federal Reserve data regressions** and **advanced coding practice** while attending Howard University.*
+                                    *Supplemented experience with Federal Reserve data regressions and advanced coding practice while attending Howard University.*
                                 </p>
                                 <div class="tech-tags">
                                 <span class="tech-tag">Python</span>
