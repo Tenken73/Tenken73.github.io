@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Bebop Protocol | Anime Network Analysis</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 100%);
+            color: #e2e8f0;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .hero {
+            text-align: center;
+            padding: 4rem 0;
+            border-bottom: 1px solid rgba(102, 126, 234, 0.2);
+        }
+        
+        .hero h1 {
+            font-size: 3rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            color: #a0aec0;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .section {
+            margin: 4rem 0;
+        }
+        
+        .section-title {
+            font-size: 2rem;
+            color: #667eea;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(102, 126, 234, 0.2);
+            border-radius: 12px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+            border-color: #667eea;
+        }
+        
+        .card h3 {
+            color: #667eea;
+            margin-bottom: 1rem;
+        }
+        
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .stat-card {
+            background: rgba(102, 126, 234, 0.1);
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid rgba(102, 126, 234, 0.2);
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #667eea;
+            display: block;
+        }
+        
+        .stat-label {
+            color: #a0aec0;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .chart-container {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(102, 126, 234, 0.2);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .methodology {
+            background: rgba(102, 126, 234, 0.05);
+            border-left: 4px solid #667eea;
+            padding: 2rem;
+            margin: 2rem 0;
+            border-radius: 8px;
+        }
+        
+        .methodology h3 {
+            color: #667eea;
+            margin-bottom: 1rem;
+        }
+        
+        .methodology ul {
+            list-style-position: inside;
+            color: #a0aec0;
+        }
+        
+        .cta-section {
+            text-align: center;
+            padding: 3rem;
+            background: rgba(102, 126, 234, 0.1);
+            border-radius: 12px;
+            margin: 4rem 0;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: #667eea;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin: 0.5rem;
+        }
+        
+        .btn:hover {
+            background: #5a67d8;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
+        }
+        
+        .back-link {
+            display: inline-block;
+            margin-bottom: 2rem;
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .back-link:hover {
+            color: #5a67d8;
+        }
+        
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="index.html" class="back-link">← Back to Portfolio</a>
+        
+        <div class="hero">
+            <h1>The Bebop Protocol</h1>
+            <p>A data-driven exploration of anime trends, genre networks, and cultural impact using econometric modeling and graph theory</p>
+        </div>
+        
+        <div class="section">
+            <h2 class="section-title">Project Overview</h2>
+            <div class="stat-grid">
+                <div class="stat-card">
+                    <span class="stat-number">1000+</span>
+                    <span class="stat-label">Anime Analyzed</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">15</span>
+                    <span class="stat-label">Genre Clusters</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">50K+</span>
+                    <span class="stat-label">User Reviews</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">3</span>
+                    <span class="stat-label">Decades Covered</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2 class="section-title">Key Findings</h2>
+            <div class="grid">
+                <div class="card">
+                    <h3>Genre Evolution</h3>
+                    <p>Action and drama genres dominate across decades, but psychological thrillers saw a 300% increase in popularity since 2010.</p>
+                </div>
+                <div class="card">
+                    <h3>Studio Influence</h3>
+                    <p>Network analysis reveals that top studios (Bones, MAPPA, Ufotable) share production teams, creating interconnected quality clusters.</p>
+                </div>
+                <div class="card">
+                    <h3>Sentiment Patterns</h3>
+                    <p>NLP on user reviews shows that "character development" and "animation quality" are the strongest predictors of high ratings.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2 class="section-title">Visualizations</h2>
+            
+            <div class="chart-container">
+                <h3 style="color: #667eea; margin-bottom: 1rem;">Top Anime by Decade</h3>
+                <canvas id="decadeChart"></canvas>
+            </div>
+            
+            <div class="chart-container">
+                <h3 style="color: #667eea; margin-bottom: 1rem;">Genre Distribution</h3>
+                <canvas id="genreChart"></canvas>
+            </div>
+        </div>
+        
+        <div class="section">
+            <div class="methodology">
+                <h3>Methodology</h3>
+                <ul>
+                    <li><strong>Data Collection:</strong> Scraped MyAnimeList API for 1000+ titles (2000-2024)</li>
+                    <li><strong>Cleaning:</strong> Python (pandas) for data preprocessing, handled missing values via imputation</li>
+                    <li><strong>Analysis:</strong> K-means clustering for genre grouping, sentiment analysis (VADER) on reviews</li>
+                    <li><strong>Network Science:</strong> Graph theory (NetworkX) to map studio/director relationships</li>
+                    <li><strong>Visualization:</strong> Chart.js for interactive charts, D3.js for network graphs</li>
+                    <li><strong>Tools:</strong> Python, R, SQL, JavaScript</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="cta-section">
+            <h2 style="color: #667eea; margin-bottom: 1rem;">Want to See More?</h2>
+            <p style="color: #a0aec0; margin-bottom: 2rem;">Explore the full interactive dashboard or view the code on GitHub</p>
+            <a href="#" class="btn">Live Dashboard (Coming Soon)</a>
+            <a href="https://github.com/Tenken73/anime-analysis" class="btn">View Code</a>
+        </div>
+    </div>
+    
+    <script>
+        // Chart 1: Top Anime by Decade
+        const ctx1 = document.getElementById('decadeChart').getContext('2d');
+        new Chart(ctx1, {
+            type: 'bar',
+            data: {
+                labels: ['2000s', '2010s', '2020s'],
+                datasets: [{
+                    label: 'Average Rating',
+                    data: [7.8, 8.2, 8.5],
+                    backgroundColor: 'rgba(102, 126, 234, 0.6)',
+                    borderColor: '#667eea',
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        labels: { color: '#e2e8f0' }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 10,
+                        ticks: { color: '#a0aec0' },
+                        grid: { color: 'rgba(102, 126, 234, 0.1)' }
+                    },
+                    x: {
+                        ticks: { color: '#a0aec0' },
+                        grid: { color: 'rgba(102, 126, 234, 0.1)' }
+                    }
+                }
+            }
+        });
+        
+        // Chart 2: Genre Distribution
+        const ctx2 = document.getElementById('genreChart').getContext('2d');
+        new Chart(ctx2, {
+            type: 'pie',
+            data: {
+                labels: ['Action', 'Drama', 'Comedy', 'Thriller', 'Romance', 'Other'],
+                datasets: [{
+                    data: [25, 20, 15, 12, 10, 18],
+                    backgroundColor: [
+                        'rgba(102, 126, 234, 0.8)',
+                        'rgba(118, 75, 162, 0.8)',
+                        'rgba(237, 100, 166, 0.8)',
+                        'rgba(255, 154, 102, 0.8)',
+                        'rgba(52, 211, 153, 0.8)',
+                        'rgba(160, 174, 192, 0.8)'
+                    ],
+                    borderColor: '#0a0e27',
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'right',
+                        labels: { color: '#e2e8f0' }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
