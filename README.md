@@ -4,7 +4,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JeQa Powe | Quantitative Analyst</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
+        /* CSS Variables */
+        :root {
+            --accent-1: #667eea;
+            --accent-2: #764ba2;
+            --nav-bg: rgba(10, 14, 39, 0.95);
+        }
+
         /* General Styles */
         * {
             margin: 0;
@@ -19,6 +27,7 @@
             line-height: 1.6;
             overflow-x: hidden;
             transition: background 1s ease, color 1s ease;
+            cursor: auto; /* Default, overridden by JS */
         }
         
         /* Scroll Progress Bar */
@@ -28,7 +37,7 @@
             left: 0;
             width: 5px;
             height: 0%;
-            background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(180deg, var(--accent-1) 0%, var(--accent-2) 100%);
             z-index: 1001;
             transition: height 0.1s ease-out;
         }
@@ -53,14 +62,14 @@
             padding: 0 2rem;
         }
         
-        /* Navigation (Left Sidebar on Desktop, Bottom Bar on Mobile) */
+        /* Navigation (Left Sidebar - Fixed for Desktop & Mobile per Req #4) */
         nav {
             position: fixed;
             left: 0;
             top: 0;
             height: 100vh;
             width: 200px;
-            background: rgba(10, 14, 39, 0.95);
+            background: var(--nav-bg);
             backdrop-filter: blur(10px);
             padding: 2rem 0;
             display: flex;
@@ -68,13 +77,13 @@
             align-items: center;
             border-right: 1px solid rgba(102, 126, 234, 0.2);
             z-index: 100;
-            transition: width 0.3s ease;
+            transition: width 0.3s ease, background 0.5s ease;
         }
         
         .logo {
             font-size: 1.5rem;
             font-weight: 700;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, var(--accent-1) 0%, var(--accent-2) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -102,8 +111,8 @@
             border-radius: 8px;
             display: flex;
             align-items: center;
-            justify-content: center;
-            gap: 10px;
+            justify-content: flex-start; /* Changed for consistent alignment */
+            gap: 15px;
         }
 
         .nav-links a:hover {
@@ -124,7 +133,7 @@
         }
 
         /* Adjust content for left nav */
-        .hero, .content-section, footer {
+        .hero, .content-section, footer, #about {
             margin-left: 200px;
         }
         
@@ -134,69 +143,66 @@
             flex-direction: column; 
             align-items: center; 
             margin-top: auto;
+            margin-bottom: 2rem;
         }
         
-        @media (max-width: 768px) {
-            /* Mobile-Specific Styles */
-            
-            /* Content shifts */
-            .hero, .content-section, footer {
-                margin-left: 0;
-                padding-bottom: 80px; /* Space for bottom nav */
-            }
-            
-            /* Nav becomes fixed bottom bar */
+        /* Mobile-Specific Styles (Req #4: Keep Left Nav) */
+        @media (max-width: 968px) {
             nav {
-                width: 100%;
-                height: auto;
-                flex-direction: row;
-                justify-content: space-around;
-                bottom: 0;
-                top: auto;
-                border-right: none;
-                border-top: 1px solid rgba(102, 126, 234, 0.2);
-                padding: 0.5rem 0;
+                width: 70px; /* Narrow width for icons only */
+                padding: 1rem 0;
             }
+            
+            .logo {
+                display: none; /* Hide logo on mobile */
+            }
+            
+            .nav-text {
+                display: none; /* Hide text, show only icons */
+            }
+            
             .nav-links {
-                flex-direction: row;
-                gap: 0.5rem;
-                width: auto;
-            }
-            /* Nav links reduce size on mobile */
-            .nav-links a {
-                font-size: 0.9rem;
-                padding: 0.5rem;
-                flex-direction: column;
-            }
-            /* Show only icon on mobile, hide text label */
-            .nav-links .nav-text {
-                display: none;
-            }
-            .nav-links a {
-                width: auto; /* Auto width for bottom buttons */
+                gap: 2rem;
             }
 
-            .logo {
+            .nav-links a {
+                justify-content: center;
+                padding: 0.5rem;
+            }
+            
+            .theme-selector label {
                 display: none;
             }
-            .theme-controls-container {
-                display: none; /* Hide theme controls on mobile for space */
+            
+            .theme-selector select {
+                width: 50px;
+                padding: 0.2rem;
+                font-size: 0.8rem;
+            }
+
+            /* Adjust content margins for narrow nav */
+            .hero, .content-section, footer, #about {
+                margin-left: 70px;
+            }
+            
+            .container {
+                padding: 0 1rem;
+            }
+            
+            .hero h1 {
+                font-size: 2rem !important;
             }
         }
-        
-        .theme-toggle {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(102, 126, 234, 0.2);
-            color: #fff;
-            padding: 0.5rem 1rem;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            width: 90%;
-        }
-        
-        .theme-toggle:hover {
-            background: rgba(102, 126, 234, 0.3);
+
+        /* Ensure viewport is properly configured */
+        @media (max-width: 480px) {
+            body {
+                font-size: 14px;
+            }
+            
+            .hero h1 {
+                font-size: 1.75rem !important;
+            }
         }
         
         /* Theme Selector */
@@ -210,59 +216,8 @@
             background: rgba(10, 14, 39, 0.5);
             border-radius: 12px;
             margin-bottom: 1rem;
+            align-items: center;
         }
-        
-        .theme-option {
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            cursor: pointer;
-            border: 2px solid transparent;
-            transition: all 0.3s ease;
-        }
-        
-        .theme-option:hover {
-            transform: scale(1.1);
-            border-color: #667eea;
-        }
-        
-        .theme-option.active {
-            border-color: #48bb78;
-            box-shadow: 0 0 10px rgba(72, 187, 120, 0.5);
-        }
-        
-        /* --- THEME DEFINITIONS (Updated) --- */
-        
-        /* 1. Default (Current Blue/Purple) */
-        .theme-intelligence { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
-        /* 2. OKC Thunder */
-        .theme-thunder { background: linear-gradient(135deg, #007ac1 0%, #ef3b24 100%); }
-        /* 3. Retro Alien (Green/Black) */
-        .theme-retro { background: linear-gradient(135deg, #10b981 0%, #000000 100%); }
-        /* 4. Pittsburgh Steelers */
-        .theme-steelers { background: linear-gradient(135deg, #000000 0%, #ffb600 100%); }
-        /* 5. Lakers */
-        .theme-lakers { background: linear-gradient(135deg, #552583 0%, #fdb927 100%); }
-        /* 6. Sunny Yellow */
-        .theme-sunny { background: linear-gradient(135deg, #ffc107 0%, #ff8f00 100%); }
-
-        /* --- THEME ACTIVATION (Updated) --- */
-        
-        body.theme-thunder { background: linear-gradient(135deg, #001f3f 0%, #1a1f3a 100%); }
-        body.theme-thunder .stat-number, body.theme-thunder .nav-links a:hover { color: #007ac1; }
-        
-        body.theme-retro { background: linear-gradient(135deg, #000000 0%, #1a3a2e 100%); }
-        body.theme-retro .stat-number { color: #10b981; }
-        
-        body.theme-steelers { background: linear-gradient(135deg, #000000 0%, #1f1f1f 100%); }
-        body.theme-steelers .stat-number { color: #ffb600; }
-        
-        body.theme-lakers { background: linear-gradient(135deg, #2c164a 0%, #1c0a2d 100%); }
-        body.theme-lakers .stat-number { color: #fdb927; }
-        
-        body.theme-sunny { background: linear-gradient(135deg, #1a1a1a 0%, #2f2f2f 100%); } /* Dark base for contrast */
-        body.theme-sunny .stat-number { color: #ffc107; }
-
 
         /* Hero Section */
         .hero {
@@ -279,7 +234,7 @@
             font-size: clamp(3rem, 8vw, 5rem);
             font-weight: 800;
             margin-bottom: 1rem;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, var(--accent-1) 0%, var(--accent-2) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -316,7 +271,7 @@
         }
         
         .stat-number {
-            color: #667eea;
+            color: var(--accent-1);
             font-weight: 700;
             font-size: 1.5rem;
         }
@@ -328,7 +283,7 @@
             flex-wrap: wrap;
             justify-content: center;
             animation: fadeInUp 1s ease 0.4s both;
-            margin-bottom: 4rem; /* Added margin */
+            margin-bottom: 4rem;
         }
         
         .path-btn {
@@ -375,7 +330,7 @@
         }
         
         .path-btn.academic:hover {
-            border-color: #667eea;
+            border-color: var(--accent-1);
         }
         
         .path-btn.professional:hover {
@@ -383,7 +338,7 @@
         }
         
         /* Content Section */
-        .content-section {
+        .content-section, #about {
             min-height: 100vh;
             padding: 4rem 0;
         }
@@ -393,7 +348,7 @@
             font-weight: 700;
             text-align: center;
             margin-bottom: 3rem;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, var(--accent-1) 0%, var(--accent-2) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -432,16 +387,16 @@
             left: 0;
             width: 0;
             height: 2px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, var(--accent-1) 0%, var(--accent-2) 100%);
             transition: width 0.3s ease;
         }
         
         .tab-btn:hover {
-            color: #667eea;
+            color: var(--accent-1);
         }
         
         .tab-btn.active {
-            color: #667eea;
+            color: var(--accent-1);
         }
         
         .tab-btn.active::after {
@@ -518,7 +473,7 @@
         
         .tech-tag {
             background: rgba(102, 126, 234, 0.2);
-            color: #667eea;
+            color: var(--accent-1);
             padding: 0.25rem 0.75rem;
             border-radius: 20px;
             font-size: 0.85rem;
@@ -531,7 +486,7 @@
         }
         
         .project-link {
-            color: #667eea;
+            color: var(--accent-1);
             text-decoration: none;
             font-weight: 600;
             transition: all 0.3s ease;
@@ -564,7 +519,7 @@
         }
         
         .skill-category h3 {
-            color: #667eea;
+            color: var(--accent-1);
             margin-bottom: 1.5rem;
             font-size: 1.3rem;
         }
@@ -587,20 +542,7 @@
             gap: 3rem;
             align-items: center;
             max-width: 900px;
-            margin: 0 auto; /* Center the new about section */
-        }
-        
-        .profile-image {
-            width: 100%;
-            max-width: 400px;
-            border-radius: 12px;
-            border: 3px solid rgba(102, 126, 234, 0.3);
-            transition: all 0.3s ease;
-        }
-        
-        .profile-image:hover {
-            border-color: rgba(102, 126, 234, 0.8);
-            transform: scale(1.02);
+            margin: 0 auto;
         }
         
         .about-text {
@@ -627,13 +569,13 @@
             background: rgba(255, 255, 255, 0.05);
             border-radius: 12px;
             border: 1px solid rgba(102, 126, 234, 0.1);
-            overflow: hidden; /* For smooth transition */
+            overflow: hidden;
         }
         
         .stat-box-number {
             font-size: 2.5rem;
             font-weight: 700;
-            color: #667eea;
+            color: var(--accent-1);
             margin-bottom: 0.5rem;
             transition: opacity 0.3s ease-out, transform 0.3s ease-out;
             display: inline-block;
@@ -651,55 +593,133 @@
             transform: translateY(-10px);
         }
         
-        /* Contact Section */
+        /* Contact Section & Split Forms (M-GIMMY-007 Req #7) */
         #contact {
-            display: none; /* Hidden until clicked */
+            display: none;
         }
 
         .contact-grid {
             display: grid;
-            grid-template-columns: 0.7fr 1fr; /* Form is 30% smaller */
+            grid-template-columns: 1fr 1fr;
             gap: 3rem;
             margin-top: 2rem;
         }
-        
-        .contact-info {
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
+
+        @media (max-width: 968px) {
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
         }
         
-        .contact-item {
+        .contact-form-container {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2rem;
+            border-radius: 12px;
+            border: 1px solid rgba(102, 126, 234, 0.1);
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #a0aec0;
+            font-weight: 500;
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(102, 126, 234, 0.2);
+            border-radius: 8px;
+            color: #e2e8f0;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent-1);
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.3);
+        }
+        
+        /* Site Feedback Specifics */
+        .star-rating {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin: 1rem 0;
+        }
+        
+        .star {
+            font-size: 2.5rem;
+            cursor: pointer;
+            color: #4a5568;
+            transition: color 0.2s, transform 0.2s;
+        }
+        
+        .star:hover, .star.selected {
+            color: #fbbf24;
+            transform: scale(1.1);
+        }
+        
+        .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 0.5rem;
+        }
+        
+        .checkbox-item {
             display: flex;
             align-items: center;
-            gap: 1rem;
-            padding: 1rem;
-            background: rgba(255, 255, 255, 0.05);
+            gap: 0.5rem;
+            color: #a0aec0;
+        }
+        
+        .btn-primary {
+            padding: 0.75rem 2rem;
             border-radius: 8px;
-            transition: all 0.3s ease;
-        }
-        
-        .contact-item:hover {
-            background: rgba(102, 126, 234, 0.1);
-            transform: translateX(10px);
-        }
-        
-        .contact-icon {
-            font-size: 1.5rem;
-        }
-        
-        .contact-details a {
-            color: #667eea;
             text-decoration: none;
+            transition: all 0.3s ease;
+            background: var(--accent-1);
+            color: white;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            width: 100%;
         }
         
-        .contact-details a:hover {
-            text-decoration: underline;
+        .btn-primary:hover {
+            background: #5a67d8;
         }
         
+        /* Meme Container */
+        #feedback-meme {
+            display: none;
+            text-align: center;
+            margin-top: 1rem;
+            animation: fadeInUp 0.5s ease;
+        }
+        
+        #feedback-meme img {
+            width: 100%;
+            border-radius: 8px;
+            border: 2px solid #fbbf24;
+        }
+        
+        /* Availability Box */
         .availability-status {
             background: rgba(102, 126, 234, 0.1);
-            border: 2px solid #667eea;
+            border: 2px solid var(--accent-1);
             border-radius: 12px;
             padding: 2rem;
             margin-top: 2rem;
@@ -726,7 +746,7 @@
             color: #48bb78;
         }
         
-        /* Career Timeline */
+        /* Career Timeline (Academic) */
         .timeline-container {
             position: relative;
             padding: 2rem 0;
@@ -741,98 +761,17 @@
             top: 0;
             bottom: 0;
             width: 2px;
-            background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(180deg, var(--accent-1) 0%, var(--accent-2) 100%);
             transform: translateX(-50%);
         }
         
-        .timeline-item {
-            display: flex;
-            align-items: center;
-            margin: 2rem 0;
-            position: relative;
+        /* Node Timeline (M-039) */
+        .timeline-node {
+            transition: all 0.5s ease;
         }
         
-        .timeline-item:nth-child(odd) {
-            flex-direction: row;
-        }
-        
-        .timeline-item:nth-child(even) {
-            flex-direction: row-reverse;
-        }
-        
-        .timeline-content {
-            flex: 1;
-            background: rgba(255, 255, 255, 0.05);
-            padding: 1.5rem;
-            border-radius: 12px;
-            border: 1px solid rgba(102, 126, 234, 0.2);
-            margin: 0 2rem;
-            transition: all 0.3s ease;
-        }
-
-        /* Timeline Event Types */
-        .timeline-content.school { border-left: 4px solid #667eea; } /* Blue/Purple */
-        .timeline-content.military { border-left: 4px solid #f56565; } /* Red/Military */
-        .timeline-content.conference { border-left: 4px solid #fbbf24; } /* Yellow/Orange */
-        .timeline-content.professional { border-left: 4px solid #48bb78; } /* Green/Professional */
-        .timeline-content.fellowship { border-left: 4px solid #a0aec0; } /* Grey/Fellowship */
-
-        
-        .timeline-content:hover {
-            border-color: rgba(102, 126, 234, 0.6);
-            transform: scale(1.02);
-        }
-        
-        .timeline-dot {
-            position: absolute;
-            left: 50%;
-            width: 16px;
-            height: 16px;
-            background: #667eea;
-            border-radius: 50%;
-            transform: translateX(-50%);
-            border: 3px solid var(--dot-border-color, #0a0e27); /* Use CSS variable for dot border */
-            z-index: 2;
-        }
-
-        .timeline-dot.school { background: #667eea; }
-        .timeline-dot.military { background: #f56565; }
-        .timeline-dot.conference { background: #fbbf24; }
-        .timeline-dot.professional { background: #48bb78; }
-        .timeline-dot.fellowship { background: #a0aec0; }
-
-        
-        .timeline-year {
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-            top: -30px;
-            color: #667eea;
-            font-weight: 700;
-            font-size: 0.9rem;
-        }
-        
-        @media (max-width: 768px) {
-            .timeline-container {
-                max-width: 100%;
-            }
-
-            .timeline-line {
-                left: 20px;
-            }
-            
-            .timeline-item {
-                flex-direction: row !important;
-            }
-            
-            .timeline-dot {
-                left: 20px;
-            }
-            
-            .timeline-content {
-                margin-left: 50px;
-                margin-right: 0;
-            }
+        .node-circle {
+            background: linear-gradient(135deg, var(--accent-1), var(--accent-2)); 
         }
 
         /* Back to Top Button */
@@ -840,7 +779,7 @@
             position: fixed;
             bottom: 2rem;
             right: 2rem;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, var(--accent-1) 0%, var(--accent-2) 100%);
             color: white;
             width: 50px;
             height: 50px;
@@ -864,92 +803,6 @@
             transform: scale(1.1);
             box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
         }
-
-        @media (max-width: 768px) {
-            .back-to-top {
-                bottom: 90px; /* Adjust for bottom nav */
-            }
-        }
-        
-        /* Contact Form Styles */
-        .contact-form {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 2rem;
-            border-radius: 12px;
-            border: 1px solid rgba(102, 126, 234, 0.1);
-        }
-        
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-        
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            color: #a0aec0;
-            font-weight: 500;
-        }
-        
-        .form-group input,
-        .form-group textarea {
-            width: 100%;
-            padding: 0.75rem 1rem;
-            background: rgba(0, 0, 0, 0.2);
-            border: 1px solid rgba(102, 126, 234, 0.2);
-            border-radius: 8px;
-            color: #e2e8f0;
-            font-family: inherit;
-            font-size: 1rem;
-            transition: border-color 0.3s ease, box-shadow 0.3s ease;
-        }
-        
-        .form-group input:focus,
-        .form-group textarea:focus {
-            outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.3);
-        }
-        
-        .star-rating {
-            display: flex;
-            flex-direction: row-reverse;
-            justify-content: flex-end;
-        }
-        
-        .star-rating input[type="radio"] {
-            display: none;
-        }
-        
-        .star-rating label {
-            font-size: 2.5rem;
-            color: #a0aec0;
-            cursor: pointer;
-            transition: color 0.2s ease;
-            padding: 0 0.15rem;
-        }
-        
-        .star-rating input[type="radio"]:checked ~ label {
-            color: #667eea;
-        }
-        
-        .star-rating label:hover,
-        .star-rating label:hover ~ label {
-            color: #667eea;
-        }
-        
-        .btn-primary {
-            padding: 0.75rem 2rem;
-            border-radius: 8px;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            background: #667eea;
-            color: white;
-            font-weight: 600;
-        }
-        
-        .btn-primary:hover {
-            background: #5a67d8;
-        }
         
         /* Footer */
         footer {
@@ -972,7 +825,7 @@
         }
         
         .social-link {
-            color: #667eea;
+            color: var(--accent-1);
             font-size: 1.5rem;
             transition: all 0.3s ease;
         }
@@ -1040,17 +893,11 @@
             color: white;
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
-        
+
         /* Animations */
         @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         
         @keyframes fadeIn {
@@ -1059,68 +906,19 @@
         }
         
         @keyframes pulse {
-            0%, 100% {
-                opacity: 1;
-                transform: scale(1);
-            }
-            50% {
-                opacity: 0.5;
-                transform: scale(1.1);
-            }
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.1); }
         }
         
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            
-            .hero h1 {
-                font-size: 2.5rem;
-            }
-            
-            .path-selection {
-                flex-direction: column;
-                width: 100%;
-            }
-            
-            .path-btn {
-                width: 100%;
-            }
-            
-            .project-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .skills-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .about-content {
-                grid-template-columns: 1fr;
-            }
-            
-            .contact-grid {
-                grid-template-columns: 1fr; /* Stack on mobile */
-            }
-            
-            .tab-nav {
-                overflow-x: auto;
-                justify-content: flex-start;
-                flex-wrap: nowrap;
-            }
-            
-            .modal-content {
-                width: 95%;
-                padding: 1rem;
-            }
-            
-            .modal-content iframe {
-                height: 400px;
-            }
+        @keyframes pulse-node {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(102, 126, 234, 0.7); }
+            50% { box-shadow: 0 0 0 20px rgba(102, 126, 234, 0); }
         }
         
-        /* --- LIGHT THEME (Improved Visibility) --- */
+        /* --- LIGHT THEME --- */
         body.light-theme {
             background: linear-gradient(135deg, #f0f4f8 0%, #e2e8f0 100%);
-            color: #1a202c; /* Darker primary text */
+            color: #1a202c;
             transition: all 1s ease;
         }
         
@@ -1129,54 +927,44 @@
             border-color: rgba(102, 126, 234, 0.3);
         }
         
-        body.light-theme .nav-links a {
-            color: #2d3748; /* Darker link text */
-        }
-        
+        body.light-theme .nav-links a { color: #2d3748; }
         body.light-theme .nav-links a:hover {
-            color: #667eea;
+            color: var(--accent-1);
             background: rgba(102, 126, 234, 0.1);
         }
         
         body.light-theme .hero-subtitle,
         body.light-theme .project-description,
-        body.light-theme .about-text p, /* Target P tags for better visibility */
+        body.light-theme .about-text p,
         body.light-theme .skill-list,
-        body.light-theme .contact-details { 
-            color: #2d3748; /* Ensure body text is very visible */
+        body.light-theme .contact-details,
+        body.light-theme .node-label p,
+        body.light-theme .form-group label { 
+            color: #2d3748;
         }
         
         body.light-theme .project-card,
         body.light-theme .skill-category,
-        body.light-theme .contact-item,
-        body.light-theme .contact-form,
         body.light-theme .stat-box,
-        body.light-theme .timeline-content {
-            background: #ffffff; /* Pure white background for cards */
+        body.light-theme .contact-form-container,
+        body.light-theme .node-label {
+            background: #ffffff;
             border: 1px solid rgba(102, 126, 234, 0.2);
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
         }
 
-        body.light-theme .timeline-dot {
-            border-color: #f0f4f8;
-        }
-        
         body.light-theme .project-title,
-        body.light-theme .skill-name {
+        body.light-theme .skill-name,
+        body.light-theme .node-label strong {
             color: #1a202c;
         }
         
         body.light-theme .form-group input,
+        body.light-theme .form-group select,
         body.light-theme .form-group textarea {
-            background: #f8fafc; /* Very light gray input */
+            background: #f8fafc;
             color: #2d3748;
             border-color: rgba(102, 126, 234, 0.3);
-        }
-
-        body.light-theme .theme-toggle {
-            background: rgba(0, 0, 0, 0.05);
-            color: #2d3748;
-            border-color: rgba(0, 0, 0, 0.1);
         }
 
         body.light-theme .theme-selector {
@@ -1193,22 +981,24 @@
     <nav>
         <div class="logo">JeQa Powe</div>
         <ul class="nav-links">
-            <li><a href="#home" onclick="showHome(event)"><span class="nav-icon">🏠</span><span class="nav-text">Home</span></a></li>
-            <li><a href="#content-area" data-trigger="academic"><span class="nav-icon">🎓</span><span class="nav-text">Academic</span></a></li>
-            <li><a href="#content-area" data-trigger="professional"><span class="nav-icon">💼</span><span class="nav-text">Professional</span></a></li>
-            <li><a href="#" onclick="showContact(event)"><span class="nav-icon">📧</span><span class="nav-text">Contact</span></a></li>
+            <li><a href="#home" onclick="showHome(event)"><i class="fas fa-home nav-icon"></i><span class="nav-text">Home</span></a></li>
+            <li><a href="#content-area" data-trigger="academic"><i class="fas fa-graduation-cap nav-icon"></i><span class="nav-text">Academic</span></a></li>
+            <li><a href="#content-area" data-trigger="professional"><i class="fas fa-briefcase nav-icon"></i><span class="nav-text">Professional</span></a></li>
+            <li><a href="#about" onclick="showAbout(event)"><i class="fas fa-user nav-icon"></i><span class="nav-text">About</span></a></li>
+            <li><a href="#" onclick="showContact(event)"><i class="fas fa-crow nav-icon"></i><span class="nav-text">Contact</span></a></li>
         </ul>
         
         <div class="theme-controls-container">
             <div class="theme-selector">
-                <div class="theme-option theme-intelligence active" onclick="changeTheme('intelligence')" title="Current Colors"></div>
-                <div class="theme-option theme-thunder" onclick="changeTheme('thunder')" title="OKC Thunder"></div>
-                <div class="theme-option theme-retro" onclick="changeTheme('retro')" title="Retro Alien (Green/Black)"></div>
-                <div class="theme-option theme-steelers" onclick="changeTheme('steelers')" title="Pittsburgh Steelers"></div>
-                <div class="theme-option theme-lakers" onclick="changeTheme('lakers')" title="Lakers"></div>
-                <div class="theme-option theme-sunny" onclick="changeTheme('sunny')" title="Lighter Sunny Yellow"></div>
+                <label for="theme-dropdown" style="color: #a0aec0; margin-right: 1rem; font-weight: 600;">Theme:</label>
+                <select id="theme-dropdown" onchange="setTheme(this.value)" style="background: rgba(10, 14, 39, 0.95); border: 1px solid rgba(102, 126, 234, 0.5); border-radius: 8px; color: #e2e8f0; padding: 0.5rem 1rem; font-size: 1rem; cursor: pointer;">
+                    <option value="network">NET</option>
+                    <option value="okc-thunder">OKC</option>
+                    <option value="pittsburgh-dark">PIT</option>
+                    <option value="detroit-light">DET</option>
+                    <option value="anime-space">ANM</option>
+                </select>
             </div>
-            <button class="theme-toggle" onclick="toggleTheme()">🌙 Dark Mode</button>
         </div>
     </nav>
     
@@ -1238,7 +1028,6 @@
                     <p style="color: #cbd5e0; margin-bottom: 1rem;">
                         TS/SCI-cleared Quantitative Analyst with 5+ years of experience blending operations research, economics, and machine learning to solve complex intelligence problems. Proven ability to deliver actionable insights, identifying over $2M in cost savings and improving network analysis accuracy by 40%.
                     </p>
-                    
                 </div>
             </div>
 
@@ -1250,8 +1039,114 @@
                     <span>💼 Professional</span>
                 </button>
             </div>
+        </div>
+    </section>
 
+    <section class="content-section" id="about" style="display: none;">
+        <div class="container">
+            <div class="about-content">
+                <h2 class="section-title" style="color: var(--accent-1); margin-bottom: 2rem;">Background</h2>
+                
+                <div class="about-intro" style="font-size: 1.2rem; line-height: 1.8; color: #e2e8f0; margin-bottom: 3rem; max-width: 900px; margin: 0 auto 3rem auto;">
+                    <p style="margin-bottom: 1rem;">
+                        Growing up in the midwest, I believe the value of hard work and community service. 
+                        I enjoy reading and new experiences, basketball, and walks with my dog in down time.
+                        At Penn State Beaver, I walked onto a basketball team and was elected student government President at Penn State Beaver (CCSG). 
+                        I enjoyed my Summer as a colporteur in Wisconsin, mentoring kids at Big Bend Boys & Girls Club, and refereeing youth basketball. I've served my country and now I serve communities through research and small business.
+                    </p>
+                    <p style="margin-bottom: 1rem;">
+                        Today I use economics and data to understand why food deserts persist, why housing discrimination still shapes cities, and how we build wealth pipelines for Black communities. The work is technical, but the goal is simple: create opportunity where it's been denied. That's it.
+                    </p>
+                </div>
+                
+                <div class="quick-facts" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-bottom: 3rem; max-width: 900px; margin: 0 auto 3rem auto;">
+                    <div class="fact-card" style="background: rgba(255, 255, 255, 0.05); padding: 1.5rem; border-radius: 12px; border: 1px solid rgba(102, 126, 234, 0.2);">
+                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">🎖️</div>
+                        <h3 style="color: var(--accent-1); margin-bottom: 0.5rem;">Service</h3>
+                        <p style="color: #a0aec0;">Army National Guard, 2014-2018</p>
+                    </div>
+                    <div class="fact-card" style="background: rgba(255, 255, 255, 0.05); padding: 1.5rem; border-radius: 12px; border: 1px solid rgba(102, 126, 234, 0.2);">
+                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">🏀</div>
+                        <h3 style="color: var(--accent-1); margin-bottom: 0.5rem;">Sports</h3>
+                        <p style="color: #a0aec0;">Basketball Walk-On, Penn State Beaver</p>
+                    </div>
+                    <div class="fact-card" style="background: rgba(255, 255, 255, 0.05); padding: 1.5rem; border-radius: 12px; border: 1px solid rgba(102, 126, 234, 0.2);">
+                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">👥</div>
+                        <h3 style="color: var(--accent-1); margin-bottom: 0.5rem;">Leadership</h3>
+                        <p style="color: #a0aec0;">Penn State Student Government President</p>
+                    </div>
+                    <div class="fact-card" style="background: rgba(255, 255, 255, 0.05); padding: 1.5rem; border-radius: 12px; border: 1px solid rgba(102, 126, 234, 0.2);">
+                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">📚</div>
+                        <h3 style="color: var(--accent-1); margin-bottom: 0.5rem;">Community</h3>
+                        <p style="color: #a0aec0;">Big Bend Boys & Girls Club Mentor</p>
+                    </div>
+                </div>
             </div>
+            
+            <div class="timeline-section" style="margin: 4rem auto 0 auto; max-width: 1000px;">
+                <h3 style="color: var(--accent-1); text-align: center; margin-bottom: 3rem; font-size: 2rem;">Journey</h3>
+                
+                <div class="timeline-container" style="position: relative; max-width: 1000px; margin: 0 auto;">
+                    <svg class="timeline-path" style="position: absolute; width: 100%; height: 350px; top: 0; left: 0; z-index: 0;" viewBox="0 0 1000 350" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M 100 100 Q 250 150, 400 100 T 700 100 Q 850 150, 900 200" 
+                            stroke="var(--accent-1)" 
+                            stroke-width="3" 
+                            fill="none" 
+                            opacity="0.3"/>
+                    </svg>
+                    
+                    <div class="timeline-nodes" style="position: relative; z-index: 1;">
+                        <div class="timeline-node" style="position: absolute; left: 8%; top: 10%; text-align: center;">
+                            <div class="node-circle" style="width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; cursor: pointer; transition: transform 0.3s ease; font-size: 1.5rem;">🏙️</div>
+                            <div class="node-label" style="background: rgba(255, 255, 255, 0.05); padding: 1rem; border-radius: 8px; backdrop-filter: blur(10px); border: 1px solid rgba(102, 126, 234, 0.2); max-width: 180px;">
+                                <strong style="color: var(--accent-1); display: block; margin-bottom: 0.5rem;">Pittsburgh</strong>
+                                <p style="font-size: 0.9rem; color: #a0aec0; margin: 0;">ROTC, High School</p>
+                            </div>
+                        </div>
+                        
+                        <div class="timeline-node" style="position: absolute; left: 25%; top: 18%; text-align: center;">
+                            <div class="node-circle" style="width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; cursor: pointer; transition: transform 0.3s ease; font-size: 1.5rem;">🦁</div>
+                            <div class="node-label" style="background: rgba(255, 255, 255, 0.05); padding: 1rem; border-radius: 8px; backdrop-filter: blur(10px); border: 1px solid rgba(102, 126, 234, 0.2); max-width: 180px;">
+                                <strong style="color: var(--accent-1); display: block; margin-bottom: 0.5rem;">Penn State</strong>
+                                <p style="font-size: 0.9rem; color: #a0aec0; margin: 0;">CCSG President, Basketball</p>
+                            </div>
+                        </div>
+                        
+                        <div class="timeline-node" style="position: absolute; left: 42%; top: 10%; text-align: center;">
+                            <div class="node-circle" style="width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; cursor: pointer; transition: transform 0.3s ease; font-size: 1.5rem;">🎖️</div>
+                            <div class="node-label" style="background: rgba(255, 255, 255, 0.05); padding: 1rem; border-radius: 8px; backdrop-filter: blur(10px); border: 1px solid rgba(102, 126, 234, 0.2); max-width: 180px;">
+                                <strong style="color: var(--accent-1); display: block; margin-bottom: 0.5rem;">National Guard</strong>
+                                <p style="font-size: 0.9rem; color: #a0aec0; margin: 0;">2014-2018</p>
+                            </div>
+                        </div>
+                        
+                        <div class="timeline-node" style="position: absolute; left: 59%; top: 10%; text-align: center;">
+                            <div class="node-circle" style="width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; cursor: pointer; transition: transform 0.3s ease; font-size: 1.5rem;">🐊</div>
+                            <div class="node-label" style="background: rgba(255, 255, 255, 0.05); padding: 1rem; border-radius: 8px; backdrop-filter: blur(10px); border: 1px solid rgba(102, 126, 234, 0.2); max-width: 180px;">
+                                <strong style="color: var(--accent-1); display: block; margin-bottom: 0.5rem;">University of Florida</strong>
+                                <p style="font-size: 0.9rem; color: #a0aec0; margin: 0;">B.S. Food & Resource Economics, 2020</p>
+                            </div>
+                        </div>
+                        
+                        <div class="timeline-node" style="position: absolute; left: 76%; top: 18%; text-align: center;">
+                            <div class="node-circle" style="width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; cursor: pointer; transition: transform 0.3s ease; font-size: 1.5rem;">📚</div>
+                            <div class="node-label" style="background: rgba(255, 255, 255, 0.05); padding: 1rem; border-radius: 8px; backdrop-filter: blur(10px); border: 1px solid rgba(102, 126, 234, 0.2); max-width: 180px;">
+                                <strong style="color: var(--accent-1); display: block; margin-bottom: 0.5rem;">Community Work</strong>
+                                <p style="font-size: 0.9rem; color: #a0aec0; margin: 0;">Big Bend Boys & Girls Club Mentor</p>
+                            </div>
+                        </div>
+                        
+                        <div class="timeline-node" style="position: absolute; left: 90%; top: 26%; text-align: center;">
+                            <div class="node-circle" style="width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; cursor: pointer; transition: transform 0.3s ease; font-size: 1.5rem; animation: pulse-node 2s infinite;">🚀</div>
+                            <div class="node-label" style="background: rgba(255, 255, 255, 0.05); padding: 1rem; border-radius: 8px; backdrop-filter: blur(10px); border: 1px solid rgba(102, 126, 234, 0.2); max-width: 180px;">
+                                <strong style="color: var(--accent-1); display: block; margin-bottom: 0.5rem;">Today</strong>
+                                <p style="font-size: 0.9rem; color: #a0aec0; margin: 0;">Small Business Owner, PhD Applicant</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
     
     <section class="content-section" id="content-area" style="display: none;">
@@ -1259,119 +1154,175 @@
         </div>
     </section>
                             
-    <section class="content-section" id="contact" style="display: none;"> <div class="container">
-        <h2 class="section-title">Get In Touch</h2>
+    <section class="content-section" id="contact" style="display: none;"> 
+        <div class="container">
+            <h2 class="section-title">Get In Touch</h2>
             <div class="contact-grid">
-            <div>
-            <div class="contact-form">
-                <h3 style="color: #fff; margin-bottom: 1.5rem;">Send a Message</h3>
-                <form id="feedback-form">
-                    <div class="form-group">
-                    <label for="name">Name</label>
-                        <input type="text" id="name" name="name" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="contact-info">Email or Phone</label>
-                            <input type="text" id="contact-info" name="contact-info" required>
-                        </div>
-                        <div class="form-group">
-                        <label for="reason">Reason for Inquiry</label>
-                            <textarea id="reason" name="reason" rows="4" required></textarea>
+                
+                <div>
+                    <div class="contact-form-container">
+                        <h3 style="color: #fff; margin-bottom: 1.5rem;">Send a Message</h3>
+                        <form id="contact-form">
+                            <div class="form-group">
+                                <label for="form-name">Name *</label>
+                                <input type="text" id="form-name" name="name" required placeholder="Your Name">
                             </div>
                             
-                            <h4 style="color: #fff; margin-top: 2rem; margin-bottom: 1rem;">Site Feedback (Optional)</h4>
-                                <div class="star-rating">
-                                <input type="radio" id="5-stars" name="rating" value="5" /><label for="5-stars">☆</label>
-                                <input type="radio" id="4-stars" name="rating" value="4" /><label for="4-stars">☆</label>
-                                    <input type="radio" id="3-stars" name="rating" value="3" /><label for="3-stars">☆</label>
-                                    <input type="radio" id="2-stars" name="rating" value="2" /><label for="2-stars">☆</label>
-                                    <input type="radio" id="1-star" name="rating" value="1" /><label for="1-star">☆</label>
+                            <div class="form-group">
+                                <label for="contact-type">Contact Preference *</label>
+                                <select id="contact-type" required onchange="toggleContactFields()">
+                                    <option value="">Select contact type</option>
+                                    <option value="email">Email</option>
+                                    <option value="phone">Phone</option>
+                                </select>
+                            </div>
+                            
+                            <div id="email-fields" style="display:none;">
+                                <div class="form-group">
+                                    <label for="form-email">Email Address</label>
+                                    <input type="email" name="email" id="form-email" placeholder="you@example.com">
+                                </div>
+                                <div class="form-group">
+                                    <label for="form-inquiry">Inquiry Reason</label>
+                                    <textarea name="inquiry" id="form-inquiry" rows="4" placeholder="How can I help you?"></textarea>
+                                </div>
+                            </div>
+                            
+                            <div id="phone-fields" style="display:none;">
+                                <div class="form-group">
+                                    <label for="form-phone">Phone Number</label>
+                                    <input type="tel" name="phone" id="form-phone" placeholder="555-0199">
+                                </div>
+                                <div class="form-group">
+                                    <label for="form-reason">Reason</label>
+                                    <textarea name="reason" id="form-reason" rows="2" placeholder="Brief reason for call"></textarea>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>Best time to reach out:</label>
+                                    <div class="checkbox-group">
+                                        <label class="checkbox-item"><input type="checkbox" name="time" value="morning"> Morning</label>
+                                        <label class="checkbox-item"><input type="checkbox" name="time" value="afternoon"> Afternoon</label>
+                                        <label class="checkbox-item"><input type="checkbox" name="time" value="evening"> Evening</label>
                                     </div>
-                                    <div class="form-group" style="margin-top: 1rem;">
-                                        <label for="notes">Notes</label>
-                                        <textarea id="notes" name="notes" rows="3"></textarea>
-                                        </div>
-                                        
-                                        <button type="submit" class="btn-primary" style="width: 100%; margin-top: 1.5rem; border: none; cursor: pointer;">Submit Inquiry</button>
-                                    </form>
+                                    <div class="checkbox-group" style="margin-top: 1rem;">
+                                        <label class="checkbox-item"><input type="checkbox" name="day" value="Mon"> Mon</label>
+                                        <label class="checkbox-item"><input type="checkbox" name="day" value="Tue"> Tue</label>
+                                        <label class="checkbox-item"><input type="checkbox" name="day" value="Wed"> Wed</label>
+                                        <label class="checkbox-item"><input type="checkbox" name="day" value="Thu"> Thu</label>
+                                        <label class="checkbox-item"><input type="checkbox" name="day" value="Fri"> Fri</label>
                                     </div>
-                                    </div>
-                                    
-                                    <div>
-                                    <div class="availability-status">
-                                        <div class="status-indicator">
-                                        <span class="status-dot"></span>
-                                            <span class="status-text">OPEN TO OPPORTUNITIES</span>
-                                            </div>
-                                            <p style="color: #cbd5e0; margin-bottom: 1rem;">Currently seeking: Cleared intelligence analyst or economics research roles</p>
-                                            <p style="color: #a0aec0; font-size: 0.9rem;">📧 Response time: < 24 hours</p>
-                                                <p style="color: #a0aec0; font-size: 0.9rem;">🔒 TS/SCI: Transferable through 2027</p>
-                                                <p style="color: #a0aec0; font-size: 0.9rem;">📅 Available: Immediate</p>
-                                                    <p style="color: #a0aec0; font-size: 0.9rem; margin-top: 1rem;">Last updated: January 2025</p>
-                                                    </div>
-                                                    
-                                                    <div class="contact-info" style="margin-top: 2rem;">
-                                                        <div class="contact-item">
-                                                        <span class="contact-icon">🔗</span>
-                                                            <div class="contact-details">
-                                                            <strong>LinkedIn</strong><br>
-                                                            <a href="https://linkedin.com/in/jeqapowe" target="_blank">linkedin.com/in/jeqapowe</a>
-                                                                </div>
-                                                                </div>
-                                                                <div class="contact-item">
-                                                                    <span class="contact-icon">📍</span>
-                                                                    <div class="contact-details">
-                                                                        <strong>Location</strong><br>
-                                                                        Washington, DC Metro Area
-                                                                    </div>
-                                                                    </div>
-                                                                    </div>
-                                                                    </div>
-                                                                    </div>
-                                                                    </div>
-                                                                    </section>
+                                </div>
+                            </div>
+                            
+                            <button type="submit" class="btn-primary" style="margin-top: 1rem;">Send Message</button>
+                        </form>
+                    </div>
+
+                    <div class="availability-status">
+                        <div class="status-indicator">
+                            <span class="status-dot"></span>
+                            <span class="status-text">OPEN TO OPPORTUNITIES</span>
+                        </div>
+                        <p style="color: #cbd5e0; margin-bottom: 1rem;">Currently seeking: Cleared intelligence analyst or economics research roles</p>
+                        <p style="color: #a0aec0; font-size: 0.9rem;">🔒 TS/SCI: Transferable through 2027</p>
+                        <p style="color: #a0aec0; font-size: 0.9rem;">📅 Available: Immediate</p>
+                    </div>
+                </div>
+                
+                <div style="display: flex; flex-direction: column; justify-content: space-between;">
+                    
+                    <div class="contact-form-container" style="text-align: center; margin-bottom: 2rem;">
+                        <div style="font-size: 3rem; margin-bottom: 0.5rem;">🐇</div> <h3 style="color: #fff; margin-bottom: 1rem;">Rate this Website</h3>
+                        <p style="color: #a0aec0; font-size: 0.9rem;">Did you find the easter egg?</p>
+                        
+                        <div class="star-rating" id="star-rating">
+                            <span class="star" data-rating="1">★</span>
+                            <span class="star" data-rating="2">★</span>
+                            <span class="star" data-rating="3">★</span>
+                            <span class="star" data-rating="4">★</span>
+                            <span class="star" data-rating="5">★</span>
+                        </div>
+                        
+                        <button id="submit-rating" class="btn-primary">Submit Rating</button>
+                        
+                        <div id="feedback-meme">
+                            <h4 style="color: #fbbf24; margin: 1rem 0;">GODS I WAS STRONG THEN!</h4>
+                            <img src="https://media1.tenor.com/m/K1s-JqA_iQIAAAAd/robert-baratheon-game-of-thrones.gif" alt="Victory Meme">
+                        </div>
+                    </div>
+                    
+                    <div class="contact-info">
+                        <div class="contact-item">
+                            <span class="contact-icon"><i class="fab fa-linkedin"></i></span>
+                            <div class="contact-details">
+                                <strong>LinkedIn</strong><br>
+                                <a href="https://linkedin.com/in/jeqapowe" target="_blank">linkedin.com/in/jeqapowe</a>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <span class="contact-icon">📍</span>
+                            <div class="contact-details">
+                                <strong>Location</strong><br>
+                                Washington, DC Metro Area
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top: 2rem; border-top: 1px solid rgba(102, 126, 234, 0.2); padding-top: 1rem;">
+                        <p style="color: #a0aec0; font-size: 0.9rem;">
+                            
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
                                                                     
-                                                                    <button class="back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" aria-label="Back to top">
-                                                                        ↑
-                                                                    </button>
+    <button class="back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" aria-label="Back to top">
+        ↑
+    </button>
                                                                         
-                                                                        <div class="demo-modal" id="network-analysis-demo-modal">
-                                                                            <div class="modal-content">
-                                                                            <button class="close-modal">&times;</button>
-                                                                                <h2>Network Analysis Tool - Live Demo</h2>
-                                                                                <iframe 
-                                                                            src="https://your-demo-url.com/network-tool"
-                                                                            width="100%"
-                                                                            height="600px"
-                                                                            frameborder="0"
-                                                                            loading="lazy">
-                                                                                </iframe>
-                                                                                <div class="modal-footer">
-                                                                                <a href="https://github.com/..." class="btn-secondary">View Source Code</a>
-                                                                                <a href="/case-studies/network-analysis" class="btn-primary">Read Case Study</a>
-                                                                                </div>
-                                                                                </div>
-                                                                                </div>
+    <div class="demo-modal" id="network-analysis-demo-modal">
+        <div class="modal-content">
+            <button class="close-modal">&times;</button>
+            <h2>Network Analysis Tool - Live Demo</h2>
+            <iframe 
+                src="https://your-demo-url.com/network-tool"
+                width="100%"
+                height="600px"
+                frameborder="0"
+                loading="lazy">
+            </iframe>
+            <div class="modal-footer">
+                <a href="https://github.com/..." class="btn-secondary">View Source Code</a>
+                <a href="/case-studies/network-analysis" class="btn-primary">Read Case Study</a>
+            </div>
+        </div>
+    </div>
                                                                                 
-                                                                                <footer>
-                                                                                <div class="container">
-                                                                                <p id="catchphrase">&copy; 2025 JeQa Powe | Built with passion and precision</p>
-                                                                                <p style="color: #4a5568; font-size: 0.8rem; font-style: italic; margin-top: 0.5rem;">
-                                                                                    Hint: Try the Konami Code (↑↑↓↓←→←→BA) 🎮
-                                                                                </p>
-                                                                                <div class="social-links">
-                                                                                <a href="https://linkedin.com/in/jeqapowe" class="social-link" target="_blank">💼</a>
-                                                                                <a href="https://github.com/your-username" class="social-link" target="_blank">💻</a>
-                                                                                <a href="mailto:JeQa.Powe@outlook.com" class="social-link">📧</a>
-                                                                                </div>
-                                                                                <p style="margin-top: 1rem; font-size: 0.9rem;">Last updated: January 2025</p>
-                                                                                </div>
-                                                                                </footer>
+    <footer>
+        <div class="container">
+            <p id="catchphrase">&copy; 2025 JeQa Powe | Version <span id="version">0.8.5</span> - <span id="version-date"></span></p>
+            
+            <p id="rotating-quote" style="height: 30px; transition: opacity 0.5s ease; color: var(--accent-1); font-weight: 500;">
+                Economics is my tool. Food access is my lens.
+            </p>
+
+            <p style="color: #4a5568; font-size: 0.8rem; font-style: italic; margin-top: 0.5rem;">
+                Hint: Try the Konami Code (↑↑↓↓←→←→BA) 🎮
+            </p>
+            <div class="social-links">
+                <a href="https://www.linkedin.com/in/jeqa-powe" target="_blank" class="social-link"><i class="fab fa-linkedin"></i></a>
+                <a href="https://github.com/Tenken73/anime-analysis" class="social-link" target="_blank"><i class="fab fa-github"></i></a>
+                <a href="mailto:JeQa.Powe@outlook.com" class="social-link" style="color: var(--accent-1);"><i class="fas fa-envelope"></i></a>
+            </div>
+        </div>
+    </footer>
                                                                                 
     <script>
-        // Network Background Animation (Unchanged)
+        // Network Background Animation
         class NetworkBackground {
-            // ... (rest of the class code is unchanged)
             constructor() {
                 this.canvas = document.getElementById('network-canvas');
                 this.ctx = this.canvas.getContext('2d');
@@ -1389,7 +1340,6 @@
                 
                 window.addEventListener('resize', () => this.resize());
                 
-                // Pause animation when tab not visible
                 document.addEventListener('visibilitychange', () => {
                     this.isActive = !document.hidden;
                 });
@@ -1415,26 +1365,18 @@
             
             animate() {
                 requestAnimationFrame(() => this.animate());
-                
-                if (!this.isActive) {
-                    return;
-                }
+                if (!this.isActive) return;
                 
                 const now = Date.now();
                 const elapsed = now - this.then;
-                
-                if (elapsed <= this.fpsInterval) {
-                    return;
-                }
+                if (elapsed <= this.fpsInterval) return;
                 
                 this.then = now - (elapsed % this.fpsInterval);
-                
                 this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
                 
                 this.particles.forEach(p => {
                     p.x += p.vx;
                     p.y += p.vy;
-                    
                     if (p.x < 0 || p.x > this.canvas.width) p.vx *= -1;
                     if (p.y < 0 || p.y > this.canvas.height) p.vy *= -1;
                     
@@ -1463,105 +1405,139 @@
                 }
             }
         }
-        
-        // Initialize network background
         new NetworkBackground();
         
-        // Rotating Statistics (Unchanged)
+        // Rotating Statistics
         let currentStatIndex = 0;
         const statItems = document.querySelectorAll('.stat-item');
-        
         function rotateStats() {
             statItems[currentStatIndex].classList.remove('active');
             currentStatIndex = (currentStatIndex + 1) % statItems.length;
             statItems[currentStatIndex].classList.add('active');
         }
-        
         setInterval(rotateStats, 3000);
         
-        // Theme Toggle (Unchanged)
-        function toggleTheme() {
-            document.body.classList.toggle('light-theme');
-            const themeBtn = document.querySelector('.theme-toggle');
-            if (document.body.classList.contains('light-theme')) {
-                themeBtn.textContent = '☀️ Light Mode';
-            } else {
-                themeBtn.textContent = '🌙 Dark Mode';
-            }
+        // Theme System Logic (Req #1: Cursors, Req #4: Nav BG)
+        function setTheme(theme) {
+            const body = document.body;
+            localStorage.setItem('selectedTheme', theme);
+            
+            const themes = {
+                network: {
+                    bg1: '#0a0e27', bg2: '#1a1f3a', accent1: '#667eea', accent2: '#764ba2', navBg: 'rgba(10, 14, 39, 0.95)',
+                    cursor: "url('data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" style=\"font-size:20px\"><text y=\"20\">🌐</text></svg>'), auto"
+                },
+                'okc-thunder': {
+                    bg1: '#002D62', bg2: '#003D82', accent1: '#007AC1', accent2: '#EF3B24', navBg: 'rgba(0, 45, 98, 0.95)',
+                    cursor: "url('data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" style=\"font-size:20px\"><text y=\"20\">⚡</text></svg>'), auto"
+                },
+                'pittsburgh-dark': {
+                    bg1: '#000000', bg2: '#1A1A1A', accent1: '#FFB81C', accent2: '#A5ACAF', navBg: 'rgba(0, 0, 0, 0.95)',
+                    cursor: "url('data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" style=\"font-size:20px\"><text y=\"20\">🔩</text></svg>'), auto"
+                },
+                'detroit-light': {
+                    bg1: '#0076B6', bg2: '#2A8FBD', accent1: '#B0B7BC', accent2: '#0076B6', navBg: 'rgba(0, 118, 182, 0.95)',
+                    cursor: "url('data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" style=\"font-size:20px\"><text y=\"20\">🚘</text></svg>'), auto"
+                },
+                'anime-space': {
+                    bg1: '#2D1B4E', bg2: '#3E2A5E', accent1: '#00D9FF', accent2: '#FF6B35', navBg: 'rgba(45, 27, 78, 0.95)',
+                    cursor: "url('data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" style=\"font-size:20px\"><text y=\"20\">🚀</text></svg>'), auto"
+                }
+            };
+            
+            const selected = themes[theme];
+            body.style.background = `linear-gradient(135deg, ${selected.bg1} 0%, ${selected.bg2} 100%)`;
+            body.style.cursor = selected.cursor;
+            
+            document.documentElement.style.setProperty('--accent-1', selected.accent1);
+            document.documentElement.style.setProperty('--accent-2', selected.accent2);
+            document.documentElement.style.setProperty('--nav-bg', selected.navBg);
+
+            document.querySelectorAll('.node-circle').forEach(circle => {
+                circle.style.background = `linear-gradient(135deg, ${selected.accent1}, ${selected.accent2})`;
+            });
+
+            document.getElementById('scroll-progress').style.background = `linear-gradient(180deg, ${selected.accent1} 0%, ${selected.accent2} 100%)`;
         }
         
-        // Theme Selector (Updated Theme Names/Colors)
-        function changeTheme(theme) {
-            // Remove all theme classes
-            document.body.classList.remove('theme-thunder', 'theme-retro', 'theme-steelers', 'theme-lakers', 'theme-sunny');
-            
-            // Add new theme if not default ('intelligence')
-            if (theme !== 'intelligence') {
-                document.body.classList.add(`theme-${theme}`);
-            }
-            
-            // Update active indicator
-            document.querySelectorAll('.theme-option').forEach(opt => opt.classList.remove('active'));
-            document.querySelector(`.theme-${theme}`).classList.add('active');
-            
-            // Save preference
-            localStorage.setItem('preferredTheme', theme);
-        }
-        
-        // Global var for stat rotator
         let professionalStatInterval;
         
-        // Custom function to show Home Section (Updated to ensure content re-displays)
         function showHome(event) {
             event.preventDefault();
-            // Hide content and contact
             document.getElementById('content-area').style.display = 'none';
             document.getElementById('contact').style.display = 'none';
-            // Show home
+            document.getElementById('about').style.display = 'none';
             document.getElementById('home').style.display = 'flex';
-            
-            // Scroll to top of home
-            document.getElementById('home').scrollIntoView({ 
-                behavior: 'smooth',
-                block: 'start'
-            });
+            document.getElementById('home').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function showAbout(event) {
+            event.preventDefault();
+            document.getElementById('content-area').style.display = 'none';
+            document.getElementById('contact').style.display = 'none';
+            document.getElementById('home').style.display = 'none';
+            const aboutSection = document.getElementById('about');
+            aboutSection.style.display = 'block';
+            aboutSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
         
-        // Custom function to show Contact Section
         function showContact(event) {
             event.preventDefault();
-            
-            // Hide all other sections
             document.getElementById('content-area').style.display = 'none';
             document.getElementById('home').style.display = 'none';
-
-            // Show contact section
+            document.getElementById('about').style.display = 'none';
             const contactSection = document.getElementById('contact');
             contactSection.style.display = 'block';
-            
-            contactSection.scrollIntoView({ 
-                behavior: 'smooth',
-                block: 'start'
-            });
+            contactSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
         
-        // Load Content Based on Path Selection (MODIFIED CONTENT)
+        // Req #7: Contact Form Logic
+        function toggleContactFields() {
+            const type = document.getElementById('contact-type').value;
+            const emailFields = document.getElementById('email-fields');
+            const phoneFields = document.getElementById('phone-fields');
+            
+            if (type === 'email') {
+                emailFields.style.display = 'block';
+                phoneFields.style.display = 'none';
+            } else if (type === 'phone') {
+                emailFields.style.display = 'none';
+                phoneFields.style.display = 'block';
+            } else {
+                emailFields.style.display = 'none';
+                phoneFields.style.display = 'none';
+            }
+        }
+
+        // Req #7: Star Rating & Meme Logic
+        document.querySelectorAll('.star').forEach(star => {
+            star.addEventListener('click', function() {
+                const rating = this.dataset.rating;
+                document.querySelectorAll('.star').forEach(s => {
+                    s.classList.remove('selected');
+                    if (s.dataset.rating <= rating) s.classList.add('selected');
+                });
+            });
+        });
+
+        document.getElementById('submit-rating').addEventListener('click', function() {
+            document.getElementById('feedback-meme').style.display = 'block';
+            this.textContent = 'Rating Submitted!';
+            this.disabled = true;
+            this.style.background = '#48bb78';
+        });
+        
         function loadContent(path) {
             const contentArea = document.getElementById('content-area');
             const container = contentArea.querySelector('.container');
             
-            // Clear previous interval if it exists
-            if (professionalStatInterval) {
-                clearInterval(professionalStatInterval);
-            }
+            if (professionalStatInterval) clearInterval(professionalStatInterval);
 
-            // Hide contact section and home
             document.getElementById('contact').style.display = 'none';
             document.getElementById('home').style.display = 'none';
-
+            document.getElementById('about').style.display = 'none';
             contentArea.style.display = 'block';
             
-            // --- ACADEMIC CONTENT ---
             if (path === 'academic') {
                 container.innerHTML = `
                 <h2 class="section-title">Academic</h2>
@@ -1657,24 +1633,20 @@
                                 <h3 class="project-title">"Economic Changes & Small Farmers: An Analysis on America's Hidden Lifeline"</h3>
                                 <p style="color: #a0aec0; margin-bottom: 0.5rem;">2023</p>
                                 <p class="project-description">
-                                Quantitative analysis of economic pressures facing small-scale agricultural producers. 
-                                Utilized panel data regression and time-series analysis. Policy recommendations for supporting agricultural economic development.
+                                    Quantitative analysis examining how economic pressures, land consolidation, and climate change threaten America's remaining small-scale family agricultural producers.
+                                    Research presented to the National Economic Council to inform rural development policy.
                                 </p>
-                                <p style="color: #667eea; font-weight: 600;">Presented to: National Economic Council, American Economic Association</p>
-                                <div class="project-links" style="margin-top: 1rem;">
-                                    <a href="https://Tenken73.github.io/Powe JeQa Economy v small Farmers aeasp 2023.pdf" target="_blank" class="project-link">→ View Full Paper</a>
-                                </div>
+                                <p style="color: #667eea; font-weight: 600;">Presented to: National Economic Council</p>
                             </div>
                         </div>
-                        
+                    
                         <div class="project-card" style="margin-bottom: 1.5rem;">
                             <div class="project-info">
-                                <h3 class="project-title">"Who Lives Near Powerplants? (Environmental Justice Analysis)"</h3>
+                                <h3 class="project-title">"Coal Power Plants and Housing Discrimination: Environmental Injustice in Appalachia"</h3>
                                 <p style="color: #a0aec0; margin-bottom: 0.5rem;">2022</p>
                                 <p class="project-description">
-                                Spatial econometric analysis examining demographic patterns and environmental justice related to coal power plant locations. 
-                                Applied hedonic pricing models and spatial regression techniques. 
-                                Utilized ArcGIS for spatial data visualization and kernel density estimation.
+                                    Spatial econometric analysis examining how proximity to coal-fired power plants correlates with discriminatory housing patterns in West Virginia. 
+                                    Combined environmental data with Fair Housing Act enforcement records to identify systemic inequities.
                                 </p>
                                 <p style="color: #667eea; font-weight: 600;">Presented to: Federal Reserve Board</p>
                                 <div class="project-links" style="margin-top: 1rem;">
@@ -1701,25 +1673,25 @@
                         <p style="color: #a0aec0; margin-bottom: 2rem;">Interactive demonstrations of methodological approaches</p>
                         
                         <div class="project-grid">
-                            <div class="project-card">
-                                <img src="https://inomics.com/sites/default/files/styles/article_full_responsive/public/pictures/picture/economists-on-a-date-meme.jpeg?itok=G4-n3cna" alt="Economists on a date meme" classclass="project-image">
-                                <div class="project-info">
-                                    <h3 class="project-title">Anime Analysis Dashboard (Coming Soon)</h3>
-                                    <p class="project-description">
-                                        Exploratory data analysis using R Shiny to visualize community ratings, genre trends, and sentiment.
-                                    </p>
-                                    <div class="tech-tags">
-                                        <span class="tech-tag">R Shiny</span>
-                                        <span class="tech-tag">RPostgres</span>
-                                        <span class="tech-tag">Data Viz</span>
-                                        <span class="tech-tag">pytrends</span>
-                                    </div>
-                                    <div class="project-links">
-                                        <a href="#" class="project-link">Live Demo</a>
-                                        <a href="#" class="project-link">Code</a>
-                                    </div>
-                                </div>
-                            </div>
+                        <div class="project-card" data-project="bebop-protocol">
+    <img src="https://inomics.com/sites/default/files/styles/article_full_responsive/public/pictures/picture/economists-on-a-date-meme.jpeg?itok=G4-n3cna" alt="Bebop Protocol interface" class="project-image">
+    <div class="project-info">
+        <h3 class="project-title">Bebop Protocol</h3>
+        <p class="project-description">
+            Interactive dashboard for anime analysis, community sentiment, and trend visualization. Built with modern data architecture.
+        </p>
+        <div class="tech-tags">
+            <span class="tech-tag">Data Viz</span>
+            <span class="tech-tag">Analytics</span>
+            <span class="tech-tag">EDA</span>
+            <span class="tech-tag">Interactive</span>
+        </div>
+        <div class="project-links">
+            <a href="https://tenken73.github.io/Bebop-Protocol_V0.html" class="project-link" target="_blank">Live Dashboard</a>
+            <a href="https://github.com/tenken73/Bebop-Protocol" class="project-link" target="_blank">Code</a>
+        </div>
+    </div>
+</div>
                             
                             <div class="project-card">
                                 <img src="https://inomics.com/sites/default/files/styles/article_full_responsive/public/pictures/picture/economist-girlfriend-wants-to-talk-meme.jpeg?itok=uC-jYFh4" alt="Economist girlfriend meme" class="project-image">
@@ -1762,9 +1734,7 @@
                     </div>
                 </div>
                 `;
-            } 
-            
-            // --- PROFESSIONAL CONTENT ---
+            }
             else if (path === 'professional') {
                 container.innerHTML = `
                     <h2 class="section-title">Professional</h2>
@@ -1788,7 +1758,7 @@
                             <div style="background: rgba(255, 255, 255, 0.05); padding: 2rem; border-radius: 12px; border: 1px solid rgba(102, 126, 234, 0.2); margin-bottom: 3rem;">
                                 <h3 style="color: #667eea; margin-bottom: 1.5rem;">Background</h3>
                                 <p style="color: #cbd5e0; line-height: 1.8; margin-bottom: 2rem;">
-                                    Adaptable veteran with more than a decade in information technology support, team leadership, and anaylsis. 
+                                    Adaptable veteran with more than a decade in information technology support, team leadership, and analysis. 
                                 </p>
                                 
                                 <h4 style="color: #e2e8f0; margin: 1.5rem 0 1rem;">Core Competencies</h4>
@@ -1871,30 +1841,22 @@
                         </div>
                             
                         <div id="skills-exp-pro" class="tab-content">
-                            
-                            <div class="about-stats" style="margin-bottom: 3rem;">
-                                <div class="stat-box">
-                                    <div class="stat-box-number" id="stat-num-1">5+</div>
-                                    <div class="stat-box-label" id="stat-label-1">Years Analyst Experience</div>
+                            <div class="about-stats" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; max-width: 900px; margin: 0 auto 3rem auto;">
+                                <div class="stat-box" style="background: rgba(102, 126, 234, 0.1); padding: 2rem; border-radius: 12px; text-align: center; border: 1px solid rgba(102, 126, 234, 0.2);">
+                                    <div class="stat-box-number" id="stat-num-1" style="font-size: 2.5rem; font-weight: 700; color: #667eea; margin-bottom: 0.5rem;">5+</div>
+                                    <div class="stat-box-label" id="stat-label-1" style="color: #a0aec0; font-size: 0.9rem;">Years Analyst Experience</div>
                                 </div>
-                                <div class="stat-box">
-                                    <div class="stat-box-number" id="stat-num-2">$2M+</div>
-                                    <div class="stat-box-label" id="stat-label-2">Cost Savings ID'd</div>
-                                </div>
-                                <div class="stat-box">
-                                    <div class="stat-box-number" id="stat-num-3">40%</div>
-                                    <div class="stat-box-label" id="stat-label-3">Accuracy Improvement</div>
-                                </div>
-                                <div class="stat-box">
-                                    <div class="stat-box-number" id="stat-num-4">85%</div>
-                                    <div class="stat-box-label" id="stat-label-4">Global Workstation Upgrade</div>
+                                <div class="stat-box" style="background: rgba(102, 126, 234, 0.1); padding: 2rem; border-radius: 12px; text-align: center; border: 1px solid rgba(102, 126, 234, 0.2);">
+                                    <div class="stat-box-number" id="stat-num-2" style="font-size: 2.5rem; font-weight: 700; color: #667eea; margin-bottom: 0.5rem;">$2M+</div>
+                                    <div class="stat-box-label" id="stat-label-2" style="color: #a0aec0; font-size: 0.9rem;">Cost Savings ID'd</div>
                                 </div>
                             </div>
-
-                            <div class="about-text" style="max-width: 900px; margin: 0 auto 3rem auto; text-align: left;">
-                                <h3 style="color: #667eea; margin-bottom: 1rem;">Professional Profile</h3>
-                                <p>With over 10 years of combined experience in IT support, military leadership, and quantitative analysis, I bring a unique blend of technical expertise and strategic problem-solving. My background as an IT professional and veteran supporting federal environments provides a robust foundation for my analytical work.</p>
-                                <p>My core technical skills are in Python, R, SQL, and geospatial tools like ArcGIS, which I've used to build and deploy machine learning pipelines. I am focused on leveraging these skills to tackle complex challenges in intelligence and economics, with a goal of driving operational efficiency and uncovering actionable insights from complex data.</p>
+                            
+                            <div style="background: rgba(255, 255, 255, 0.05); padding: 2rem; border-radius: 12px; border: 1px solid rgba(102, 126, 234, 0.2); margin-bottom: 3rem;">
+                                <h3 style="color: #667eea; margin-bottom: 1.5rem;">Professional Profile</h3>
+                                <p style="color: #cbd5e0; line-height: 1.8;">
+                                    Quantitative analyst combining advanced econometric methods with machine learning to solve complex defense and business challenges. Experienced in building systems that translate technical analysis into strategic decisions. Specialized in spatial analysis, network science, and causal inference applied to real-world operations.
+                                </p>
                             </div>
                             
                             <h3 style="color: #667eea; margin-bottom: 1.5rem;">Core Competencies</h3>
@@ -2000,248 +1962,161 @@
                 }
 
                 professionalStatInterval = setInterval(() => {
-                    statIndex++;
                     updateStatBox('stat-num-1', 'stat-label-1', stats);
-                    updateStatBox('stat-num-2', 'stat-label-2', stats2);
-                    updateStatBox('stat-num-3', 'stat-label-3', stats3);
-                    updateStatBox('stat-num-4', 'stat-label-4', stats4);
-                }, 3000);
+                    statIndex++;
+                    setTimeout(() => updateStatBox('stat-num-2', 'stat-label-2', stats2), 1500);
+                    setTimeout(() => { statIndex++; }, 3000);
+                }, 6000);
             }
             
-            document.getElementById('content-area').scrollIntoView({ 
-                behavior: 'smooth',
-                block: 'start'
-            });
-            
+            document.getElementById('content-area').scrollIntoView({ behavior: 'smooth', block: 'start' });
             addModalListeners();
         }
         
-        // Tab Switching Logic (Unchanged)
-        function switchTab(tabId) {
-            document.querySelectorAll('.tab-content').forEach(content => {
-                content.classList.remove('active');
-            });
-            document.querySelectorAll('.tab-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            
-            const newTabContent = document.getElementById(tabId);
-            const newTabBtn = document.querySelector(`.tab-btn[onclick="switchTab('${tabId}')"]`);
-            
-            if(newTabContent) newTabContent.classList.add('active');
-            if(newTabBtn) newTabBtn.classList.add('active');
-            
-            if (tabId === 'skills-pro' || tabId === 'projects-pro' || tabId === 'research-projects') {
-                addModalListeners();
-            }
-        }
+         function switchTab(tabId) {
+      document.querySelectorAll('.tab-content').forEach(content => {
+          content.classList.remove('active');
+      });
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+          btn.classList.remove('active');
+      });
+      
+      const newTabContent = document.getElementById(tabId);
+      const newTabBtn = document.querySelector(`.tab-btn[onclick="switchTab('${tabId}')"]`);
+      
+      if(newTabContent) newTabContent.classList.add('active');
+      if(newTabBtn) newTabBtn.classList.add('active');
+      
+      if (tabId === 'skills-pro' || tabId === 'projects-pro' || tabId === 'research-projects') {
+          addModalListeners();
+      }
+  }
+  
+  // Modal Functionality (Unchanged, relies on project-card changes)
+  function addModalListeners() {
+      document.querySelectorAll('.view-demo-btn, .project-link').forEach(btn => {
+          btn.replaceWith(btn.cloneNode(true));
+      });
+      
+      document.querySelectorAll('.view-demo-btn, .project-link').forEach(btn => {
+          btn.addEventListener('click', function(e) {
+              if (this.textContent.includes('Live Demo') || this.classList.contains('view-demo-btn')) {
+                  e.preventDefault();
+                  const projectCard = this.closest('.project-card');
+                  if (projectCard && projectCard.dataset.project) {
+                      const project = projectCard.dataset.project;
+                      const modal = document.getElementById(`${project}-demo-modal`);
+                      if (modal) {
+                          modal.classList.add('active');
+                          document.body.style.overflow = 'hidden';
+                      }
+                  }
+              }
+          });
+      });
+  }
+  
+  document.querySelectorAll('.close-modal').forEach(btn => {
+      btn.addEventListener('click', function() {
+          this.closest('.demo-modal').classList.remove('active');
+          document.body.style.overflow = 'auto';
+      });
+  });
+  
+  document.querySelectorAll('.demo-modal').forEach(modal => {
+      modal.addEventListener('click', function(e) {
+          if (e.target === this) {
+              this.classList.remove('active');
+              document.body.style.overflow = 'auto';
+          }
+      });
+  });
+  
+  addModalListeners();
         
-        // Modal Functionality (Unchanged, relies on project-card changes)
         function addModalListeners() {
-            document.querySelectorAll('.view-demo-btn, .project-link').forEach(btn => {
-                btn.replaceWith(btn.cloneNode(true));
-            });
-            
-            document.querySelectorAll('.view-demo-btn, .project-link').forEach(btn => {
-                btn.addEventListener('click', function(e) {
-                    if (this.textContent.includes('Live Demo') || this.classList.contains('view-demo-btn')) {
-                        e.preventDefault();
-                        const projectCard = this.closest('.project-card');
-                        if (projectCard && projectCard.dataset.project) {
-                            const project = projectCard.dataset.project;
-                            const modal = document.getElementById(`${project}-demo-modal`);
-                            if (modal) {
-                                modal.classList.add('active');
-                                document.body.style.overflow = 'hidden';
-                            }
-                        }
-                    }
+            document.querySelectorAll('.close-modal').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    this.closest('.demo-modal').classList.remove('active');
+                    document.body.style.overflow = 'auto';
                 });
             });
         }
         
-        document.querySelectorAll('.close-modal').forEach(btn => {
-            btn.addEventListener('click', function() {
-                this.closest('.demo-modal').classList.remove('active');
-                document.body.style.overflow = 'auto';
-            });
-        });
-        
-        document.querySelectorAll('.demo-modal').forEach(modal => {
-            modal.addEventListener('click', function(e) {
-                if (e.target === this) {
-                    this.classList.remove('active');
-                    document.body.style.overflow = 'auto';
-                }
-            });
-        });
-        
-        addModalListeners();
-        
-        // Contact Form Handler (Unchanged)
-        function handleContactSubmit(event) {
-            event.preventDefault();
-            const form = event.target;
-            const name = form.name.value;
-            const contact = form['contact-info'].value;
-            const reason = form.reason.value;
-            
-            let rating = "No rating";
-            if (form.rating.value) {
-                rating = `${form.rating.value} stars`;
-            }
-            const notes = form.notes.value || "No notes";
-            
-            const subject = `Portfolio Inquiry from ${name}`;
-            const body = `
-        Name: ${name}
-        Contact: ${contact}
-        Reason: ${reason}
+        // Req #2: Auto-Update Version
+        const today = new Date();
+        const formattedDate = (today.getMonth() + 1) + '/' + today.getDate() + '/' + today.getFullYear().toString().slice(-2);
+        const versionEl = document.getElementById('version');
+        const dateEl = document.getElementById('version-date');
+        if (versionEl) versionEl.textContent = "0.9"; 
+        if (dateEl) dateEl.textContent = formattedDate;
 
-        --- Feedback ---
-        Rating: ${rating}
-        Notes: ${notes}
-                    `;
-            
-            const mailtoLink = `mailto:JeQa.Powe@outlook.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-            window.location.href = mailtoLink;
+        // Req #6: Rotating Quotes
+        const quotes = [
+            "Economics is my tool. Food access is my lens.",
+            "The same tools that map threats can map solutions.",
+            "Built ML models for DoD targeting. Now applying them to food deserts.",
+            "Data without context is just noise.",
+            "Progress over perfection."
+        ];
+        let quoteIndex = 0;
+        const quoteEl = document.getElementById('rotating-quote');
+        if(quoteEl) {
+            setInterval(() => {
+                quoteIndex = (quoteIndex + 1) % quotes.length;
+                quoteEl.style.opacity = 0;
+                setTimeout(() => {
+                    quoteEl.textContent = quotes[quoteIndex];
+                    quoteEl.style.opacity = 1;
+                }, 500);
+            }, 5000);
         }
 
-        // DOMContentLoaded
         document.addEventListener('DOMContentLoaded', () => {
-            // Load saved theme
-            const savedTheme = localStorage.getItem('preferredTheme') || 'intelligence';
-            changeTheme(savedTheme);
+            const savedTheme = localStorage.getItem('selectedTheme') || 'network';
+            setTheme(savedTheme);
+            document.getElementById('theme-dropdown').value = savedTheme;
 
-            // Rotating Catchphrase (Unchanged)
-            const catchphrases = [
-                "Positivity & Purpose", "Progress over perfection", "The work is the reward", 
-                "Small steps, big impact", "Stay planted, keep growing", "Purpose fuels persistence",
-                "Gratitude unlocks clarity", "Listen more, assume less", "Questions reveal truth",
-                "Patterns tell stories", "Context changes everything", "Numbers need narratives",
-                "History informs futures", "Build don't critique", "Iterate, don't hesitate",
-                "Curiosity compounds", "Ideas need execution", "Create what you need",
-                "Make space for new thoughts", "Setbacks sharpen skills",
-                "Your story isn't over", "Rest, don't quit", "Struggle reveals strength",
-                "The mission is bigger than me"
-            ];
-            const catchphraseEl = document.getElementById('catchphrase');
-            if (catchphraseEl) {
-                const randomPhrase = catchphrases[Math.floor(Math.random() * catchphrases.length)];
-                catchphraseEl.textContent = `© 2025 JeQa Powe | ${randomPhrase}`;
-            }
-            
-            // Scroll Progress Bar (Unchanged)
-            const progressBar = document.getElementById('scroll-progress');
-            window.addEventListener('scroll', () => {
-                const scrollTotal = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-                const scrollPercent = (window.scrollY / scrollTotal) * 100;
-                progressBar.style.height = `${scrollPercent}%`;
-            });
-            
-            // Smooth scroll for nav links
+            // Simple Nav Handler for Mobile
             document.querySelectorAll('.nav-links a').forEach(link => {
                 link.addEventListener('click', function(e) {
-                    if (this.dataset.trigger || this.textContent.includes('Contact')) return; // Handled by Academic/Pro/Contact click
-                    
+                    if (this.dataset.trigger || this.textContent.includes('Contact') || this.getAttribute('href') === '#about') return;
                     e.preventDefault();
                     const targetId = this.getAttribute('href');
                     const targetSection = document.querySelector(targetId);
                     if (targetSection) {
-                        targetSection.scrollIntoView({ 
-                            behavior: 'smooth',
-                            block: 'start'
-                        });
-                        
-                        // Ensure other sections are hidden if returning to home
+                        targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
                         document.getElementById('content-area').style.display = 'none';
                         document.getElementById('contact').style.display = 'none';
-
+                        document.getElementById('about').style.display = 'none';
                     }
                 });
             });
 
-            // Handle Academic/Professional nav clicks (Unchanged)
             document.querySelectorAll('.nav-links a[data-trigger]').forEach(link => {
                 link.addEventListener('click', function(e) {
                     e.preventDefault();
-                    const path = this.dataset.trigger;
-                    loadContent(path);
+                    loadContent(this.dataset.trigger);
                 });
             });
             
-            // Back to top button visibility (Unchanged)
-            window.addEventListener('scroll', () => {
-                const backToTop = document.querySelector('.back-to-top');
-                if (backToTop) {
-                    if (window.scrollY > 500) {
-                        backToTop.classList.add('visible');
-                    } else {
-                        backToTop.classList.remove('visible');
-                    }
-                }
-            });
-
-            // Contact Form (Unchanged)
-            const contactForm = document.getElementById('feedback-form');
-            if (contactForm) {
-                contactForm.addEventListener('submit', handleContactSubmit);
-            }
-            
-            // ENTP Easter Egg: Konami Code (Unchanged)
+            // Konami Code
             let konamiCode = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
             let konamiIndex = 0;
-            
             document.addEventListener('keydown', (e) => {
-                if (e.key === konamiCode[konamiIndex]) {
+                const key = e.key.toLowerCase();
+                const codeKey = konamiCode[konamiIndex].toLowerCase().replace('arrow', '');
+                if (key === codeKey || (key === 'b' && codeKey === 'b') || (key === 'a' && codeKey === 'a')) {
                     konamiIndex++;
                     if (konamiIndex === konamiCode.length) {
-                        activateSecretMode();
+                        alert("Secret Found! 🐇");
                         konamiIndex = 0;
                     }
                 } else {
                     konamiIndex = 0;
                 }
             });
-            
-            function activateSecretMode() {
-                try {
-                    document.getElementById('secret-sound').play();
-                } catch (e) {
-                    console.log("Audio play failed (user interaction needed)");
-                }
-                
-                const msg = document.createElement('div');
-                msg.style.cssText = `
-                    position: fixed;
-                    top: 50%;
-                    left: 50%;
-                    transform: translate(-50%, -50%);
-                    background: linear-gradient(135deg, #1a202c 0%, #0a0e27 100%);
-                    color: white;
-                    padding: 2rem 2rem;
-                    border-radius: 12px;
-                    font-size: 1.5rem;
-                    font-weight: 700;
-                    z-index: 10000;
-                    animation: fadeInUp 0.5s ease;
-                    box-shadow: 0 20px 60px rgba(102, 126, 234, 0.8);
-                    text-align: center;
-                    border: 1px solid #667eea;
-                `;
-                
-                msg.innerHTML = `
-                    <h2 style="color: #667eea; margin-bottom: 1rem;">SECRET FOUND!</h2>
-                    <img src="https://inomics.com/sites/default/files/styles/article_full_responsive/public/pictures/picture/economists-on-a-date-meme.jpeg?itok=G4-n3cna" style="width: 100%; max-width: 500px; border-radius: 8px;">
-                `;
-                document.body.appendChild(msg);
-                
-                setTimeout(() => {
-                    msg.remove();
-                }, 3500);
-            }
         });
-        
     </script>
 </body>
 </html>
