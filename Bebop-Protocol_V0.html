@@ -4,9 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Bebop Protocol | Anime Network Analysis</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-    <script src="https://d3js.org/d3.v7.min.js"></script>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+        
+        :root {
+            --accent-1: #667eea;
+            --accent-2: #764ba2;
+            --bg-dark: #0a0e27;
+            --bg-card: rgba(255, 255, 255, 0.05);
+            --text-primary: #e2e8f0;
+            --text-secondary: #a0aec0;
+            --border-color: rgba(102, 126, 234, 0.2);
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -14,331 +26,1938 @@
         }
         
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
             background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 100%);
-            color: #e2e8f0;
+            color: var(--text-primary);
             line-height: 1.6;
+            min-height: 100vh;
         }
         
+        /* Sidebar Navigation */
+        nav {
+            position: fixed;
+            left: 0;
+            top: 0;
+            height: 100vh;
+            width: 220px;
+            background: rgba(10, 14, 39, 0.98);
+            backdrop-filter: blur(20px);
+            padding: 2rem 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border-right: 1px solid var(--border-color);
+            z-index: 100;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+            letter-spacing: -1px;
+        }
+        
+        .logo-sub {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 2rem;
+        }
+        
+        .nav-links {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            list-style: none;
+            width: 100%;
+            padding: 0 1rem;
+        }
+        
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.875rem 1.25rem;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+        
+        .nav-links a:hover,
+        .nav-links a.active {
+            background: rgba(102, 126, 234, 0.15);
+            color: var(--accent-1);
+        }
+        
+        .nav-links a i {
+            width: 20px;
+            text-align: center;
+        }
+        
+        .nav-footer {
+            margin-top: auto;
+            padding: 1.5rem;
+            text-align: center;
+            border-top: 1px solid var(--border-color);
+            width: 100%;
+        }
+        
+        .nav-footer a {
+            color: var(--accent-1);
+            font-size: 0.85rem;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            transition: opacity 0.3s;
+        }
+        
+        .nav-footer a:hover {
+            opacity: 0.8;
+        }
+
+        /* Main Container */
         .container {
             max-width: 1400px;
             margin: 0 auto;
-            padding: 2rem;
+            padding: 2rem 2.5rem;
+            margin-left: 220px;
         }
         
+        /* Tab Content */
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Hero Section */
         .hero {
+            position: relative;
+            padding: 4rem 0 3rem;
             text-align: center;
-            padding: 4rem 0;
-            border-bottom: 1px solid rgba(102, 126, 234, 0.2);
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(ellipse at center, rgba(102, 126, 234, 0.15) 0%, transparent 70%);
+            z-index: 0;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 1;
         }
         
         .hero h1 {
-            font-size: 3rem;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-size: 3.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent-1), var(--accent-2), #ed64a6);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            background-clip: text;
             margin-bottom: 1rem;
+            letter-spacing: -2px;
         }
         
-        .hero p {
-            font-size: 1.2rem;
-            color: #a0aec0;
+        .hero .tagline {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin: 0 auto 1.5rem;
+        }
+        
+        .hero .subtitle {
+            font-size: 1rem;
+            color: #cbd5e0;
             max-width: 600px;
             margin: 0 auto;
         }
+
+        /* Stats Grid */
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.25rem;
+            margin: 2.5rem 0;
+        }
         
+        .stat-card {
+            background: var(--bg-card);
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-3px);
+            border-color: var(--accent-1);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.2);
+        }
+        
+        .stat-number {
+            font-size: 2.25rem;
+            font-weight: 700;
+            color: var(--accent-1);
+            display: block;
+            font-family: 'JetBrains Mono', monospace;
+        }
+        
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 0.25rem;
+        }
+
+        /* Section Styling */
         .section {
-            margin: 4rem 0;
+            margin: 3rem 0;
         }
         
         .section-title {
-            font-size: 2rem;
-            color: #667eea;
-            margin-bottom: 2rem;
-            text-align: center;
+            font-size: 1.75rem;
+            color: var(--accent-1);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
         }
         
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
+        .section-title i {
+            font-size: 1.25rem;
         }
-        
+
+        /* Cards */
         .card {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(102, 126, 234, 0.2);
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
             border-radius: 12px;
-            padding: 2rem;
+            padding: 1.5rem;
             transition: all 0.3s ease;
         }
         
         .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
-            border-color: #667eea;
+            transform: translateY(-4px);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.25);
+            border-color: var(--accent-1);
         }
         
         .card h3 {
-            color: #667eea;
+            color: var(--accent-1);
+            margin-bottom: 0.75rem;
+            font-size: 1.1rem;
+        }
+        
+        .card p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Grid Layouts */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+        }
+        
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+        
+        .grid-4 {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.25rem;
+        }
+
+        /* Chart Container */
+        .chart-container {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+        
+        .chart-container h3 {
+            color: var(--accent-1);
+            margin-bottom: 1rem;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Anime Cards */
+        .anime-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.25rem;
+        }
+        
+        .anime-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .anime-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.3);
+            border-color: var(--accent-1);
+        }
+        
+        .anime-card-header {
+            height: 120px;
+            background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        
+        .anime-card-header .emoji {
+            font-size: 3rem;
+        }
+        
+        .anime-card-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        
+        .anime-card-body {
+            padding: 1.25rem;
+        }
+        
+        .anime-card-title {
+            color: var(--text-primary);
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .anime-card-genres {
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            margin-bottom: 0.75rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .anime-card-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+        }
+        
+        .anime-card-stats span {
+            color: var(--text-secondary);
+        }
+        
+        .anime-card-stats strong {
+            color: var(--accent-1);
+        }
+        
+        .anime-card-links {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .anime-card-links a {
+            flex: 1;
+            padding: 0.5rem;
+            text-align: center;
+            background: rgba(102, 126, 234, 0.1);
+            color: var(--accent-1);
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        
+        .anime-card-links a:hover {
+            background: var(--accent-1);
+            color: white;
+        }
+
+        /* Filters */
+        .filters {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
+        }
+        
+        .filter-select {
+            padding: 0.6rem 1rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .filter-select:hover,
+        .filter-select:focus {
+            border-color: var(--accent-1);
+            outline: none;
+        }
+        
+        .filter-select option {
+            background: var(--bg-dark);
+        }
+
+        /* Search Box */
+        .search-box {
+            position: relative;
+            max-width: 400px;
+        }
+        
+        .search-box input {
+            width: 100%;
+            padding: 0.75rem 1rem 0.75rem 2.75rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 0.95rem;
+            transition: all 0.2s;
+        }
+        
+        .search-box input:focus {
+            border-color: var(--accent-1);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        .search-box input::placeholder {
+            color: var(--text-secondary);
+        }
+        
+        .search-box i {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+        }
+
+        /* Featured Cards */
+        .featured-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+        
+        .featured-card {
+            background: var(--bg-card);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+        
+        .featured-card:first-child {
+            border-color: var(--accent-1);
+            box-shadow: 0 5px 25px rgba(102, 126, 234, 0.2);
+        }
+        
+        .featured-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .featured-card-header {
+            height: 140px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        
+        .featured-card-header .emoji {
+            font-size: 4rem;
+        }
+        
+        .featured-card-header .label {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .featured-card-body {
+            padding: 1.5rem;
+        }
+        
+        .featured-card-title {
+            color: var(--accent-1);
+            font-size: 1.15rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .featured-card-desc {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
             margin-bottom: 1rem;
         }
         
-        .stat-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
-            margin: 2rem 0;
-        }
-        
-        .stat-card {
-            background: rgba(102, 126, 234, 0.1);
-            padding: 1.5rem;
-            border-radius: 12px;
-            text-align: center;
-            border: 1px solid rgba(102, 126, 234, 0.2);
-        }
-        
-        .stat-number {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: #667eea;
-            display: block;
-        }
-        
-        .stat-label {
-            color: #a0aec0;
+        .featured-card-stats {
+            display: flex;
+            justify-content: space-between;
             font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            color: #cbd5e0;
         }
-        
-        .chart-container {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(102, 126, 234, 0.2);
-            border-radius: 12px;
-            padding: 2rem;
-            margin: 2rem 0;
-        }
-        
+
+        /* Methodology Box */
         .methodology {
-            background: rgba(102, 126, 234, 0.05);
-            border-left: 4px solid #667eea;
-            padding: 2rem;
+            background: rgba(102, 126, 234, 0.08);
+            border-left: 4px solid var(--accent-1);
+            padding: 1.5rem 2rem;
             margin: 2rem 0;
-            border-radius: 8px;
+            border-radius: 0 12px 12px 0;
         }
         
         .methodology h3 {
-            color: #667eea;
+            color: var(--accent-1);
             margin-bottom: 1rem;
         }
         
+        .methodology p,
+        .methodology li {
+            color: var(--text-secondary);
+        }
+        
         .methodology ul {
-            list-style-position: inside;
-            color: #a0aec0;
+            margin-left: 1.5rem;
+            margin-top: 0.5rem;
+        }
+
+        /* Formula Display */
+        .formula-box {
+            background: rgba(10, 14, 39, 0.8);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 4px solid var(--accent-1);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin: 1rem 0;
         }
         
-        .cta-section {
-            text-align: center;
-            padding: 3rem;
-            background: rgba(102, 126, 234, 0.1);
+        .formula-box code {
+            color: var(--text-primary);
+        }
+
+        /* Awards Section */
+        .awards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.25rem;
+        }
+        
+        .award-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
             border-radius: 12px;
-            margin: 4rem 0;
+            padding: 1.5rem;
+            transition: all 0.3s;
         }
         
+        .award-card:hover {
+            border-color: var(--accent-1);
+        }
+        
+        .award-card-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .award-card-header .emoji {
+            font-size: 2rem;
+        }
+        
+        .award-card-header h4 {
+            color: var(--accent-1);
+            font-size: 1rem;
+        }
+        
+        .award-meta {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            line-height: 1.8;
+        }
+        
+        .award-meta strong {
+            color: var(--text-primary);
+        }
+
+        /* Community Section */
+        .community-embed {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            overflow: hidden;
+            margin: 1.5rem 0;
+        }
+        
+        .community-embed iframe {
+            width: 100%;
+            border: none;
+            background: #1a1f3a;
+        }
+        
+        .coming-soon {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+            border: 1px dashed var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+        }
+        
+        .coming-soon h3 {
+            color: var(--accent-1);
+            margin-bottom: 0.5rem;
+        }
+        
+        .coming-soon p {
+            color: var(--text-secondary);
+        }
+
+        /* Buttons */
         .btn {
-            display: inline-block;
-            padding: 1rem 2rem;
-            background: #667eea;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            background: var(--accent-1);
             color: white;
             text-decoration: none;
             border-radius: 8px;
             font-weight: 600;
+            font-size: 0.9rem;
             transition: all 0.3s ease;
-            margin: 0.5rem;
+            border: none;
+            cursor: pointer;
         }
         
         .btn:hover {
             background: #5a67d8;
             transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
         }
         
-        .back-link {
-            display: inline-block;
-            margin-bottom: 2rem;
-            color: #667eea;
-            text-decoration: none;
-            font-weight: 600;
+        .btn-secondary {
+            background: transparent;
+            border: 1px solid var(--accent-1);
+            color: var(--accent-1);
         }
         
-        .back-link:hover {
-            color: #5a67d8;
+        .btn-secondary:hover {
+            background: rgba(102, 126, 234, 0.1);
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .stat-grid { grid-template-columns: repeat(2, 1fr); }
+            .featured-grid { grid-template-columns: 1fr; }
+            .grid-2, .grid-3 { grid-template-columns: 1fr; }
         }
         
-        @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 2rem;
+        @media (max-width: 968px) {
+            nav {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                top: auto;
+                height: auto;
+                width: 100%;
+                flex-direction: row;
+                justify-content: space-around;
+                padding: 0.75rem 0;
+                border-right: none;
+                border-top: 1px solid var(--border-color);
             }
             
-            .grid {
-                grid-template-columns: 1fr;
+            .logo, .logo-sub, .nav-footer { display: none; }
+            
+            .nav-links {
+                flex-direction: row;
+                width: 100%;
+                justify-content: space-around;
+                gap: 0;
+                padding: 0;
             }
+            
+            .nav-links a {
+                padding: 0.5rem;
+                flex-direction: column;
+                font-size: 0.7rem;
+                gap: 0.25rem;
+            }
+            
+            .nav-links a span { display: block; }
+            
+            .container {
+                margin-left: 0;
+                padding: 1.5rem 1rem 100px;
+            }
+            
+            .hero h1 { font-size: 2.25rem; }
+            .stat-grid { grid-template-columns: repeat(2, 1fr); }
         }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: var(--bg-dark);
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: var(--accent-1);
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #5a67d8;
+        }
+
+        /* Table Styles */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+        
+        .data-table th,
+        .data-table td {
+            padding: 0.75rem 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .data-table th {
+            background: rgba(102, 126, 234, 0.1);
+            color: var(--accent-1);
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .data-table td {
+            color: var(--text-primary);
+            font-size: 0.9rem;
+        }
+        
+        .data-table tr:hover td {
+            background: rgba(102, 126, 234, 0.05);
+        }
+        
+        .score-badge {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+        
+        .score-high { background: rgba(52, 211, 153, 0.2); color: #34d399; }
+        .score-mid { background: rgba(251, 191, 36, 0.2); color: #fbbf24; }
+        .score-low { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <a href="index.html" class="back-link">← Back to Portfolio</a>
+    <!-- Sidebar Navigation -->
+    <nav>
+        <div class="logo">Bobop	Protocol</div>
+        <div class="logo-sub">version 0.6</div>
         
-        <div class="hero">
-            <h1>The Bebop Protocol</h1>
-            <p>A data-driven exploration of anime trends, genre networks, and cultural impact using econometric modeling and graph theory</p>
+        <ul class="nav-links">
+            <li><a href="#" onclick="switchTab('home')" class="active">
+                <i class="fas fa-home"></i><span>Home</span>
+            </a></li>
+            <li><a href="#" onclick="switchTab('data-hub')">
+                <i class="fas fa-chart-bar"></i><span>Data Hub</span>
+            </a></li>
+            <li><a href="#" onclick="switchTab('awards')">
+                <i class="fas fa-trophy"></i><span>Awards</span>
+            </a></li>
+            <li><a href="#" onclick="switchTab('community')">
+                <i class="fas fa-users"></i><span>Community</span>
+            </a></li>
+        </ul>
+        
+        <div class="nav-footer">
+            <a href="index.html">
+                <i class="fas fa-arrow-left"></i> Back to Portfolio
+            </a>
         </div>
-        
-        <div class="section">
-            <h2 class="section-title">Project Overview</h2>
+    </nav>
+    
+    <div class="container">
+        <!-- HOME TAB -->
+        <div class="tab-content active" id="home">
+            <div class="hero">
+                <div class="hero-content">
+                    <h1>The Bebop Protocol</h1>
+                    <p class="tagline">Data-driven anime analysis using econometric modeling, award systems, and network theory</p>
+                    <p class="subtitle">Mapping the DNA of anime excellence—from forgotten gems to global phenomena</p>
+                </div>
+            </div>
+
+            <!-- Quick Stats -->
             <div class="stat-grid">
                 <div class="stat-card">
-                    <span class="stat-number">1000+</span>
-                    <span class="stat-label">Anime Analyzed</span>
+                    <span class="stat-number" id="totalAnime">20</span>
+                    <span class="stat-label">Anime Tracked</span>
                 </div>
                 <div class="stat-card">
-                    <span class="stat-number">15</span>
-                    <span class="stat-label">Genre Clusters</span>
-                </div>
-                <div class="stat-card">
-                    <span class="stat-number">50K+</span>
-                    <span class="stat-label">User Reviews</span>
+                    <span class="stat-number">9</span>
+                    <span class="stat-label">Award Systems</span>
                 </div>
                 <div class="stat-card">
                     <span class="stat-number">3</span>
                     <span class="stat-label">Decades Covered</span>
                 </div>
-            </div>
-        </div>
-        
-        <div class="section">
-            <h2 class="section-title">Key Findings</h2>
-            <div class="grid">
-                <div class="card">
-                    <h3>Genre Evolution</h3>
-                    <p>Action and drama genres dominate across decades, but psychological thrillers saw a 300% increase in popularity since 2010.</p>
-                </div>
-                <div class="card">
-                    <h3>Studio Influence</h3>
-                    <p>Network analysis reveals that top studios (Bones, MAPPA, Ufotable) share production teams, creating interconnected quality clusters.</p>
-                </div>
-                <div class="card">
-                    <h3>Sentiment Patterns</h3>
-                    <p>NLP on user reviews shows that "character development" and "animation quality" are the strongest predictors of high ratings.</p>
+                <div class="stat-card">
+                    <span class="stat-number" id="totalGenres">12</span>
+                    <span class="stat-label">Genres Analyzed</span>
                 </div>
             </div>
+
+            <!-- How It Works -->
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-cogs"></i> How It Works</h2>
+                <div class="grid-4">
+                    <div class="card" style="text-align: center;">
+                        <div style="font-size: 2.5rem; margin-bottom: 0.75rem;">📊</div>
+                        <h3>Data Collection</h3>
+                        <p>Multi-source aggregation from MAL, AniList, and more</p>
+                    </div>
+                    <div class="card" style="text-align: center;">
+                        <div style="font-size: 2.5rem; margin-bottom: 0.75rem;">🏆</div>
+                        <h3>Award Systems</h3>
+                        <p>9 major awards tracked with weighted scoring</p>
+                    </div>
+                    <div class="card" style="text-align: center;">
+                        <div style="font-size: 2.5rem; margin-bottom: 0.75rem;">🧮</div>
+                        <h3>Analytics</h3>
+                        <p>Weighted scores, popularity metrics, clustering</p>
+                    </div>
+                    <div class="card" style="text-align: center;">
+                        <div style="font-size: 2.5rem; margin-bottom: 0.75rem;">🔍</div>
+                        <h3>Insights</h3>
+                        <p>Critical Darlings, Hidden Gems, Era Comparisons</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Featured This Week -->
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-star"></i> Featured Picks</h2>
+                <div class="featured-grid">
+                    <div class="featured-card">
+                        <div class="featured-card-header" style="background: linear-gradient(135deg, #667eea, #764ba2);">
+                            <span class="emoji">🔥</span>
+                            <span class="label">Top Rated</span>
+                        </div>
+                        <div class="featured-card-body">
+                            <div class="featured-card-title" id="featuredTop">Fullmetal Alchemist: Brotherhood</div>
+                            <p class="featured-card-desc">Highest combined score across all platforms</p>
+                            <div class="featured-card-stats">
+                                <span>MAL: <strong id="featuredTopMAL">9.10</strong></span>
+                                <span>Episodes: <strong id="featuredTopEps">64</strong></span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="featured-card">
+                        <div class="featured-card-header" style="background: linear-gradient(135deg, #764ba2, #ed64a6);">
+                            <span class="emoji">👑</span>
+                            <span class="label">Classic</span>
+                        </div>
+                        <div class="featured-card-body">
+                            <div class="featured-card-title" id="featuredClassic">Cowboy Bebop</div>
+                            <p class="featured-card-desc">Timeless masterpiece, still influential today</p>
+                            <div class="featured-card-stats">
+                                <span>MAL: <strong id="featuredClassicMAL">8.75</strong></span>
+                                <span>Year: <strong>1998</strong></span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="featured-card">
+                        <div class="featured-card-header" style="background: linear-gradient(135deg, #00d9ff, #667eea);">
+                            <span class="emoji">💎</span>
+                            <span class="label">Hidden Gem</span>
+                        </div>
+                        <div class="featured-card-body">
+                            <div class="featured-card-title" id="featuredGem">To Be Hero X</div>
+                            <p class="featured-card-desc">High quality, under the radar</p>
+                            <div class="featured-card-stats">
+                                <span>MAL: <strong id="featuredGemMAL">8.72</strong></span>
+                                <span>Pop Rank: <strong>#1318</strong></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Charts -->
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-chart-pie"></i> Quick Insights</h2>
+                <div class="grid-2">
+                    <div class="chart-container">
+                        <h3><i class="fas fa-tags"></i> Genre Distribution</h3>
+                        <canvas id="genreChart"></canvas>
+                    </div>
+                    <div class="chart-container">
+                        <h3><i class="fas fa-balance-scale"></i> MAL vs AniList Scores</h3>
+                        <canvas id="scoreCompareChart"></canvas>
+                    </div>
+                </div>
+            </div>
         </div>
-        
-        <div class="section">
-            <h2 class="section-title">Visualizations</h2>
+
+        <!-- DATA HUB TAB -->
+        <div class="tab-content" id="data-hub">
+            <h2 class="section-title"><i class="fas fa-database"></i> Data Explorer</h2>
             
-            <div class="chart-container">
-                <h3 style="color: #667eea; margin-bottom: 1rem;">Top Anime by Decade</h3>
-                <canvas id="decadeChart"></canvas>
+            <!-- Filters -->
+            <div class="filters">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchInput" placeholder="Search anime..." onkeyup="filterAnime()">
+                </div>
+                <select class="filter-select" id="genreFilter" onchange="filterAnime()">
+                    <option value="all">All Genres</option>
+                </select>
+                <select class="filter-select" id="decadeFilter" onchange="filterAnime()">
+                    <option value="all">All Decades</option>
+                    <option value="2020">2020s</option>
+                    <option value="2010">2010s</option>
+                    <option value="2000">2000s</option>
+                    <option value="1990">1990s</option>
+                </select>
+                <select class="filter-select" id="sortFilter" onchange="filterAnime()">
+                    <option value="mal_score">Sort by MAL Score</option>
+                    <option value="anilist_score">Sort by AniList Score</option>
+                    <option value="popularity">Sort by Popularity</option>
+                    <option value="episodes">Sort by Episodes</option>
+                </select>
             </div>
             
-            <div class="chart-container">
-                <h3 style="color: #667eea; margin-bottom: 1rem;">Genre Distribution</h3>
-                <canvas id="genreChart"></canvas>
+            <!-- Anime Grid -->
+            <div class="anime-grid" id="animeGrid">
+                <!-- Populated by JavaScript -->
+            </div>
+
+            <!-- Methodology -->
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-flask"></i> Methodology</h2>
+                
+                <div class="methodology">
+                    <h3>Weighted Score Formula</h3>
+                    <div class="formula-box">
+                        <code>
+Weighted_Score = (0.35 × MAL_norm) + (0.35 × AniList_norm) + 
+                 (0.15 × IMDb_norm) + (0.05 × Kitsu_norm) + 
+                 (0.10 × Popularity_Score)
+                        </code>
+                    </div>
+                    <p>All scores are normalized to a 0-100 scale before weighting. MAL and AniList receive highest weights due to their anime-specific communities and comprehensive coverage.</p>
+                </div>
+
+                <div class="grid-2">
+                    <div class="card">
+                        <h3>Data Sources</h3>
+                        <ul style="color: var(--text-secondary); margin-left: 1.5rem; line-height: 2;">
+                            <li><strong>MyAnimeList (MAL)</strong> - Largest anime database</li>
+                            <li><strong>AniList</strong> - Modern, API-friendly platform</li>
+                            <li><strong>IMDb</strong> - Cross-media perspective</li>
+                            <li><strong>Kitsu</strong> - Community-driven ratings</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <h3>Analysis Types</h3>
+                        <ul style="color: var(--text-secondary); margin-left: 1.5rem; line-height: 2;">
+                            <li><strong>Critical Darling</strong> - High score, lower popularity</li>
+                            <li><strong>Western Favorite</strong> - Higher IMDb vs Japanese scores</li>
+                            <li><strong>Hidden Gem</strong> - Quality score, very low visibility</li>
+                            <li><strong>Era Comparison</strong> - Decade-by-decade trends</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Charts -->
+            <div class="section">
+                <h2 class="section-title"><i class="fas fa-chart-line"></i> Analytics</h2>
+                <div class="grid-2">
+                    <div class="chart-container">
+                        <h3><i class="fas fa-calendar"></i> Scores by Decade</h3>
+                        <canvas id="decadeChart"></canvas>
+                    </div>
+                    <div class="chart-container">
+                        <h3><i class="fas fa-users"></i> Popularity Distribution</h3>
+                        <canvas id="popularityChart"></canvas>
+                    </div>
+                </div>
             </div>
         </div>
-        
-        <div class="section">
+
+        <!-- AWARDS TAB -->
+        <div class="tab-content" id="awards">
+            <h2 class="section-title"><i class="fas fa-trophy"></i> Award Systems</h2>
+            
             <div class="methodology">
-                <h3>Methodology</h3>
-                <ul>
-                    <li><strong>Data Collection:</strong> Scraped MyAnimeList API for 1000+ titles (2000-2024)</li>
-                    <li><strong>Cleaning:</strong> Python (pandas) for data preprocessing, handled missing values via imputation</li>
-                    <li><strong>Analysis:</strong> K-means clustering for genre grouping, sentiment analysis (VADER) on reviews</li>
-                    <li><strong>Network Science:</strong> Graph theory (NetworkX) to map studio/director relationships</li>
-                    <li><strong>Visualization:</strong> Chart.js for interactive charts, D3.js for network graphs</li>
-                    <li><strong>Tools:</strong> Python, R, SQL, JavaScript</li>
-                </ul>
+                <h3>How Award Weights Are Determined</h3>
+                <p>Weights (1-10) reflect: Global Reach, Industry Prestige, Historical Significance, and Selection Criteria (animation quality vs. popularity contests).</p>
+            </div>
+
+            <div class="awards-grid">
+                <div class="award-card">
+                    <div class="award-card-header">
+                        <span class="emoji">🌐</span>
+                        <h4>Crunchyroll Anime Awards</h4>
+                    </div>
+                    <div class="award-meta">
+                        <p><strong>Weight:</strong> 10 (Highest)</p>
+                        <p><strong>Started:</strong> 2017</p>
+                        <p><strong>Voting:</strong> Public + Judges</p>
+                        <p><strong>Focus:</strong> Global reach, Western-leaning</p>
+                    </div>
+                </div>
+                
+                <div class="award-card">
+                    <div class="award-card-header">
+                        <span class="emoji">👑</span>
+                        <h4>Tokyo Anime Award Festival</h4>
+                    </div>
+                    <div class="award-meta">
+                        <p><strong>Weight:</strong> 9</p>
+                        <p><strong>Started:</strong> 2002</p>
+                        <p><strong>Voting:</strong> Industry Professionals</p>
+                        <p><strong>Focus:</strong> Animation quality</p>
+                    </div>
+                </div>
+                
+                <div class="award-card">
+                    <div class="award-card-header">
+                        <span class="emoji">🏛️</span>
+                        <h4>Animation Kobe Awards</h4>
+                    </div>
+                    <div class="award-meta">
+                        <p><strong>Weight:</strong> 8</p>
+                        <p><strong>Years:</strong> 1996-2015 (Ended)</p>
+                        <p><strong>Focus:</strong> Cultural significance</p>
+                        <p><strong>Note:</strong> Defines "Golden Era"</p>
+                    </div>
+                </div>
+                
+                <div class="award-card">
+                    <div class="award-card-header">
+                        <span class="emoji">🎨</span>
+                        <h4>Japan Media Arts Festival</h4>
+                    </div>
+                    <div class="award-meta">
+                        <p><strong>Weight:</strong> 7</p>
+                        <p><strong>Started:</strong> 1997</p>
+                        <p><strong>Voting:</strong> Government recognized</p>
+                        <p><strong>Focus:</strong> Artistic merit, films</p>
+                    </div>
+                </div>
+                
+                <div class="award-card">
+                    <div class="award-card-header">
+                        <span class="emoji">📖</span>
+                        <h4>Animage Grand Prix</h4>
+                    </div>
+                    <div class="award-meta">
+                        <p><strong>Weight:</strong> 7</p>
+                        <p><strong>Started:</strong> 1979</p>
+                        <p><strong>Voting:</strong> Reader poll</p>
+                        <p><strong>Focus:</strong> Long-running, 80s/90s metric</p>
+                    </div>
+                </div>
+                
+                <div class="award-card">
+                    <div class="award-card-header">
+                        <span class="emoji">📺</span>
+                        <h4>Newtype Anime Awards</h4>
+                    </div>
+                    <div class="award-meta">
+                        <p><strong>Weight:</strong> 6</p>
+                        <p><strong>Started:</strong> 2011</p>
+                        <p><strong>Voting:</strong> Reader/popularity</p>
+                        <p><strong>Focus:</strong> Otaku trends</p>
+                    </div>
+                </div>
+                
+                <div class="award-card">
+                    <div class="award-card-header">
+                        <span class="emoji">🎬</span>
+                        <h4>Mainichi Film Awards</h4>
+                    </div>
+                    <div class="award-meta">
+                        <p><strong>Weight:</strong> 6</p>
+                        <p><strong>Started:</strong> 1946</p>
+                        <p><strong>Voting:</strong> Critics</p>
+                        <p><strong>Focus:</strong> Films, historic prestige</p>
+                    </div>
+                </div>
+                
+                <div class="award-card">
+                    <div class="award-card-header">
+                        <span class="emoji">🎤</span>
+                        <h4>Seiyu Awards</h4>
+                    </div>
+                    <div class="award-meta">
+                        <p><strong>Weight:</strong> 5</p>
+                        <p><strong>Started:</strong> 2007</p>
+                        <p><strong>Voting:</strong> Industry</p>
+                        <p><strong>Focus:</strong> Voice actor recognition</p>
+                    </div>
+                </div>
+                
+                <div class="award-card">
+                    <div class="award-card-header">
+                        <span class="emoji">🗽</span>
+                        <h4>Anime NYC Awards</h4>
+                    </div>
+                    <div class="award-meta">
+                        <p><strong>Weight:</strong> 4</p>
+                        <p><strong>Started:</strong> 2025</p>
+                        <p><strong>Voting:</strong> Public</p>
+                        <p><strong>Focus:</strong> U.S.-based, emerging</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Award Score Formula -->
+            <div class="section">
+                <div class="methodology">
+                    <h3>Award Score Calculation</h3>
+                    <div class="formula-box">
+                        <code>
+Award_Score = Σ (Award_Weight × Result_Multiplier)
+
+Where:
+  Winner = 1.0
+  Nominee = 0.5
+  
+Example: Frieren wins Crunchyroll (10×1.0) + TAAF nom (9×0.5) = 14.5
+                        </code>
+                    </div>
+                </div>
             </div>
         </div>
-        
-        <div class="cta-section">
-            <h2 style="color: #667eea; margin-bottom: 1rem;">Want to See More?</h2>
-            <p style="color: #a0aec0; margin-bottom: 2rem;">Explore the full interactive dashboard or view the code on GitHub</p>
-            <a href="#" class="btn">Live Dashboard (Coming Soon)</a>
-            <a href="https://github.com/Tenken73/anime-analysis" class="btn">View Code</a>
+
+        <!-- COMMUNITY TAB -->
+        <div class="tab-content" id="community">
+            <h2 class="section-title"><i class="fas fa-users"></i> Community</h2>
+            
+            <!-- Live Google Sheets Embed -->
+            <div class="section">
+                <h3 style="color: var(--accent-1); margin-bottom: 1rem;"><i class="fas fa-table"></i> Live Anime Database</h3>
+                <p style="color: var(--text-secondary); margin-bottom: 1rem;">Browse the full database - updated live from Google Sheets</p>
+                <div class="community-embed">
+                    <iframe 
+                        src="https://docs.google.com/spreadsheets/d/e/2PACX-1vRsGSriXV-ty1koeuTElq68JwMq9XdFxswW602p416KSStYI6-NKROC6HrCON2lfRBNahWX8WYeQXDn/pubhtml?widget=true&amp;headers=false"
+                        height="500">
+                    </iframe>
+                </div>
+            </div>
+
+            <!-- Master Data Sheet -->
+            <div class="section">
+                <h3 style="color: var(--accent-1); margin-bottom: 1rem;"><i class="fas fa-database"></i> BP Master Data</h3>
+                <p style="color: var(--text-secondary); margin-bottom: 1rem;">Complete scoring data and calculations</p>
+                <div class="community-embed">
+                    <iframe 
+                        src="https://docs.google.com/spreadsheets/d/e/2PACX-1vRC_3gNs5br8oDMllAj-GE65wnBEFRZX2YRghVUZaMsjbaCuSbaWj8nR2Fm9c3-3YD9EiIH-6lXWLZI/pubhtml?widget=true&amp;headers=false"
+                        height="500">
+                    </iframe>
+                </div>
+            </div>
+
+            <!-- Coming Soon Features -->
+            <div class="section">
+                <h3 style="color: var(--accent-1); margin-bottom: 1rem;"><i class="fas fa-rocket"></i> Coming Soon</h3>
+                <div class="grid-2">
+                    <div class="coming-soon">
+                        <h3>🎯 Anime Recommender</h3>
+                        <p>Submit your top 5 anime and get personalized recommendations based on voice actor patterns and genre analysis</p>
+                    </div>
+                    <div class="coming-soon">
+                        <h3>📝 Community Ratings</h3>
+                        <p>Google Form integration for community voting and anime suggestions</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Direct Links -->
+            <div class="section">
+                <h3 style="color: var(--accent-1); margin-bottom: 1rem;"><i class="fas fa-external-link-alt"></i> Quick Links</h3>
+                <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                    <a href="https://docs.google.com/spreadsheets/d/1JthbhDikF5HbW1ZX53BOuxwhvwBiZxSxbxWBoDZO-pM/edit?usp=sharing" target="_blank" class="btn">
+                        <i class="fas fa-table"></i> Open Full Database
+                    </a>
+                    <a href="https://docs.google.com/spreadsheets/d/18h_lQTaf7H8i2SGsCmtWsxiQlqJiWmChUeLTcaP97oI/edit?usp=sharing" target="_blank" class="btn btn-secondary">
+                        <i class="fas fa-database"></i> Open Master Data
+                    </a>
+                    <a href="index.html" class="btn btn-secondary">
+                        <i class="fas fa-home"></i> Back to Portfolio
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
-    
+
     <script>
-        // Chart 1: Top Anime by Decade
-        const ctx1 = document.getElementById('decadeChart').getContext('2d');
-        new Chart(ctx1, {
-            type: 'bar',
-            data: {
-                labels: ['2000s', '2010s', '2020s'],
-                datasets: [{
-                    label: 'Average Rating',
-                    data: [7.8, 8.2, 8.5],
-                    backgroundColor: 'rgba(102, 126, 234, 0.6)',
-                    borderColor: '#667eea',
-                    borderWidth: 2
-                }]
+        // =============================================
+        // ANIME DATA (Embedded from anime_combined.csv)
+        // =============================================
+        const animeData = [
+            {
+                title: "Fullmetal Alchemist: Brotherhood",
+                mal_title: "Fullmetal Alchemist: Brotherhood",
+                genres: "Action|Adventure|Drama|Fantasy",
+                episodes: 64,
+                mal_score: 9.10,
+                anilist_score: 90,
+                mal_popularity: 3,
+                mal_members: 3598944,
+                mal_favorites: 238141,
+                year: 2009,
+                status: "Finished",
+                mal_url: "https://myanimelist.net/anime/5114/Fullmetal_Alchemist__Brotherhood",
+                anilist_url: "https://anilist.co/anime/5114"
             },
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        labels: { color: '#e2e8f0' }
-                    }
-                },
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        max: 10,
-                        ticks: { color: '#a0aec0' },
-                        grid: { color: 'rgba(102, 126, 234, 0.1)' }
+            {
+                title: "Kaiju No. 8",
+                mal_title: "Kaijuu 8-gou",
+                genres: "Action|Sci-Fi",
+                episodes: 12,
+                mal_score: 8.25,
+                anilist_score: 82,
+                mal_popularity: 347,
+                mal_members: 677383,
+                mal_favorites: 6562,
+                year: 2024,
+                status: "Finished",
+                mal_url: "https://myanimelist.net/anime/52588/Kaijuu_8-gou",
+                anilist_url: "https://anilist.co/anime/153288"
+            },
+            {
+                title: "Dandadan",
+                mal_title: "Dandadan",
+                genres: "Action|Comedy|Drama|Romance|Sci-Fi|Supernatural",
+                episodes: 12,
+                mal_score: 8.46,
+                anilist_score: 84,
+                mal_popularity: 233,
+                mal_members: 875630,
+                mal_favorites: 14520,
+                year: 2024,
+                status: "Finished",
+                mal_url: "https://myanimelist.net/anime/57334/Dandadan",
+                anilist_url: "https://anilist.co/anime/171018"
+            },
+            {
+                title: "Black Clover",
+                mal_title: "Black Clover",
+                genres: "Action|Adventure|Comedy|Fantasy",
+                episodes: 170,
+                mal_score: 8.14,
+                anilist_score: 79,
+                mal_popularity: 55,
+                mal_members: 1846823,
+                mal_favorites: 50031,
+                year: 2017,
+                status: "Finished",
+                mal_url: "https://myanimelist.net/anime/34572/Black_Clover",
+                anilist_url: "https://anilist.co/anime/97940"
+            },
+            {
+                title: "Cowboy Bebop",
+                mal_title: "Cowboy Bebop",
+                genres: "Action|Adventure|Drama|Sci-Fi",
+                episodes: 26,
+                mal_score: 8.75,
+                anilist_score: 86,
+                mal_popularity: 42,
+                mal_members: 2012295,
+                mal_favorites: 88099,
+                year: 1998,
+                status: "Finished",
+                mal_url: "https://myanimelist.net/anime/1/Cowboy_Bebop",
+                anilist_url: "https://anilist.co/anime/1"
+            },
+            {
+                title: "Death Note",
+                mal_title: "Death Note",
+                genres: "Mystery|Psychological|Supernatural|Thriller",
+                episodes: 37,
+                mal_score: 8.62,
+                anilist_score: 84,
+                mal_popularity: 2,
+                mal_members: 4198074,
+                mal_favorites: 182960,
+                year: 2006,
+                status: "Finished",
+                mal_url: "https://myanimelist.net/anime/1535/Death_Note",
+                anilist_url: "https://anilist.co/anime/1535"
+            },
+            {
+                title: "My Hero Academia",
+                mal_title: "Boku no Hero Academia",
+                genres: "Action|Adventure|Comedy",
+                episodes: 13,
+                mal_score: 7.83,
+                anilist_score: 76,
+                mal_popularity: 7,
+                mal_members: 3232518,
+                mal_favorites: 54311,
+                year: 2016,
+                status: "Finished",
+                mal_url: "https://myanimelist.net/anime/31964/Boku_no_Hero_Academia",
+                anilist_url: "https://anilist.co/anime/21459"
+            },
+            {
+                title: "Undead Unluck",
+                mal_title: "Undead Unluck",
+                genres: "Action|Comedy|Sci-Fi|Supernatural",
+                episodes: 24,
+                mal_score: 7.75,
+                anilist_score: 77,
+                mal_popularity: 810,
+                mal_members: 331169,
+                mal_favorites: 1851,
+                year: 2023,
+                status: "Finished",
+                mal_url: "https://myanimelist.net/anime/52741/Undead_Unluck",
+                anilist_url: "https://anilist.co/anime/154116"
+            },
+            {
+                title: "Go Go Loser Ranger",
+                mal_title: "Sentai Daishikkaku",
+                genres: "Action|Comedy|Drama|Sci-Fi",
+                episodes: 12,
+                mal_score: 7.31,
+                anilist_score: 72,
+                mal_popularity: 1407,
+                mal_members: 191806,
+                mal_favorites: 839,
+                year: 2024,
+                status: "Finished",
+                mal_url: "https://myanimelist.net/anime/53770/Sentai_Daishikkaku",
+                anilist_url: "https://anilist.co/anime/158417"
+            },
+            {
+                title: "The Fable",
+                mal_title: "The Fable",
+                genres: "Action|Comedy|Drama|Romance|Thriller",
+                episodes: 25,
+                mal_score: 8.14,
+                anilist_score: 77,
+                mal_popularity: 2345,
+                mal_members: 99116,
+                mal_favorites: 757,
+                year: 2024,
+                status: "Finished",
+                mal_url: "https://myanimelist.net/anime/55911/The_Fable",
+                anilist_url: "https://anilist.co/anime/166910"
+            },
+            {
+                title: "To Be Hero X",
+                mal_title: "Tu Bian Yingxiong X",
+                genres: "Action|Drama|Mystery|Supernatural",
+                episodes: 24,
+                mal_score: 8.72,
+                anilist_score: 85,
+                mal_popularity: 1318,
+                mal_members: 205575,
+                mal_favorites: 4137,
+                year: 2025,
+                status: "Finished",
+                mal_url: "https://myanimelist.net/anime/53447/Tu_Bian_Yingxiong_X",
+                anilist_url: "https://anilist.co/anime/156092"
+            },
+            {
+                title: "Inuyasha",
+                mal_title: "InuYasha",
+                genres: "Action|Adventure|Comedy|Fantasy|Romance",
+                episodes: 167,
+                mal_score: 7.87,
+                anilist_score: 76,
+                mal_popularity: 248,
+                mal_members: 847290,
+                mal_favorites: 19797,
+                year: 2000,
+                status: "Finished",
+                mal_url: "https://myanimelist.net/anime/249/InuYasha",
+                anilist_url: "https://anilist.co/anime/249"
+            },
+            {
+                title: "Dragon Ball Z",
+                mal_title: "Dragon Ball Z",
+                genres: "Action|Adventure|Comedy|Fantasy|Supernatural",
+                episodes: 291,
+                mal_score: 8.20,
+                anilist_score: 80,
+                mal_popularity: 114,
+                mal_members: 1303438,
+                mal_favorites: 41395,
+                year: 1989,
+                status: "Finished",
+                mal_url: "https://myanimelist.net/anime/813/Dragon_Ball_Z",
+                anilist_url: "https://anilist.co/anime/813"
+            },
+            {
+                title: "Yu Yu Hakusho",
+                mal_title: "Yuu☆Yuu☆Hakusho",
+                genres: "Action|Adventure|Comedy|Supernatural",
+                episodes: 112,
+                mal_score: 8.46,
+                anilist_score: 82,
+                mal_popularity: 302,
+                mal_members: 739903,
+                mal_favorites: 24347,
+                year: 1992,
+                status: "Finished",
+                mal_url: "https://myanimelist.net/anime/392/Yuu☆Yuu☆Hakusho",
+                anilist_url: "https://anilist.co/anime/392"
+            },
+            {
+                title: "Sailor Moon",
+                mal_title: "Bishoujo Senshi Sailor Moon",
+                genres: "Action|Adventure|Fantasy|Mahou Shoujo|Romance",
+                episodes: 46,
+                mal_score: 7.75,
+                anilist_score: 76,
+                mal_popularity: 642,
+                mal_members: 408083,
+                mal_favorites: 10952,
+                year: 1992,
+                status: "Finished",
+                mal_url: "https://myanimelist.net/anime/530/Bishoujo_Senshi_Sailor_Moon",
+                anilist_url: "https://anilist.co/anime/530"
+            },
+            {
+                title: "Ghost in the Shell",
+                mal_title: "Koukaku Kidoutai",
+                genres: "Action|Psychological|Sci-Fi",
+                episodes: 1,
+                mal_score: 8.27,
+                anilist_score: 80,
+                mal_popularity: 341,
+                mal_members: 687910,
+                mal_favorites: 14018,
+                year: 1995,
+                status: "Finished",
+                mal_url: "https://myanimelist.net/anime/43/Koukaku_Kidoutai",
+                anilist_url: "https://anilist.co/anime/43"
+            },
+            {
+                title: "Gundam Wing",
+                mal_title: "Shin Kidou Senki Gundam Wing",
+                genres: "Action|Adventure|Drama|Mecha|Sci-Fi",
+                episodes: 49,
+                mal_score: 7.66,
+                anilist_score: 71,
+                mal_popularity: 1579,
+                mal_members: 169137,
+                mal_favorites: 2444,
+                year: 1995,
+                status: "Finished",
+                mal_url: "https://myanimelist.net/anime/90/Shin_Kidou_Senki_Gundam_Wing",
+                anilist_url: "https://anilist.co/anime/90"
+            },
+            {
+                title: "Death Parade",
+                mal_title: "Death Parade",
+                genres: "Drama|Mystery|Psychological|Supernatural|Thriller",
+                episodes: 12,
+                mal_score: 8.13,
+                anilist_score: 80,
+                mal_popularity: 51,
+                mal_members: 1887960,
+                mal_favorites: 29455,
+                year: 2015,
+                status: "Finished",
+                mal_url: "https://myanimelist.net/anime/28223/Death_Parade",
+                anilist_url: "https://anilist.co/anime/20931"
+            },
+            {
+                title: "S-Cry-Ed",
+                mal_title: "s.CRY.ed",
+                genres: "Action|Adventure|Sci-Fi",
+                episodes: 26,
+                mal_score: 7.35,
+                anilist_score: 70,
+                mal_popularity: 2534,
+                mal_members: 87094,
+                mal_favorites: 687,
+                year: 2001,
+                status: "Finished",
+                mal_url: "https://myanimelist.net/anime/168/sCRYed",
+                anilist_url: "https://anilist.co/anime/168"
+            },
+            {
+                title: "Gnosia",
+                mal_title: "Gnosia",
+                genres: "Drama|Mystery|Sci-Fi",
+                episodes: null,
+                mal_score: 7.24,
+                anilist_score: 70,
+                mal_popularity: 4748,
+                mal_members: 26996,
+                mal_favorites: 90,
+                year: 2025,
+                status: "Airing",
+                mal_url: "https://myanimelist.net/anime/60427/Gnosia",
+                anilist_url: "https://anilist.co/anime/185116"
+            }
+        ];
+
+        // =============================================
+        // TAB SWITCHING
+        // =============================================
+        function switchTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected tab
+            document.getElementById(tabName).classList.add('active');
+            
+            // Update nav highlighting
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.classList.remove('active');
+            });
+            const activeLink = document.querySelector(`.nav-links a[onclick*="switchTab('${tabName}')"]`);
+            if (activeLink) {
+                activeLink.classList.add('active');
+            }
+
+            // Initialize charts if switching to relevant tabs
+            if (tabName === 'data-hub') {
+                setTimeout(() => {
+                    initDataHubCharts();
+                }, 100);
+            }
+        }
+
+        // =============================================
+        // GENRE EMOJI MAPPING
+        // =============================================
+        function getGenreEmoji(genres) {
+            const genreStr = genres.toLowerCase();
+            if (genreStr.includes('action')) return '⚔️';
+            if (genreStr.includes('comedy')) return '😂';
+            if (genreStr.includes('drama')) return '🎭';
+            if (genreStr.includes('romance')) return '💕';
+            if (genreStr.includes('sci-fi')) return '🚀';
+            if (genreStr.includes('fantasy')) return '🧙';
+            if (genreStr.includes('thriller')) return '😱';
+            if (genreStr.includes('mystery')) return '🔍';
+            if (genreStr.includes('supernatural')) return '👻';
+            if (genreStr.includes('mecha')) return '🤖';
+            if (genreStr.includes('adventure')) return '🗺️';
+            return '📺';
+        }
+
+        // =============================================
+        // RENDER ANIME CARDS
+        // =============================================
+        function renderAnimeCards(data) {
+            const grid = document.getElementById('animeGrid');
+            if (!grid) return;
+            
+            grid.innerHTML = data.map(anime => {
+                const scoreClass = anime.mal_score >= 8.5 ? 'score-high' : 
+                                   anime.mal_score >= 7.5 ? 'score-mid' : 'score-low';
+                return `
+                    <div class="anime-card">
+                        <div class="anime-card-header">
+                            <span class="emoji">${getGenreEmoji(anime.genres)}</span>
+                            <span class="anime-card-badge">${anime.year}</span>
+                        </div>
+                        <div class="anime-card-body">
+                            <div class="anime-card-title" title="${anime.title}">${anime.title}</div>
+                            <div class="anime-card-genres">${anime.genres.replace(/\|/g, ' • ')}</div>
+                            <div class="anime-card-stats">
+                                <span>MAL: <strong class="${scoreClass}">${anime.mal_score?.toFixed(2) || 'N/A'}</strong></span>
+                                <span>Eps: <strong>${anime.episodes || '?'}</strong></span>
+                            </div>
+                            <div class="anime-card-links">
+                                <a href="${anime.mal_url}" target="_blank">MAL</a>
+                                <a href="${anime.anilist_url}" target="_blank">AniList</a>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // =============================================
+        // FILTER ANIME
+        // =============================================
+        function filterAnime() {
+            const searchTerm = document.getElementById('searchInput')?.value.toLowerCase() || '';
+            const genreFilter = document.getElementById('genreFilter')?.value || 'all';
+            const decadeFilter = document.getElementById('decadeFilter')?.value || 'all';
+            const sortFilter = document.getElementById('sortFilter')?.value || 'mal_score';
+            
+            let filtered = animeData.filter(anime => {
+                const matchesSearch = anime.title.toLowerCase().includes(searchTerm) ||
+                                      anime.mal_title.toLowerCase().includes(searchTerm);
+                const matchesGenre = genreFilter === 'all' || 
+                                     anime.genres.toLowerCase().includes(genreFilter.toLowerCase());
+                const matchesDecade = decadeFilter === 'all' ||
+                                      (anime.year >= parseInt(decadeFilter) && anime.year < parseInt(decadeFilter) + 10);
+                return matchesSearch && matchesGenre && matchesDecade;
+            });
+            
+            // Sort
+            filtered.sort((a, b) => {
+                switch(sortFilter) {
+                    case 'mal_score': return (b.mal_score || 0) - (a.mal_score || 0);
+                    case 'anilist_score': return (b.anilist_score || 0) - (a.anilist_score || 0);
+                    case 'popularity': return (a.mal_popularity || 9999) - (b.mal_popularity || 9999);
+                    case 'episodes': return (b.episodes || 0) - (a.episodes || 0);
+                    default: return 0;
+                }
+            });
+            
+            renderAnimeCards(filtered);
+        }
+
+        // =============================================
+        // POPULATE GENRE FILTER
+        // =============================================
+        function populateGenreFilter() {
+            const allGenres = new Set();
+            animeData.forEach(anime => {
+                anime.genres.split('|').forEach(g => allGenres.add(g.trim()));
+            });
+            
+            const select = document.getElementById('genreFilter');
+            if (select) {
+                [...allGenres].sort().forEach(genre => {
+                    const option = document.createElement('option');
+                    option.value = genre.toLowerCase();
+                    option.textContent = genre;
+                    select.appendChild(option);
+                });
+            }
+            
+            // Update total genres count
+            const genreCount = document.getElementById('totalGenres');
+            if (genreCount) genreCount.textContent = allGenres.size;
+        }
+
+        // =============================================
+        // CHARTS - HOME PAGE
+        // =============================================
+        let genreChartInstance = null;
+        let scoreCompareChartInstance = null;
+
+        function initHomeCharts() {
+            // Genre Distribution
+            const genreCounts = {};
+            animeData.forEach(anime => {
+                anime.genres.split('|').forEach(g => {
+                    const genre = g.trim();
+                    genreCounts[genre] = (genreCounts[genre] || 0) + 1;
+                });
+            });
+            
+            const sortedGenres = Object.entries(genreCounts)
+                .sort((a, b) => b[1] - a[1])
+                .slice(0, 6);
+            
+            const ctx1 = document.getElementById('genreChart');
+            if (ctx1) {
+                if (genreChartInstance) genreChartInstance.destroy();
+                genreChartInstance = new Chart(ctx1.getContext('2d'), {
+                    type: 'doughnut',
+                    data: {
+                        labels: sortedGenres.map(g => g[0]),
+                        datasets: [{
+                            data: sortedGenres.map(g => g[1]),
+                            backgroundColor: [
+                                'rgba(102, 126, 234, 0.8)',
+                                'rgba(118, 75, 162, 0.8)',
+                                'rgba(237, 100, 166, 0.8)',
+                                'rgba(52, 211, 153, 0.8)',
+                                'rgba(251, 191, 36, 0.8)',
+                                'rgba(160, 174, 192, 0.8)'
+                            ],
+                            borderColor: '#0a0e27',
+                            borderWidth: 2
+                        }]
                     },
-                    x: {
-                        ticks: { color: '#a0aec0' },
-                        grid: { color: 'rgba(102, 126, 234, 0.1)' }
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                position: 'right',
+                                labels: { color: '#e2e8f0', font: { size: 11 } }
+                            }
+                        }
                     }
-                }
+                });
             }
-        });
-        
-        // Chart 2: Genre Distribution
-        const ctx2 = document.getElementById('genreChart').getContext('2d');
-        new Chart(ctx2, {
-            type: 'pie',
-            data: {
-                labels: ['Action', 'Drama', 'Comedy', 'Thriller', 'Romance', 'Other'],
-                datasets: [{
-                    data: [25, 20, 15, 12, 10, 18],
-                    backgroundColor: [
-                        'rgba(102, 126, 234, 0.8)',
-                        'rgba(118, 75, 162, 0.8)',
-                        'rgba(237, 100, 166, 0.8)',
-                        'rgba(255, 154, 102, 0.8)',
-                        'rgba(52, 211, 153, 0.8)',
-                        'rgba(160, 174, 192, 0.8)'
-                    ],
-                    borderColor: '#0a0e27',
-                    borderWidth: 2
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        position: 'right',
-                        labels: { color: '#e2e8f0' }
+            
+            // Score Comparison
+            const ctx2 = document.getElementById('scoreCompareChart');
+            if (ctx2) {
+                if (scoreCompareChartInstance) scoreCompareChartInstance.destroy();
+                
+                const topAnime = [...animeData]
+                    .filter(a => a.mal_score && a.anilist_score)
+                    .sort((a, b) => b.mal_score - a.mal_score)
+                    .slice(0, 8);
+                
+                scoreCompareChartInstance = new Chart(ctx2.getContext('2d'), {
+                    type: 'bar',
+                    data: {
+                        labels: topAnime.map(a => a.title.length > 15 ? a.title.substring(0, 15) + '...' : a.title),
+                        datasets: [
+                            {
+                                label: 'MAL Score',
+                                data: topAnime.map(a => a.mal_score),
+                                backgroundColor: 'rgba(102, 126, 234, 0.8)',
+                                borderColor: '#667eea',
+                                borderWidth: 1
+                            },
+                            {
+                                label: 'AniList Score',
+                                data: topAnime.map(a => a.anilist_score / 10),
+                                backgroundColor: 'rgba(118, 75, 162, 0.8)',
+                                borderColor: '#764ba2',
+                                borderWidth: 1
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        scales: {
+                            y: {
+                                beginAtZero: false,
+                                min: 6,
+                                max: 10,
+                                ticks: { color: '#a0aec0' },
+                                grid: { color: 'rgba(102, 126, 234, 0.1)' }
+                            },
+                            x: {
+                                ticks: { color: '#a0aec0', maxRotation: 45 },
+                                grid: { display: false }
+                            }
+                        },
+                        plugins: {
+                            legend: {
+                                labels: { color: '#e2e8f0' }
+                            }
+                        }
                     }
-                }
+                });
             }
+        }
+
+        // =============================================
+        // CHARTS - DATA HUB
+        // =============================================
+        let decadeChartInstance = null;
+        let popularityChartInstance = null;
+
+        function initDataHubCharts() {
+            // Decade Chart
+            const decadeScores = {};
+            animeData.forEach(anime => {
+                if (!anime.year || !anime.mal_score) return;
+                const decade = Math.floor(anime.year / 10) * 10 + 's';
+                if (!decadeScores[decade]) decadeScores[decade] = [];
+                decadeScores[decade].push(anime.mal_score);
+            });
+            
+            const decadeAvg = Object.entries(decadeScores)
+                .map(([decade, scores]) => ({
+                    decade,
+                    avg: scores.reduce((a, b) => a + b, 0) / scores.length
+                }))
+                .sort((a, b) => a.decade.localeCompare(b.decade));
+            
+            const ctx3 = document.getElementById('decadeChart');
+            if (ctx3) {
+                if (decadeChartInstance) decadeChartInstance.destroy();
+                decadeChartInstance = new Chart(ctx3.getContext('2d'), {
+                    type: 'bar',
+                    data: {
+                        labels: decadeAvg.map(d => d.decade),
+                        datasets: [{
+                            label: 'Average MAL Score',
+                            data: decadeAvg.map(d => d.avg),
+                            backgroundColor: 'rgba(102, 126, 234, 0.6)',
+                            borderColor: '#667eea',
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        scales: {
+                            y: {
+                                beginAtZero: false,
+                                min: 7,
+                                max: 9,
+                                ticks: { color: '#a0aec0' },
+                                grid: { color: 'rgba(102, 126, 234, 0.1)' }
+                            },
+                            x: {
+                                ticks: { color: '#a0aec0' },
+                                grid: { display: false }
+                            }
+                        },
+                        plugins: {
+                            legend: { labels: { color: '#e2e8f0' } }
+                        }
+                    }
+                });
+            }
+            
+            // Popularity Distribution
+            const ctx4 = document.getElementById('popularityChart');
+            if (ctx4) {
+                if (popularityChartInstance) popularityChartInstance.destroy();
+                
+                const popBuckets = {
+                    'Top 50': 0,
+                    '51-200': 0,
+                    '201-500': 0,
+                    '501-1000': 0,
+                    '1000+': 0
+                };
+                
+                animeData.forEach(anime => {
+                    const pop = anime.mal_popularity || 9999;
+                    if (pop <= 50) popBuckets['Top 50']++;
+                    else if (pop <= 200) popBuckets['51-200']++;
+                    else if (pop <= 500) popBuckets['201-500']++;
+                    else if (pop <= 1000) popBuckets['501-1000']++;
+                    else popBuckets['1000+']++;
+                });
+                
+                popularityChartInstance = new Chart(ctx4.getContext('2d'), {
+                    type: 'pie',
+                    data: {
+                        labels: Object.keys(popBuckets),
+                        datasets: [{
+                            data: Object.values(popBuckets),
+                            backgroundColor: [
+                                'rgba(52, 211, 153, 0.8)',
+                                'rgba(102, 126, 234, 0.8)',
+                                'rgba(118, 75, 162, 0.8)',
+                                'rgba(251, 191, 36, 0.8)',
+                                'rgba(160, 174, 192, 0.8)'
+                            ],
+                            borderColor: '#0a0e27',
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                position: 'right',
+                                labels: { color: '#e2e8f0' }
+                            }
+                        }
+                    }
+                });
+            }
+        }
+
+        // =============================================
+        // INITIALIZATION
+        // =============================================
+        document.addEventListener('DOMContentLoaded', () => {
+            // Populate filters
+            populateGenreFilter();
+            
+            // Render initial anime cards
+            renderAnimeCards(animeData);
+            
+            // Initialize home charts
+            initHomeCharts();
+            
+            // Update stats
+            document.getElementById('totalAnime').textContent = animeData.length;
         });
     </script>
 </body>
