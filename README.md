@@ -2048,7 +2048,7 @@
         const formattedDate = (today.getMonth() + 1) + '/' + today.getDate() + '/' + today.getFullYear().toString().slice(-2);
         const versionEl = document.getElementById('version');
         const dateEl = document.getElementById('version-date');
-        if (versionEl) versionEl.textContent = "0.9"; 
+        if (versionEl) versionEl.textContent = "0.8.5.1"; 
         if (dateEl) dateEl.textContent = formattedDate;
 
         // Req #6: Rotating Quotes
