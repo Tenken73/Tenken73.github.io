@@ -1,0 +1,70 @@
+Q4: Which Columns = Which Database?
+In Scraped_Data Google Sheet:
+AniList Columns (Purple):
+
+search_title
+anilist_id
+title_romaji
+title_english
+title_native
+start_year
+end_year
+episodes
+duration_min
+genres
+anilist_score ← Purple
+anilist_popularity ← Purple
+anilist_favorites ← Purple
+format
+status
+studio
+anilist_url
+
+OMDb Columns (Yellow):
+
+imdb_id ← Yellow
+imdb_title ← Yellow
+imdb_year ← Yellow
+imdb_rating ← Yellow
+imdb_votes ← Yellow
+imdb_plot ← Yellow
+
+Kitsu Columns (Orange):
+
+kitsu_id ← Orange
+kitsu_title ← Orange
+kitsu_slug ← Orange
+kitsu_start_date ← Orange
+kitsu_end_date ← Orange
+kitsu_rating ← Orange
+kitsu_user_count ← Orange
+kitsu_favorites_count ← Orange
+kitsu_popularity_rank ← Orange
+kitsu_rating_rank ← Orange
+kitsu_episode_count ← Orange
+kitsu_episode_length ← Orange
+kitsu_show_type ← Orange
+kitsu_status ← Orange
+kitsu_age_rating ← Orange
+
+MAL Columns (Blue):
+
+mal_id ← Blue
+mal_title ← Blue
+mal_title_english ← Blue
+mal_title_japanese ← Blue
+mal_type ← Blue
+mal_episodes ← Blue
+mal_status ← Blue
+mal_aired_from ← Blue
+mal_aired_to ← Blue
+mal_score ← Blue
+mal_scored_by ← Blue
+mal_rank ← Blue
+mal_popularity ← Blue
+mal_members ← Blue
+mal_favorites ← Blue
+mal_rating ← Blue
+mal_source ← Blue
+mal_duration ← Blue
+mal_url ← Blue
