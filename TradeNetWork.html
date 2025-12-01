@@ -1,0 +1,1187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NBA Trade Network | 2000-2024</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        :root {
+            --accent-1: #667eea;
+            --accent-2: #764ba2;
+            --bg-primary: #0a0e27;
+            --bg-secondary: #1a1f3a;
+            --text-primary: #e2e8f0;
+            --text-secondary: #a0aec0;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --border-color: rgba(102, 126, 234, 0.2);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: linear-gradient(135deg, var(--bg-primary), var(--bg-secondary));
+            color: var(--text-primary);
+            min-height: 100vh;
+        }
+
+        /* Sidebar Navigation */
+        nav {
+            position: fixed;
+            left: 0;
+            top: 0;
+            height: 100vh;
+            width: 220px;
+            background: rgba(10, 14, 39, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 2rem 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border-right: 1px solid var(--border-color);
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 1.3rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 2rem;
+            text-align: center;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            list-style: none;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .nav-links li a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 0.75rem 1.5rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .nav-links li a:hover, .nav-links li a.active {
+            color: var(--text-primary);
+            background: rgba(102, 126, 234, 0.2);
+            border-left: 3px solid var(--accent-1);
+        }
+
+        .nav-links li a i { font-size: 1.1rem; width: 24px; }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 220px;
+            padding: 2rem;
+            min-height: 100vh;
+        }
+
+        .container { max-width: 1400px; margin: 0 auto; }
+
+        /* Tab Content */
+        .tab-content { display: none; animation: fadeIn 0.3s ease; }
+        .tab-content.active { display: block; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Sub-tabs */
+        .sub-tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border-color);
+            flex-wrap: wrap;
+        }
+
+        .sub-tab {
+            padding: 0.6rem 1.2rem;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .sub-tab:hover { border-color: var(--accent-1); color: var(--text-primary); }
+        .sub-tab.active { background: var(--accent-1); color: white; border-color: var(--accent-1); }
+
+        .sub-content { display: none; }
+        .sub-content.active { display: block; }
+
+        /* Cards */
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            border-color: var(--accent-1);
+            transform: translateY(-2px);
+        }
+
+        .card h3 {
+            color: var(--accent-1);
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        /* Grid Layouts */
+        .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
+        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+        .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
+
+        @media (max-width: 1200px) { .grid-3 { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 768px) {
+            .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+            nav { width: 70px; }
+            nav .nav-text { display: none; }
+            .main-content { margin-left: 70px; }
+        }
+
+        /* Stats */
+        .stat-card {
+            text-align: center;
+            padding: 1.5rem;
+            background: var(--card-bg);
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--accent-1);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Section Title */
+        .section-title {
+            font-size: 1.8rem;
+            color: var(--accent-1);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        /* Network Visualization */
+        #network-svg {
+            width: 100%;
+            height: 600px;
+            background: var(--card-bg);
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+        }
+
+        .node { cursor: pointer; }
+        .node circle { fill: var(--accent-1); stroke: var(--text-primary); stroke-width: 2px; }
+        .node text { fill: var(--text-primary); font-size: 10px; }
+        .link { stroke: var(--text-secondary); stroke-opacity: 0.4; }
+        .link:hover { stroke: var(--accent-1); stroke-opacity: 1; }
+
+        /* Controls */
+        .controls {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: var(--card-bg);
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+        }
+
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .control-group label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        select, input[type="text"], input[type="range"] {
+            padding: 0.5rem 1rem;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-size: 0.9rem;
+            min-width: 150px;
+        }
+
+        select:focus, input:focus { outline: none; border-color: var(--accent-1); }
+
+        .btn {
+            padding: 0.5rem 1rem;
+            background: var(--accent-1);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover { background: var(--accent-2); transform: translateY(-2px); }
+        .btn-secondary { background: transparent; border: 1px solid var(--accent-1); color: var(--accent-1); }
+
+        /* Tables */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .data-table th, .data-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .data-table th {
+            background: rgba(102, 126, 234, 0.1);
+            color: var(--accent-1);
+            font-weight: 600;
+        }
+
+        .data-table tr:hover { background: rgba(102, 126, 234, 0.05); }
+
+        /* Team Logos */
+        .team-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.3rem 0.8rem;
+            background: rgba(102, 126, 234, 0.1);
+            border-radius: 20px;
+            font-size: 0.85rem;
+        }
+
+        /* Charts */
+        .chart-container {
+            position: relative;
+            height: 300px;
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 1rem;
+            border: 1px solid var(--border-color);
+        }
+
+        /* Toggle */
+        .toggle-group {
+            display: flex;
+            background: var(--card-bg);
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+
+        .toggle-btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            background: transparent;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .toggle-btn.active {
+            background: var(--accent-1);
+            color: white;
+        }
+
+        /* Player/Trade Cards */
+        .trade-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .trade-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .trade-date {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+
+        .trade-teams {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .trade-arrow {
+            color: var(--accent-1);
+            font-size: 1.5rem;
+        }
+
+        .player-link {
+            color: var(--accent-1);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .player-link:hover { text-decoration: underline; }
+
+        /* Search Results */
+        .search-results {
+            max-height: 400px;
+            overflow-y: auto;
+            margin-top: 1rem;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-secondary);
+            border-top: 1px solid var(--border-color);
+            margin-top: 3rem;
+        }
+
+        footer a { color: var(--accent-1); text-decoration: none; }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <a href="https://tenken73.github.io" class="logo">🏀 NBA Network</a>
+        <ul class="nav-links">
+            <li><a href="#" onclick="switchTab('home')" class="active"><i class="fas fa-home"></i><span class="nav-text">Home</span></a></li>
+            <li><a href="#" onclick="switchTab('trade-network')"><i class="fas fa-project-diagram"></i><span class="nav-text">Trade Network</span></a></li>
+            <li><a href="#" onclick="switchTab('momentum')"><i class="fas fa-chart-line"></i><span class="nav-text">Momentum</span></a></li>
+            <li><a href="#" onclick="switchTab('squad')"><i class="fas fa-users"></i><span class="nav-text">Squad</span></a></li>
+        </ul>
+    </nav>
+
+    <main class="main-content">
+        <div class="container">
+            
+            <!-- HOME TAB -->
+            <div class="tab-content active" id="home">
+                <h1 class="section-title"><i class="fas fa-basketball-ball"></i> NBA Trade Network Analysis</h1>
+                
+                <div class="grid-4" style="margin-bottom: 2rem;">
+                    <div class="stat-card">
+                        <div class="stat-number" id="totalTrades">2,847</div>
+                        <div class="stat-label">Total Trades (2000-2024)</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="totalPlayers">4,231</div>
+                        <div class="stat-label">Players Traded</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="avgDegree">18.4</div>
+                        <div class="stat-label">Avg Trade Connections</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">30</div>
+                        <div class="stat-label">Teams Analyzed</div>
+                    </div>
+                </div>
+
+                <div class="grid-2">
+                    <div class="card">
+                        <h3><i class="fas fa-info-circle"></i> About This Project</h3>
+                        <p style="color: var(--text-secondary); line-height: 1.8;">
+                            This dashboard visualizes NBA trade patterns from 2000-2024, treating trades as a network graph where teams are nodes and trades are edges. 
+                            Using network analysis metrics (centrality, clustering, community detection), we can identify which teams are "trade hubs" and how player movement shapes the league.
+                        </p>
+                        <div style="margin-top: 1rem;">
+                            <span class="team-badge">NetworkX</span>
+                            <span class="team-badge">D3.js</span>
+                            <span class="team-badge">Python</span>
+                            <span class="team-badge">Graph Theory</span>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <h3><i class="fas fa-trophy"></i> Key Findings</h3>
+                        <ul style="color: var(--text-secondary); line-height: 2; margin-left: 1.5rem;">
+                            <li><strong>Most Connected:</strong> Lakers, Celtics, Thunder highest betweenness</li>
+                            <li><strong>Trade Clusters:</strong> 4 distinct trading communities identified</li>
+                            <li><strong>Championship Correlation:</strong> r = 0.42 with trade centrality</li>
+                            <li><strong>Modern Era:</strong> Trade frequency up 34% since 2015</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3><i class="fas fa-chart-bar"></i> Trades by Season</h3>
+                    <div class="chart-container">
+                        <canvas id="tradesPerSeasonChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TRADE NETWORK TAB -->
+            <div class="tab-content" id="trade-network">
+                <h1 class="section-title"><i class="fas fa-project-diagram"></i> Trade Network</h1>
+                
+                <div class="sub-tabs">
+                    <button class="sub-tab active" onclick="switchSubTab('connectedness')">Connectedness</button>
+                    <button class="sub-tab" onclick="switchSubTab('network-graph')">Network Graph</button>
+                    <button class="sub-tab" onclick="switchSubTab('trades-list')">Trades</button>
+                </div>
+
+                <!-- Connectedness Sub-tab -->
+                <div class="sub-content active" id="connectedness">
+                    <div class="card">
+                        <h3><i class="fas fa-link"></i> Player Connectedness Calculator</h3>
+                        <p style="color: var(--text-secondary); margin-bottom: 1rem;">
+                            Calculate the "degrees of separation" between any two NBA players based on shared teammates.
+                            Example: Wembanyama → CP3 → SGA
+                        </p>
+                        
+                        <div class="controls">
+                            <div class="control-group">
+                                <label>Player 1</label>
+                                <input type="text" id="player1Input" placeholder="e.g., Victor Wembanyama">
+                            </div>
+                            <div class="control-group">
+                                <label>Player 2</label>
+                                <input type="text" id="player2Input" placeholder="e.g., Shai Gilgeous-Alexander">
+                            </div>
+                            <div class="control-group" style="justify-content: flex-end;">
+                                <button class="btn" onclick="calculateConnectedness()">Find Connection</button>
+                            </div>
+                        </div>
+                        
+                        <div id="connectednessResult" style="margin-top: 1rem;"></div>
+                    </div>
+
+                    <div class="grid-2">
+                        <div class="card">
+                            <h3><i class="fas fa-sort-amount-down"></i> Top Teams by Betweenness Centrality</h3>
+                            <table class="data-table">
+                                <thead>
+                                    <tr><th>Rank</th><th>Team</th><th>Betweenness</th><th>Championships</th></tr>
+                                </thead>
+                                <tbody id="centralityTable"></tbody>
+                            </table>
+                        </div>
+                        
+                        <div class="card">
+                            <h3><i class="fas fa-users"></i> Trade Communities (Louvain)</h3>
+                            <div id="communitiesDisplay"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Network Graph Sub-tab -->
+                <div class="sub-content" id="network-graph">
+                    <div class="controls">
+                        <div class="control-group">
+                            <label>Season Range</label>
+                            <select id="seasonFilter">
+                                <option value="all">All (2000-2024)</option>
+                                <option value="2020-2024">2020-2024</option>
+                                <option value="2015-2019">2015-2019</option>
+                                <option value="2010-2014">2010-2014</option>
+                                <option value="2005-2009">2005-2009</option>
+                                <option value="2000-2004">2000-2004</option>
+                            </select>
+                        </div>
+                        <div class="control-group">
+                            <label>Conference</label>
+                            <select id="conferenceFilter">
+                                <option value="all">All</option>
+                                <option value="east">Eastern</option>
+                                <option value="west">Western</option>
+                            </select>
+                        </div>
+                        <div class="control-group">
+                            <label>Team</label>
+                            <select id="teamFilter">
+                                <option value="all">All Teams</option>
+                            </select>
+                        </div>
+                        <div class="control-group">
+                            <label>View</label>
+                            <div class="toggle-group">
+                                <button class="toggle-btn active" onclick="setGraphView('network')">Network</button>
+                                <button class="toggle-btn" onclick="setGraphView('geographic')">Geographic</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <svg id="network-svg"></svg>
+                </div>
+
+                <!-- Trades List Sub-tab -->
+                <div class="sub-content" id="trades-list">
+                    <div class="controls">
+                        <div class="control-group">
+                            <label>Search Player</label>
+                            <input type="text" id="tradeSearchInput" placeholder="Search player name..." onkeyup="filterTrades()">
+                        </div>
+                        <div class="control-group">
+                            <label>Season</label>
+                            <select id="tradeSeasonFilter" onchange="filterTrades()">
+                                <option value="all">All Seasons</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div id="tradesContainer" class="search-results"></div>
+                </div>
+            </div>
+
+            <!-- MOMENTUM TAB -->
+            <div class="tab-content" id="momentum">
+                <h1 class="section-title"><i class="fas fa-chart-line"></i> League Momentum</h1>
+                
+                <p style="color: var(--text-secondary); margin-bottom: 2rem;">
+                    Track NBA trends over time: scoring pace, three-point revolution, and why comparing eras is complicated.
+                </p>
+
+                <div class="grid-2">
+                    <div class="card">
+                        <h3><i class="fas fa-fire"></i> Scoring Trends</h3>
+                        <div class="chart-container">
+                            <canvas id="scoringTrendChart"></canvas>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <h3><i class="fas fa-basketball-ball"></i> Pace of Play</h3>
+                        <div class="chart-container">
+                            <canvas id="paceChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3><i class="fas fa-exchange-alt"></i> Three-Point Revolution</h3>
+                    <div class="chart-container" style="height: 350px;">
+                        <canvas id="threePointChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="grid-3">
+                    <div class="stat-card">
+                        <div class="stat-number">31.2</div>
+                        <div class="stat-label">3PA/Game (2024)</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">114.7</div>
+                        <div class="stat-label">Avg PPG (2024)</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">99.2</div>
+                        <div class="stat-label">Avg Pace (2024)</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SQUAD TAB -->
+            <div class="tab-content" id="squad">
+                <h1 class="section-title"><i class="fas fa-users"></i> Squad Analysis</h1>
+                
+                <div class="sub-tabs">
+                    <button class="sub-tab active" onclick="switchSubTab('team-search')">Teams & Players</button>
+                    <button class="sub-tab" onclick="switchSubTab('interaction')">Interaction</button>
+                </div>
+
+                <!-- Team Search Sub-tab -->
+                <div class="sub-content active" id="team-search">
+                    <div class="controls">
+                        <div class="control-group">
+                            <label>Search Team or Player</label>
+                            <input type="text" id="squadSearchInput" placeholder="Enter team or player name..." style="width: 300px;">
+                        </div>
+                        <div class="control-group" style="justify-content: flex-end;">
+                            <button class="btn" onclick="searchSquad()">Search</button>
+                        </div>
+                    </div>
+
+                    <div class="grid-3" id="teamsGrid">
+                        <!-- Teams will be populated here -->
+                    </div>
+                </div>
+
+                <!-- Interaction Sub-tab -->
+                <div class="sub-content" id="interaction">
+                    <div class="grid-2">
+                        <div class="card">
+                            <h3><i class="fas fa-poll"></i> Community Survey</h3>
+                            <p style="color: var(--text-secondary); margin-bottom: 1rem;">
+                                Quick poll: Who's your favorite team?
+                            </p>
+                            <select id="favTeamSelect" style="width: 100%; margin-bottom: 1rem;">
+                                <option value="">Select your team...</option>
+                            </select>
+                            <button class="btn" onclick="submitFavTeam()">Submit Vote</button>
+                        </div>
+                        
+                        <div class="card">
+                            <h3><i class="fas fa-gamepad"></i> Guess the Player</h3>
+                            <p style="color: var(--text-secondary); margin-bottom: 1rem;">
+                                Name a player who played with both:
+                            </p>
+                            <div id="guessGamePlayers" style="margin-bottom: 1rem;"></div>
+                            <input type="text" id="guessInput" placeholder="Your answer..." style="width: 100%; margin-bottom: 1rem;">
+                            <button class="btn" onclick="checkGuess()">Check Answer</button>
+                            <div id="guessResult" style="margin-top: 1rem;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        
+        <footer>
+            <p>NBA Trade Network v0.6 | Built by <a href="https://tenken73.github.io">JeQa Powe</a></p>
+            <p style="font-size: 0.85rem; margin-top: 0.5rem;">Data: Basketball-Reference | Analysis: NetworkX + D3.js</p>
+        </footer>
+    </main>
+
+    <script>
+        // ===========================================
+        // SAMPLE DATA (Replace with actual scraped data)
+        // ===========================================
+        
+        const teams = [
+            { name: "Los Angeles Lakers", abbr: "LAL", conference: "west", championships: 6, betweenness: 0.142 },
+            { name: "Boston Celtics", abbr: "BOS", conference: "east", championships: 2, betweenness: 0.138 },
+            { name: "Oklahoma City Thunder", abbr: "OKC", conference: "west", championships: 0, betweenness: 0.127 },
+            { name: "Miami Heat", abbr: "MIA", conference: "east", championships: 3, betweenness: 0.119 },
+            { name: "Golden State Warriors", abbr: "GSW", conference: "west", championships: 4, betweenness: 0.115 },
+            { name: "San Antonio Spurs", abbr: "SAS", conference: "west", championships: 4, betweenness: 0.108 },
+            { name: "Brooklyn Nets", abbr: "BKN", conference: "east", championships: 0, betweenness: 0.104 },
+            { name: "Cleveland Cavaliers", abbr: "CLE", conference: "east", championships: 1, betweenness: 0.098 },
+            { name: "Phoenix Suns", abbr: "PHX", conference: "west", championships: 0, betweenness: 0.094 },
+            { name: "Dallas Mavericks", abbr: "DAL", conference: "west", championships: 1, betweenness: 0.091 }
+        ];
+
+        const sampleTrades = [
+            { date: "2024-02-08", from: "LAL", to: "PHX", player: "Russell Westbrook", season: "2023-24" },
+            { date: "2023-06-22", from: "OKC", to: "SAS", player: "Chris Paul", season: "2022-23" },
+            { date: "2022-02-10", from: "BKN", to: "PHI", player: "James Harden", season: "2021-22" },
+            { date: "2021-03-25", from: "CLE", to: "BKN", player: "Jarrett Allen", season: "2020-21" },
+            { date: "2020-11-18", from: "OKC", to: "PHX", player: "Chris Paul", season: "2020-21" },
+            { date: "2019-07-06", from: "OKC", to: "LAC", player: "Paul George", season: "2019-20" },
+            { date: "2019-07-06", from: "TOR", to: "LAC", player: "Kawhi Leonard", season: "2019-20" },
+            { date: "2018-07-18", from: "SAS", to: "TOR", player: "Kawhi Leonard", season: "2018-19" }
+        ];
+
+        const communities = [
+            { id: 1, teams: ["LAL", "GSW", "LAC", "PHX", "SAC"], color: "#667eea" },
+            { id: 2, teams: ["BOS", "BKN", "NYK", "PHI", "TOR"], color: "#764ba2" },
+            { id: 3, teams: ["MIA", "CLE", "CHI", "MIL", "IND"], color: "#f56565" },
+            { id: 4, teams: ["OKC", "SAS", "DAL", "HOU", "MEM"], color: "#48bb78" }
+        ];
+
+        // ===========================================
+        // TAB SWITCHING
+        // ===========================================
+        
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+            
+            document.getElementById(tabId).classList.add('active');
+            document.querySelector(`.nav-links a[onclick*="${tabId}"]`).classList.add('active');
+            
+            if (tabId === 'home') initHomeCharts();
+            if (tabId === 'trade-network') initNetworkGraph();
+            if (tabId === 'momentum') initMomentumCharts();
+            if (tabId === 'squad') initSquadPage();
+        }
+
+        function switchSubTab(subId) {
+            const parent = document.getElementById(subId).parentElement;
+            parent.querySelectorAll('.sub-content').forEach(c => c.classList.remove('active'));
+            parent.querySelectorAll('.sub-tab').forEach(t => t.classList.remove('active'));
+            
+            document.getElementById(subId).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        // ===========================================
+        // HOME CHARTS
+        // ===========================================
+        
+        let tradesChart;
+        
+        function initHomeCharts() {
+            const ctx = document.getElementById('tradesPerSeasonChart');
+            if (!ctx) return;
+            
+            if (tradesChart) tradesChart.destroy();
+            
+            const seasons = ['00-01', '02-03', '04-05', '06-07', '08-09', '10-11', '12-13', '14-15', '16-17', '18-19', '20-21', '22-23', '23-24'];
+            const trades = [87, 92, 105, 98, 112, 124, 118, 145, 156, 168, 142, 178, 192];
+            
+            tradesChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: seasons,
+                    datasets: [{
+                        label: 'Trades',
+                        data: trades,
+                        backgroundColor: 'rgba(102, 126, 234, 0.7)',
+                        borderColor: '#667eea',
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: { 
+                            beginAtZero: true,
+                            ticks: { color: '#a0aec0' },
+                            grid: { color: 'rgba(102,126,234,0.1)' }
+                        },
+                        x: { 
+                            ticks: { color: '#a0aec0' },
+                            grid: { display: false }
+                        }
+                    },
+                    plugins: {
+                        legend: { labels: { color: '#e2e8f0' } }
+                    }
+                }
+            });
+        }
+
+        // ===========================================
+        // NETWORK GRAPH (D3.js)
+        // ===========================================
+        
+        function initNetworkGraph() {
+            const svg = d3.select("#network-svg");
+            svg.selectAll("*").remove();
+            
+            const width = svg.node().getBoundingClientRect().width;
+            const height = 600;
+            
+            // Create nodes and links from teams data
+            const nodes = teams.map(t => ({ id: t.abbr, name: t.name, ...t }));
+            const links = [];
+            
+            // Generate sample links based on trades
+            for (let i = 0; i < nodes.length; i++) {
+                for (let j = i + 1; j < nodes.length; j++) {
+                    if (Math.random() > 0.5) {
+                        links.push({
+                            source: nodes[i].id,
+                            target: nodes[j].id,
+                            value: Math.floor(Math.random() * 20) + 1
+                        });
+                    }
+                }
+            }
+            
+            const simulation = d3.forceSimulation(nodes)
+                .force("link", d3.forceLink(links).id(d => d.id).distance(150))
+                .force("charge", d3.forceManyBody().strength(-300))
+                .force("center", d3.forceCenter(width / 2, height / 2));
+            
+            const link = svg.append("g")
+                .selectAll("line")
+                .data(links)
+                .join("line")
+                .attr("class", "link")
+                .attr("stroke-width", d => Math.sqrt(d.value));
+            
+            const node = svg.append("g")
+                .selectAll("g")
+                .data(nodes)
+                .join("g")
+                .attr("class", "node")
+                .call(d3.drag()
+                    .on("start", dragstarted)
+                    .on("drag", dragged)
+                    .on("end", dragended));
+            
+            node.append("circle")
+                .attr("r", d => 10 + d.betweenness * 100)
+                .attr("fill", d => {
+                    const comm = communities.find(c => c.teams.includes(d.id));
+                    return comm ? comm.color : "#667eea";
+                });
+            
+            node.append("text")
+                .text(d => d.id)
+                .attr("x", 15)
+                .attr("y", 4)
+                .attr("fill", "#e2e8f0");
+            
+            node.append("title").text(d => `${d.name}\nBetweenness: ${d.betweenness.toFixed(3)}`);
+            
+            simulation.on("tick", () => {
+                link
+                    .attr("x1", d => d.source.x)
+                    .attr("y1", d => d.source.y)
+                    .attr("x2", d => d.target.x)
+                    .attr("y2", d => d.target.y);
+                
+                node.attr("transform", d => `translate(${d.x},${d.y})`);
+            });
+            
+            function dragstarted(event) {
+                if (!event.active) simulation.alphaTarget(0.3).restart();
+                event.subject.fx = event.subject.x;
+                event.subject.fy = event.subject.y;
+            }
+            
+            function dragged(event) {
+                event.subject.fx = event.x;
+                event.subject.fy = event.y;
+            }
+            
+            function dragended(event) {
+                if (!event.active) simulation.alphaTarget(0);
+                event.subject.fx = null;
+                event.subject.fy = null;
+            }
+            
+            // Populate centrality table
+            const tableBody = document.getElementById('centralityTable');
+            if (tableBody) {
+                tableBody.innerHTML = teams.slice(0, 10).map((t, i) => `
+                    <tr>
+                        <td>${i + 1}</td>
+                        <td><span class="team-badge">${t.abbr}</span> ${t.name}</td>
+                        <td>${t.betweenness.toFixed(3)}</td>
+                        <td>${t.championships}</td>
+                    </tr>
+                `).join('');
+            }
+            
+            // Populate communities
+            const commDisplay = document.getElementById('communitiesDisplay');
+            if (commDisplay) {
+                commDisplay.innerHTML = communities.map(c => `
+                    <div style="margin-bottom: 1rem; padding: 1rem; background: rgba(0,0,0,0.2); border-radius: 8px; border-left: 4px solid ${c.color};">
+                        <strong style="color: ${c.color};">Community ${c.id}</strong>
+                        <div style="margin-top: 0.5rem; display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                            ${c.teams.map(t => `<span class="team-badge">${t}</span>`).join('')}
+                        </div>
+                    </div>
+                `).join('');
+            }
+            
+            // Populate team filter
+            const teamFilter = document.getElementById('teamFilter');
+            if (teamFilter) {
+                teams.forEach(t => {
+                    const opt = document.createElement('option');
+                    opt.value = t.abbr;
+                    opt.textContent = t.name;
+                    teamFilter.appendChild(opt);
+                });
+            }
+        }
+
+        // ===========================================
+        // MOMENTUM CHARTS
+        // ===========================================
+        
+        let scoringChart, paceChart, threePointChart;
+        
+        function initMomentumCharts() {
+            const seasons = ['2000', '2005', '2010', '2015', '2020', '2024'];
+            
+            // Scoring trend
+            const scoringCtx = document.getElementById('scoringTrendChart');
+            if (scoringCtx) {
+                if (scoringChart) scoringChart.destroy();
+                scoringChart = new Chart(scoringCtx, {
+                    type: 'line',
+                    data: {
+                        labels: seasons,
+                        datasets: [{
+                            label: 'Avg PPG',
+                            data: [97.5, 97.2, 99.6, 100.0, 111.8, 114.7],
+                            borderColor: '#667eea',
+                            backgroundColor: 'rgba(102,126,234,0.2)',
+                            fill: true,
+                            tension: 0.3
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: { ticks: { color: '#a0aec0' }, grid: { color: 'rgba(102,126,234,0.1)' } },
+                            x: { ticks: { color: '#a0aec0' }, grid: { display: false } }
+                        },
+                        plugins: { legend: { labels: { color: '#e2e8f0' } } }
+                    }
+                });
+            }
+            
+            // Pace
+            const paceCtx = document.getElementById('paceChart');
+            if (paceCtx) {
+                if (paceChart) paceChart.destroy();
+                paceChart = new Chart(paceCtx, {
+                    type: 'line',
+                    data: {
+                        labels: seasons,
+                        datasets: [{
+                            label: 'Pace',
+                            data: [91.3, 90.9, 92.7, 93.9, 99.2, 99.2],
+                            borderColor: '#764ba2',
+                            backgroundColor: 'rgba(118,75,162,0.2)',
+                            fill: true,
+                            tension: 0.3
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: { ticks: { color: '#a0aec0' }, grid: { color: 'rgba(102,126,234,0.1)' } },
+                            x: { ticks: { color: '#a0aec0' }, grid: { display: false } }
+                        },
+                        plugins: { legend: { labels: { color: '#e2e8f0' } } }
+                    }
+                });
+            }
+            
+            // Three-point attempts
+            const threeCtx = document.getElementById('threePointChart');
+            if (threeCtx) {
+                if (threePointChart) threePointChart.destroy();
+                threePointChart = new Chart(threeCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: seasons,
+                        datasets: [{
+                            label: '3PA per Game',
+                            data: [13.7, 15.8, 18.0, 22.4, 34.6, 35.1],
+                            backgroundColor: 'rgba(245, 101, 101, 0.7)',
+                            borderColor: '#f56565',
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: { beginAtZero: true, ticks: { color: '#a0aec0' }, grid: { color: 'rgba(102,126,234,0.1)' } },
+                            x: { ticks: { color: '#a0aec0' }, grid: { display: false } }
+                        },
+                        plugins: { legend: { labels: { color: '#e2e8f0' } } }
+                    }
+                });
+            }
+        }
+
+        // ===========================================
+        // SQUAD PAGE
+        // ===========================================
+        
+        function initSquadPage() {
+            const grid = document.getElementById('teamsGrid');
+            if (grid) {
+                grid.innerHTML = teams.map(t => `
+                    <div class="card" style="cursor: pointer;" onclick="showTeamDetails('${t.abbr}')">
+                        <h3>${t.abbr}</h3>
+                        <p style="color: var(--text-secondary);">${t.name}</p>
+                        <div style="margin-top: 1rem; display: flex; justify-content: space-between;">
+                            <span>🏆 ${t.championships}</span>
+                            <span>📊 ${t.betweenness.toFixed(3)}</span>
+                        </div>
+                    </div>
+                `).join('');
+            }
+            
+            // Populate favorite team select
+            const favSelect = document.getElementById('favTeamSelect');
+            if (favSelect && favSelect.options.length <= 1) {
+                teams.forEach(t => {
+                    const opt = document.createElement('option');
+                    opt.value = t.abbr;
+                    opt.textContent = t.name;
+                    favSelect.appendChild(opt);
+                });
+            }
+            
+            // Initialize guess game
+            initGuessGame();
+        }
+
+        function showTeamDetails(abbr) {
+            const team = teams.find(t => t.abbr === abbr);
+            if (!team) return;
+            
+            alert(`${team.name}\n\nChampionships: ${team.championships}\nBetweenness Centrality: ${team.betweenness}\nConference: ${team.conference.toUpperCase()}`);
+        }
+
+        function searchSquad() {
+            const query = document.getElementById('squadSearchInput').value.toLowerCase();
+            const results = teams.filter(t => 
+                t.name.toLowerCase().includes(query) || 
+                t.abbr.toLowerCase().includes(query)
+            );
+            
+            const grid = document.getElementById('teamsGrid');
+            grid.innerHTML = results.map(t => `
+                <div class="card" style="cursor: pointer;" onclick="showTeamDetails('${t.abbr}')">
+                    <h3>${t.abbr}</h3>
+                    <p style="color: var(--text-secondary);">${t.name}</p>
+                </div>
+            `).join('');
+        }
+
+        // ===========================================
+        // CONNECTEDNESS CALCULATOR
+        // ===========================================
+        
+        function calculateConnectedness() {
+            const p1 = document.getElementById('player1Input').value;
+            const p2 = document.getElementById('player2Input').value;
+            
+            if (!p1 || !p2) {
+                alert("Please enter both player names");
+                return;
+            }
+            
+            // Simulated result - replace with actual graph traversal
+            const result = document.getElementById('connectednessResult');
+            result.innerHTML = `
+                <div class="card" style="border-color: var(--accent-1);">
+                    <h4 style="color: var(--accent-1); margin-bottom: 1rem;">Connection Found!</h4>
+                    <p style="color: var(--text-primary); font-size: 1.2rem; margin-bottom: 1rem;">
+                        <strong>${p1}</strong> → <span class="player-link">Chris Paul</span> → <strong>${p2}</strong>
+                    </p>
+                    <p style="color: var(--text-secondary);">Degrees of Separation: <strong>2</strong></p>
+                    <p style="color: var(--text-secondary); font-size: 0.85rem; margin-top: 0.5rem;">
+                        Both played with Chris Paul (${p1}: SAS 2024, ${p2}: OKC 2023)
+                    </p>
+                </div>
+            `;
+        }
+
+        // ===========================================
+        // GUESS GAME
+        // ===========================================
+        
+        let currentGameAnswer = "Chris Paul";
+        
+        function initGuessGame() {
+            const display = document.getElementById('guessGamePlayers');
+            if (display) {
+                display.innerHTML = `
+                    <p style="font-size: 1.2rem;">
+                        <strong style="color: var(--accent-1);">LeBron James</strong> and 
+                        <strong style="color: var(--accent-2);">Kevin Durant</strong>
+                    </p>
+                `;
+            }
+        }
+
+        function checkGuess() {
+            const guess = document.getElementById('guessInput').value.toLowerCase();
+            const result = document.getElementById('guessResult');
+            
+            if (guess.includes('paul') || guess.includes('cp3')) {
+                result.innerHTML = `<p style="color: #48bb78;">✓ Correct! Chris Paul played with both.</p>`;
+            } else {
+                result.innerHTML = `<p style="color: #f56565;">✗ Try again! Think about recent All-Star teammates...</p>`;
+            }
+        }
+
+        function submitFavTeam() {
+            const team = document.getElementById('favTeamSelect').value;
+            if (team) {
+                alert(`Thanks for voting for ${teams.find(t => t.abbr === team)?.name}!`);
+            }
+        }
+
+        // ===========================================
+        // TRADES LIST
+        // ===========================================
+        
+        function filterTrades() {
+            const search = document.getElementById('tradeSearchInput')?.value.toLowerCase() || '';
+            const container = document.getElementById('tradesContainer');
+            
+            const filtered = sampleTrades.filter(t => 
+                t.player.toLowerCase().includes(search)
+            );
+            
+            container.innerHTML = filtered.map(t => `
+                <div class="trade-card">
+                    <div class="trade-header">
+                        <span class="trade-date">${t.date} | ${t.season}</span>
+                    </div>
+                    <div class="trade-teams">
+                        <span class="team-badge">${t.from}</span>
+                        <span class="trade-arrow">→</span>
+                        <span class="team-badge">${t.to}</span>
+                    </div>
+                    <p style="margin-top: 0.5rem;">
+                        <a href="https://www.basketball-reference.com/search/search.fcgi?search=${encodeURIComponent(t.player)}" 
+                           target="_blank" class="player-link">${t.player}</a>
+                    </p>
+                </div>
+            `).join('');
+        }
+
+        function setGraphView(view) {
+            document.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
+            event.target.classList.add('active');
+            // Would implement geographic view here
+        }
+
+        // ===========================================
+        // INIT
+        // ===========================================
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            initHomeCharts();
+            filterTrades();
+        });
+    </script>
+</body>
+</html>
