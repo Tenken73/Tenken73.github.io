@@ -1687,7 +1687,7 @@
             <span class="tech-tag">Interactive</span>
         </div>
         <div class="project-links">
-            <a href="https://tenken73.github.io/Bebop-Protocol_V0.html" class="project-link" target="_blank">Live Dashboard</a>
+            <a href="https://tenken73.github.io/BebopProtocol.html" class="project-link" target="_blank">Live Dashboard</a>
             <a href="https://github.com/tenken73/Bebop-Protocol" class="project-link" target="_blank">Code</a>
         </div>
     </div>
@@ -1715,7 +1715,7 @@
                             <div class="project-card">
                                 <img src="https://inomics.com/sites/default/files/styles/article_full_responsive/public/pictures/picture/what-my-friends-think-i-do-economist-meme.jpeg?itok=9cIe-Ggq" alt="What economists do meme" class="project-image">
                                 <div class="project-info">
-                                    <h3 class="project-title">NBA Network Dashboard</h3>
+                                    <h3 class="project-title">NBA Trade Net Work Dashboard</h3>
                                     <p class="project-description">
                                         Graph analysis visualizing player movement, team trade centrality, and competitive network structures.
                                     </p>
@@ -1725,8 +1725,8 @@
                                         <span class="tech-tag">Plotly</span>
                                     </div>
                                     <div class="project-links">
-                                        <a href="#" class="project-link">Interactive Demo</a>
-                                        <a href="#" class="project-link">GitHub</a>
+                                        <a href="https://tenken73.github.io/TradeNetWork.html" class="project-link">Interactive Demo</a>
+                                        <a href="https://tenken73.github.io/TradeNetWork.html" class="project-link">GitHub</a>
                                     </div>
                                 </div>
                             </div>
